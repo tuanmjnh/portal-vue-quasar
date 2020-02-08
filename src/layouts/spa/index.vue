@@ -39,6 +39,7 @@ export default {
     }
   },
   created() {
+    // console.log(this.$store.getters.routes)
     // get status
     // console.log(this.$q.dark.isActive) // true, false
 

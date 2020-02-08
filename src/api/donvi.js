@@ -1,19 +1,9 @@
 import http from '@/utils/http-client'
-const collection = '/roles'
+const collection = '/donvi'
 
 export async function select(params) {
   return new Promise((resolve, reject) => {
     http.get(collection, { params }).then((x) => {
-      resolve(x)
-    }).catch((e) => {
-      reject(e)
-    })
-  })
-}
-
-export async function getRoleRoute(params) {
-  return new Promise((resolve, reject) => {
-    http.get(`${collection}/route`, { params }).then((x) => {
       resolve(x)
     }).catch((e) => {
       reject(e)

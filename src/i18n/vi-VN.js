@@ -16,7 +16,13 @@ export default {
     news: 'Tin tức',
     demo: 'Bản giới thiệu',
     template: 'Template',
-    types: 'Kiểu dữ liệu'
+    types: 'Kiểu dữ liệu',
+    pin: 'Gim',
+    tags: 'Thẻ',
+    contact: 'Hợp đồng',
+    business: 'Doanh nghiệp',
+    personal: 'Cá nhân',
+    get_password: 'Lấy mật khẩu'
   },
   global: {
     list: 'Danh sách dữ liệu',

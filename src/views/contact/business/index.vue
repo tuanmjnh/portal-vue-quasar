@@ -1,7 +1,5 @@
 <template>
-  <div>
-    VNPT Portal
-  </div>
+  <div>business</div>
 </template>
 
 <script>

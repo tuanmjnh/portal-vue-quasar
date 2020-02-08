@@ -73,18 +73,22 @@ function loadView(view) {
 }
 // Generate routes dynamic
 import fakeLayout from '@/layouts/fake-layout'
-export function generateRoutes(routers) {
+export function generateRoutes(authRoutes, dynamic) {
   const rs = []
-  for (let e of routers) {
-    if (e.component === 'layout') e.component = fakeLayout
-    else e.component = loadView(e.component)
-    if (e.meta && e.meta.length > 0) {
-      var tmp = [...e.meta]
-      e.meta = {}
-      for (let meta of tmp) e.meta[meta.key] = meta.value
+  dynamic = dynamic || routes.dynamic
+  for (const _e of dynamic) {
+    let e = { ..._e }
+    if (authRoutes.includes(e.name)) {
+      if (e.component === 'layout') e.component = fakeLayout
+      else e.component = loadView(e.component)
+      if (e.meta && e.meta.length > 0) {
+        var tmp = [...e.meta]
+        e.meta = {}
+        for (let meta of tmp) e.meta[meta.key] = meta.value
+      }
+      if (e.children) e.children = generateRoutes(authRoutes, e.children)
+      rs.push(e)
     }
-    if (e.children) e.children = generateRoutes(e.children)
-    rs.push(e)
   }
   return rs
 }

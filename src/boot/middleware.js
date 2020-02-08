@@ -20,17 +20,17 @@ routers.router.beforeEach(async (to, from, next) => {
     } else {
       // determine whether the user has obtained his permission roles through getInfo
       if (store.state.auth.user && store.state.auth.routes) {
-        // console.log('a')
         next()
       } else {
         try {
           // get user info
           const data = await auth.checkToken()
-          if (!data.user || !data.routes.length) store.dispatch('auth/logout')
+          if (!data.user || !data.routes) store.dispatch('auth/logout')
           store.dispatch('auth/login', { user: data.user, routes: data.routes })
             .then(routers.router.addRoutes(store.state.auth.routes, { replace: true }))
             .then(next(to.path))// next({ ...to, replace: true })
         } catch (err) {
+          console.log(err)
           // remove token and go to login page to re-login
           await store.dispatch('auth/logout')
           // Message.error(error || 'Has Error')

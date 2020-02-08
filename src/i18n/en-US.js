@@ -17,7 +17,11 @@ export default {
     template: 'Template',
     types: 'Type data',
     pin: 'Pin',
-    tags: 'Tags'
+    tags: 'Tags',
+    contact: 'Contact',
+    business: 'Business',
+    personal: 'Personal',
+    get_password: 'Get Password'
   },
   global: {
     list: 'List data',

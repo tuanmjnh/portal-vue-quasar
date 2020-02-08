@@ -1,4 +1,4 @@
-import fakeLayout from '@/layouts/fake-layout'
+// import fakeLayout from '@/layouts/fake-layout'
 
 export const constant = [
   {
@@ -10,126 +10,264 @@ export const constant = [
   {
     path: '/login',
     name: 'login',
-    label: 'login',
     icon: 'login',
     component: () => import('@/views/login'),
     hidden: true,
     constant: true
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    title: 'dashboard',
+    icon: 'dashboard',
+    constant: true,
+    component: () => import('@/views/dashboard')
   }
-  // {
-  //   path: '/dashboard',
-  //   name: 'dashboard',
-  //   label: 'dashboard',
-  //   icon: 'dashboard',
-  //   constant: true,
-  //   component: () => import('@/views/dashboard')
-  // }
   // {
   //   path: '/routes',
   //   name: 'routes',
   //   label: 'routes',
   //   icon: 'vertical_split',
-  //   component: () => import('@/views/routes')
+  //   component: 'routes')
   // }
 ]
 
 export const dynamic = [
   {
+    path: '/contact',
+    name: 'contact',
+    title: 'contact',
+    icon: 'chrome_reader_mode',
+    component: 'layout',
+    children: [
+      {
+        path: 'business',
+        name: 'contact-business',
+        title: 'business',
+        icon: 'supervised_user_circle',
+        meta: {},
+        component: 'contact/business/index',
+        children: [
+          {
+            path: 'list',
+            name: 'contact-business-list',
+            title: 'list',
+            icon: 'list',
+            hidden: true,
+            meta: { noCache: true, flag: 1 },
+            component: 'contact/business/index'
+          },
+          {
+            path: 'add',
+            name: 'contact-business-add',
+            title: 'add',
+            icon: 'playlist_add',
+            hidden: true,
+            meta: {},
+            component: 'contact/business/add'
+          },
+          {
+            path: 'edit/:id?',
+            name: 'contact-business-edit',
+            title: 'edit',
+            icon: 'edit',
+            hidden: true,
+            meta: { noCache: true, activeMenu: 'news/list' },
+            component: 'contact/business/add'
+          },
+          {
+            path: 'trash',
+            name: 'contact-business-trash',
+            title: 'trash',
+            icon: 'delete_sweep',
+            hidden: true,
+            meta: { noCache: true, flag: 0 },
+            component: 'contact/business/index'
+          }
+        ]
+      },
+      {
+        path: 'personal',
+        name: 'contact-personal',
+        title: 'personal',
+        icon: 'supervisor_account',
+        meta: {},
+        component: 'contact/personal/index',
+        children: [
+          {
+            path: 'list',
+            name: 'contact-personal-list',
+            title: 'list',
+            icon: 'list',
+            hidden: true,
+            meta: { noCache: true, flag: 1 },
+            component: 'contact/personal/index'
+          },
+          {
+            path: 'add',
+            name: 'contact-personal-add',
+            title: 'add',
+            icon: 'playlist_add',
+            hidden: true,
+            meta: {},
+            component: 'contact/personal/add'
+          },
+          {
+            path: 'edit/:id?',
+            name: 'contact-personal-edit',
+            title: 'edit',
+            icon: 'edit',
+            hidden: true,
+            meta: { noCache: true, activeMenu: 'news/list' },
+            component: 'contact/personal/add'
+          },
+          {
+            path: 'trash',
+            name: 'contact-personal-trash',
+            title: 'trash',
+            icon: 'delete_sweep',
+            hidden: true,
+            meta: { noCache: true, flag: 0 },
+            component: 'contact/personal/index'
+          }
+        ]
+      }
+    ]
+  },
+  {
     path: '/category',
     name: 'category',
-    meta: { title: 'category', icon: 'category' },
-    component: fakeLayout,
+    title: 'category',
+    icon: 'category',
+    component: 'layout',
     children: [
       {
         path: 'list',
         name: 'category-list',
-        meta: { title: 'list', icon: 'list', noCache: true, flag: 1 },
-        component: () => import('@/views/category/index')
+        title: 'list',
+        icon: 'list',
+        hidden: true,
+        meta: {},
+        component: 'category/index'
       },
       {
         path: 'add',
         name: 'category-add',
-        meta: { title: 'add', icon: 'playlist_add' },
-        component: () => import('@/views/category/add')
+        title: 'add',
+        icon: 'playlist_add',
+        hidden: true,
+        meta: {},
+        component: 'category/add'
       },
       {
-        path: 'edit/:id',
-        name: 'template-edit',
-        meta: { title: 'edit', icon: 'edit', noCache: true, activeMenu: '/template/list' },
+        path: 'edit/:id?',
+        name: 'category-edit',
+        title: 'edit',
+        icon: 'edit',
         hidden: true,
-        component: () => import('@/views/users/add')
+        meta: { noCache: true, activeMenu: '/category/list' },
+        component: 'users/add'
       },
       {
         path: 'trash',
-        name: 'template-trash',
-        meta: { title: 'trash', icon: 'delete_sweep', noCache: true, flag: 0 },
-        component: () => import('@/views/users/index')
+        name: 'category-trash',
+        title: 'trash',
+        icon: 'delete_sweep',
+        hidden: true,
+        meta: { noCache: true, flag: 0 },
+        component: 'users/index'
       }
     ]
   },
   {
     path: '/products',
     name: 'products',
-    meta: { title: 'products', icon: 'perm_media' },
-    component: fakeLayout,
+    title: 'product',
+    icon: 'perm_media',
+    meta: {},
+    component: 'layout',
     children: [
       {
         path: 'list',
         name: 'products-list',
-        meta: { title: 'list', icon: 'list', noCache: true, flag: 1 },
-        component: () => import('@/views/products/index')
+        title: 'list',
+        icon: 'list',
+        hidden: true,
+        meta: { noCache: true, flag: 1 },
+        component: 'products/index'
       },
       {
         path: 'add',
         name: 'products-add',
-        meta: { title: 'add', icon: 'playlist_add' },
-        component: () => import('@/views/products/add')
+        title: 'add',
+        icon: 'playlist_add',
+        hidden: true,
+        meta: {},
+        component: 'products/add'
       },
       {
-        path: 'edit/:id',
+        path: 'edit/:id?',
         name: 'products-edit',
-        meta: { title: 'edit', icon: 'edit', noCache: true, activeMenu: 'products/list' },
+        title: 'edit',
+        icon: 'edit',
         hidden: true,
-        component: () => import('@/views/products/add')
+        meta: { noCache: true, activeMenu: 'products/list' },
+        component: 'products/add'
       },
       {
         path: 'trash',
         name: 'products-trash',
-        meta: { title: 'trash', icon: 'delete_sweep', noCache: true, flag: 0 },
-        component: () => import('@/views/products/index')
+        title: 'trash',
+        icon: 'delete_sweep',
+        hidden: true,
+        meta: { noCache: true, flag: 0 },
+        component: 'products/index'
       }
     ]
   },
   {
     path: '/news',
     name: 'news',
-    meta: { title: 'news', icon: 'library_books' },
-    component: fakeLayout,
+    title: 'news',
+    icon: 'library_books',
+    meta: {},
+    component: 'layout',
     children: [
       {
         path: 'list',
         name: 'news-list',
-        meta: { title: 'list', icon: 'list', noCache: true, flag: 1 },
-        component: () => import('@/views/news/index')
+        title: 'list',
+        icon: 'list',
+        hidden: true,
+        meta: { noCache: true, flag: 1 },
+        component: 'news/index'
       },
       {
         path: 'add',
         name: 'news-add',
-        meta: { title: 'add', icon: 'playlist_add' },
-        component: () => import('@/views/news/add')
+        title: 'add',
+        icon: 'playlist_add',
+        hidden: true,
+        meta: {},
+        component: 'news/add'
       },
       {
-        path: 'edit/:id',
+        path: 'edit/:id?',
         name: 'news-edit',
-        meta: { title: 'edit', icon: 'edit', noCache: true, activeMenu: 'news/list' },
+        title: 'edit',
+        icon: 'edit',
         hidden: true,
-        component: () => import('@/views/news/add')
+        meta: { noCache: true, activeMenu: 'news/list' },
+        component: 'news/add'
       },
       {
         path: 'trash',
         name: 'news-trash',
-        meta: { title: 'trash', icon: 'delete_sweep', noCache: true, flag: 0 },
-        component: () => import('@/views/news/index')
+        title: 'trash',
+        icon: 'delete_sweep',
+        hidden: true,
+        meta: { noCache: true, flag: 0 },
+        component: 'news/index'
       }
     ]
   },
@@ -137,54 +275,116 @@ export const dynamic = [
     path: '/manager',
     name: 'manager',
     redirect: 'noRedirect',
-    meta: { title: 'manager', icon: 'security' },
-    component: fakeLayout,
+    title: 'manager',
+    icon: 'security',
+    meta: {},
+    component: 'layout',
     children: [
       {
         path: 'users',
         name: 'manager-users',
-        // component: () => import('@/views/users'),
-        meta: { title: 'users', icon: 'account_box' },
-        component: () => import('@/views/users/index')
-        // children: [
-        //   {
-        //     path: 'list',
-        //     name: 'manager-users-list',
-        //     meta: { title: 'list', hidden: false, noCache: true, flag: 1 },
-        //     component: () => import('@/views/users/index')
-        //   },
-        //   {
-        //     path: 'add',
-        //     name: 'manager-users-add',
-        //     meta: { title: 'add', hidden: false },
-        //     component: () => import('@/views/users/add')
-        //   },
-        //   {
-        //     path: 'edit/:id',
-        //     name: 'manager-users-edit',
-        //     meta: { title: 'edit', noCache: true, activeMenu: '/template/list' },
-        //     hidden: true,
-        //     component: () => import('@/views/users/add')
-        //   },
-        //   {
-        //     path: 'trash',
-        //     name: 'manager-users-trash',
-        //     meta: { title: 'trash', noCache: true, flag: 0 },
-        //     component: () => import('@/views/users/index')
-        //   }
-        // ]
+        title: 'users',
+        icon: 'account_box',
+        meta: {},
+        component: 'users/index',
+        children: [
+          {
+            path: 'list',
+            name: 'manager-users-list',
+            title: 'list',
+            icon: 'list',
+            hidden: true,
+            meta: { flag: 1 },
+            component: 'users/index'
+          },
+          {
+            path: 'add',
+            name: 'manager-users-add',
+            title: 'add',
+            icon: 'add',
+            hidden: true,
+            meta: {},
+            component: 'users/add'
+          },
+          {
+            path: 'edit/:id?',
+            name: 'manager-users-edit',
+            title: 'edit',
+            icon: 'edit',
+            hidden: true,
+            meta: {},
+            component: 'users/add'
+          },
+          {
+            path: 'trash',
+            name: 'manager-users-trash',
+            title: 'trash',
+            icon: 'delete',
+            hidden: true,
+            meta: { flag: 0 },
+            component: 'users/index'
+          }
+        ]
       },
       {
         path: 'roles',
         name: 'manager-roles',
-        meta: { title: 'roles', icon: 'verified_user' },
-        component: () => import('@/views/roles/index')
+        title: 'roles',
+        icon: 'verified_user',
+        meta: {},
+        component: 'roles/index',
+        children: [
+          {
+            path: 'list',
+            name: 'manager-roles-list',
+            title: 'list',
+            icon: 'list',
+            hidden: true,
+            meta: { flag: 1 },
+            component: 'roles/index'
+          },
+          {
+            path: 'add',
+            name: 'manager-roles-add',
+            title: 'add',
+            icon: 'add',
+            hidden: true,
+            meta: {},
+            component: 'roles/add'
+          },
+          {
+            path: 'edit/:id?',
+            name: 'manager-roles-edit',
+            title: 'edit',
+            icon: 'edit',
+            hidden: true,
+            meta: {},
+            component: 'roles/add'
+          },
+          {
+            path: 'trash',
+            name: 'manager-roles-trash',
+            title: 'trash',
+            icon: 'delete',
+            hidden: true,
+            meta: { flag: 0 },
+            component: 'roles/index'
+          }
+        ]
+      },
+      {
+        path: 'get-password',
+        name: 'get-password',
+        title: 'get_password',
+        icon: 'vpn_key',
+        meta: { icon: 'vpn_key' },
+        component: 'users/get-password'
       }
       // {
       //   path: '/routes',
       //   name: 'routes',
       //   meta: { title: 'routes', icon: 'vertical_split' },
-      //   component: () => import('@/views/routes')
+      //   component: 'routes')
       // }
     ]
   }

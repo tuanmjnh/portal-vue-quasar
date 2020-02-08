@@ -1,13 +1,14 @@
 <template>
   <div v-if="nodes&&nodes.length>0" class="tm-tree" :class="classes">
-    {{slotContentAfter}}
-    <draggable v-if="draggable" :list="nodes" @change="onDragChanged" :group="{ name: 'people' }" tag="div"
-      class="tm-nodes">
-      <tm-tree-node v-for="(node, index) in nodes" :key="index" :node="node" node-key="_id" :label="label"
-        :selected.sync="selected" :ticked.sync="ticked" :expanded.sync="expanded" :expanded-all="expandedAll"
-        :expanded-express="expandedExpress" :add-button="addButtonChild" :add-express="addExpress" :parent="null"
-        :draggable="draggable" :filter="filter" :filter-method="filterMethod" @on-tick="onTick"
-        @make-folder="onMakeFolder" @add-node="onAddChildNode" @click-node="onClickNode" @on-expand="onExpand"
+    <draggable v-if="draggable" :list="nodes" @change="onDragChanged"
+      :group="{ name: 'people' }" tag="div" class="tm-nodes">
+      <tm-tree-node v-for="(node, index) in nodes" :key="index" :node="node"
+        :node-key="nodeKey" :node-label="nodeLabel" :selected.sync="selected"
+        :ticked.sync="ticked" :expanded.sync="expanded" :expanded-all="expandedAll"
+        :expanded-express="expandedExpress" :add-button="addButtonChild"
+        :add-express="addExpress" :parent="null" :draggable="draggable" :filter="filter"
+        :filter-method="filterMethod" @on-tick="onTick" @make-folder="onMakeFolder"
+        @add-node="onAddChildNode" @click-node="onClickNode" @on-expand="onExpand"
         @on-drag-changed="onDragChanged">
         <template v-slot:content-after="prop">
           <slot name="content-after" :node="prop.node"></slot>
@@ -15,11 +16,14 @@
       </tm-tree-node>
     </draggable>
     <div v-else class="tm-nodes">
-      <tm-tree-node v-for="(node, index) in nodes" :key="index" :node="node" node-key="_id" :label="label"
-        :selected.sync="selected" :ticked.sync="ticked" :expanded.sync="expanded" :expanded-all="expandedAll"
-        :expanded-express="expandedExpress" :add-button="addButtonChild" :add-express="addExpress" :parent="null"
-        :filter="filter" :filter-method="filterMethod" @on-tick="onTick" @make-folder="onMakeFolder"
-        @add-node="onAddChildNode" @click-node="onClickNode" @on-expand="onExpand" @on-drag-changed="onDragChanged">
+      <tm-tree-node v-for="(node, index) in nodes" :key="index" :node="node"
+        :node-key="nodeKey" :node-label="nodeLabel" :selected.sync="selected"
+        :ticked.sync="ticked" :expanded.sync="expanded" :expanded-all="expandedAll"
+        :expanded-express="expandedExpress" :add-button="addButtonChild"
+        :add-express="addExpress" :parent="null" :filter="filter"
+        :filter-method="filterMethod" @on-tick="onTick" @make-folder="onMakeFolder"
+        @add-node="onAddChildNode" @click-node="onClickNode" @on-expand="onExpand"
+        @on-drag-changed="onDragChanged">
         <template v-slot:content-after="prop">
           <slot name="content-after" :node="prop.node"></slot>
         </template>
@@ -39,8 +43,8 @@ export default {
   components: { tmTreeNode, draggable },
   props: {
     nodes: { type: Array, default: () => [] },
-    nodeKey: { type: String, default: 'label' },
-    label: { type: String, default: 'label' },
+    nodeKey: { type: String, default: 'id' },
+    nodeLabel: { type: String, default: 'label' },
     selected: { type: String, default: undefined },
     ticked: { type: Array, default: () => undefined },
     tickStrategy: { type: String, default: undefined },
@@ -58,6 +62,7 @@ export default {
   },
   data() {
     return {
+      tickeds: []
     }
   },
   watch: {
@@ -83,17 +88,18 @@ export default {
       })
     }
   },
+  mounted() {
+  },
   computed: {
     slotContentAfter() {
-      console.log(this.$slots)
       return this.$slots['content-after'] || false
     }
   },
   methods: {
     onClickNode(node) {
       // if (this.selected !== undefined) {
-      if (this.selected === node[this.label]) this.$emit('update:selected', null)
-      else this.$emit('update:selected', node[this.label])
+      if (this.selected === node[this.nodeKey]) this.$emit('update:selected', null)
+      else this.$emit('update:selected', node[this.nodeKey])
       // }
       this.$emit('on-selected', node)
 
@@ -105,14 +111,14 @@ export default {
       this.onAddChildNode(node)
     },
     onAddRootNode: function(node) {
-      this.nodes.push({ [this.label]: 'new stuff' })
+      this.nodes.push({ [this.nodeKey]: 'new stuff' })
     },
     onAddChildNode: function(node) {
-      const newNode = { _id: Math.random(), [this.label]: 'new stuff' }
+      const newNode = { _id: Math.random(), [this.nodeKey]: 'new stuff' }
       // if (!node.children) this.$set(node, 'children', [])
       // const tmp = node.children.push(node)
       node.children.push(newNode)
-      this.expanded.push(node[this.label])
+      this.expanded.push(node[this.nodeKey])
       // this.$set(node, 'children', tmp)
       // node.children.push({ title: 'new stuff' })
     },
@@ -122,17 +128,17 @@ export default {
         this.onTickedParentAll(this.nodes, node, this.nodeKey)
       } else { // strict
         if (node.ticked) {
-          if (this.ticked.indexOf(node[this.label]) < 0) this.ticked.push(node[this.label])
+          if (this.ticked.indexOf(node[this.nodeKey]) < 0) this.ticked.push(node[this.nodeKey])
         } else {
-          const index = this.ticked.indexOf(node[this.label])
+          const index = this.ticked.indexOf(node[this.nodeKey])
           if (index > -1) this.ticked.splice(index, 1)
         }
       }
     },
     onExpand(node) {
-      if (node.expanded && this.expanded.indexOf(node[this.label]) < 0) this.expanded.push(node[this.label])
+      if (node.expanded && this.expanded.indexOf(node[this.nodeKey]) < 0) this.expanded.push(node[this.nodeKey])
       else {
-        const index = this.expanded.indexOf(node[this.label])
+        const index = this.expanded.indexOf(node[this.nodeKey])
         if (index > -1) this.expanded.splice(index, 1)
       }
     },
@@ -158,9 +164,9 @@ export default {
       if (node.ticked) {
         // if (this.tickStrategy === 'leaf') {
         if (this.tickStrategy === 'leaf-filtered') {
-          if (this.ticked.indexOf(node[this.label] && node.show) < 0) this.ticked.push(node[this.label])
+          if (this.ticked.indexOf(node[this.nodeKey] && node.show) < 0) this.ticked.push(node[this.nodeKey])
         } else {
-          if (this.ticked.indexOf(node[this.label]) < 0) this.ticked.push(node[this.label])
+          if (this.ticked.indexOf(node[this.nodeKey]) < 0) this.ticked.push(node[this.nodeKey])
         }
         // }
         if (node.children && node.children.length > 0) {
@@ -168,7 +174,7 @@ export default {
         }
       } else {
         // if (this.tickStrategy === 'leaf') {
-        const index = this.ticked.indexOf(node[this.label])
+        const index = this.ticked.indexOf(node[this.nodeKey])
         if (index > -1) this.ticked.splice(index, 1)
         // }
         if (node.children && node.children.length > 0) {
@@ -189,10 +195,10 @@ export default {
             else if (tickedChild.length === e.children.length) e.ticked = node.ticked
             else if (tickedChild.length <= e.children.length) e.ticked = null
             if (node.ticked || node.ticked == null) {
-              if (!this.ticked.includes(e[this.label])) this.ticked.push(e[this.label])
+              if (!this.ticked.includes(e[this.nodeKey])) this.ticked.push(e[this.nodeKey])
             } else {
               if (tickedChild.length === 0) {
-                const index = this.ticked.indexOf(e[this.label])
+                const index = this.ticked.indexOf(e[this.nodeKey])
                 if (index > -1) this.ticked.splice(index, 1)
               }
             }

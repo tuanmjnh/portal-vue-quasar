@@ -69,6 +69,25 @@ export function generateRoutes(nodes, dependent = null) {
   return rs
 }
 
+export function generateRoutesRoles(nodes) {
+  const rs = []
+  try {
+    nodes.forEach(_e => {
+      const e = { ..._e }
+      if (!e.constant) {
+        e.label = i18n.t(`route.${e.title}`)
+        if (e.children) {
+          const child = generateRoutesRoles(e.children)
+          if (child.length > 0) e.children = child
+        }
+        // console.log(e)
+        rs.push(e)
+      }
+    })
+  } catch (e) { console.log(e) }
+  return rs
+}
+
 export function generateCategory(nodes, dependent = null) {
   const rs = []
   try {
