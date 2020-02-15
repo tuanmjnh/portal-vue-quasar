@@ -3,7 +3,7 @@
     <q-table :data="items" :columns="columns" row-key="nguoidung_id"
       :visible-columns="visibleColumns"
       :loading="$store.state.loading.get||$store.state.loading.patch"
-      :selected.sync="selected" :dense="denseTable" selection="multiple"
+      :selected.sync="selected" :dense="$store.state.app.dense.table" selection="multiple"
       :no-data-label="$t('table.no_data')" :rows-per-page-label="$t('table.row_per_page')"
       :selected-rows-label="getSelectedString"
       :rows-per-page-options="[10, 20, 50 ,100, 200, 0]" :pagination.sync="pagination"
@@ -75,8 +75,8 @@
         <div class="col-12 row">
           <q-space />
           <div class="col-xs-12 col-sm-6">
-            <q-input v-model="pagination.filter" :dense="denseInput" debounce="500"
-              :placeholder="$t('global.search')">
+            <q-input v-model="pagination.filter" :dense="$store.state.app.dense.input"
+              debounce="500" :placeholder="$t('global.search')">
               <template v-slot:append>
                 <q-icon v-if="pagination.filter===''" name="search" />
                 <q-icon v-else name="clear" class="cursor-pointer"
@@ -90,19 +90,21 @@
         <q-tr :props="props">
           <q-th auto-width>
             <q-checkbox v-if="props.multipleSelect" v-model="props.selected"
-              indeterminate-value="some" />
+              :dense="$store.state.app.dense.table" indeterminate-value="some" />
           </q-th>
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
             <span v-if="$store.state.app.darkMode"
               class="text-bold">{{ col.label }}</span>
             <span v-else class="text-bold text-blue-grey-10">{{ col.label }}</span>
           </q-th>
+          <q-th auto-width v-if="isRoutes.edit||isRoutes.trash">#</q-th>
         </q-tr>
       </template>
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td auto-width>
-            <q-checkbox v-model="props.selected" color="primary" />
+            <q-checkbox v-model="props.selected" color="primary"
+              :dense="$store.state.app.dense.table" />
           </q-td>
           <q-td key="ten_dv" :props="props">
             {{ props.row.ten_dv }}
@@ -135,7 +137,8 @@
             </q-badge>
             <!-- {{ props.row.roles.length>0?props.row.roles.length:$t('global.undefined') }} -->
           </q-td>
-          <q-td key="actions" :props="props" auto-width class="text-center">
+          <q-td v-if="isRoutes.edit||isRoutes.trash" key="actions" :props="props"
+            auto-width class="text-center">
             <q-btn v-if="isRoutes.edit" flat round dense icon="verified_user"
               @click="onSetRoles(props.row)" color="light-green">
               <q-tooltip v-if="!$q.platform.is.mobile">Cập nhật quyền</q-tooltip>
@@ -215,22 +218,14 @@ export default {
         { name: 'ma_nv', field: 'ma_nv', label: 'Mã nhân viên', align: 'left', sortable: true, required: true },
         { name: 'ten_nd', field: 'ten_nd', label: 'Tên người dùng', align: 'left', sortable: true, required: true },
         { name: 'so_dt', field: 'so_dt', label: 'SĐT', align: 'right', sortable: true },
-        { name: 'roles', field: 'roles', label: 'Quyền', align: 'left', sortable: true },
-        { name: 'actions', field: 'actions', label: '#', align: 'center', required: true }
+        { name: 'roles', field: 'roles', label: 'Quyền', align: 'left', sortable: true }
+        // { name: 'actions', field: 'actions', label: '#', align: 'center', required: true }
       ]
     }
   },
   mounted() {
     this.onSelect({ pagination: this.pagination })
     this.onGetRoles()
-  },
-  computed: {
-    denseTable() {
-      return this.$store.state.app.dense.table
-    },
-    denseInput() {
-      return this.$store.state.app.dense.input
-    }
   },
   watch: {
     dialogAdd(val) {

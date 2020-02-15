@@ -86,7 +86,7 @@
         <q-tr :props="props">
           <q-th auto-width>
             <q-checkbox v-if="props.multipleSelect" v-model="props.selected"
-              indeterminate-value="some" />
+              :dense="denseTable" indeterminate-value="some" />
           </q-th>
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
             <span v-if="$store.state.app.darkMode"
@@ -98,7 +98,7 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td auto-width>
-            <q-checkbox v-model="props.selected" color="primary" />
+            <q-checkbox v-model="props.selected" color="primary" :dense="denseTable" />
           </q-td>
           <q-td key="name" :props="props">
             <q-badge class="bri" :style="onGetColor(props.row.color)">
@@ -220,6 +220,8 @@ export default {
     },
     onUpdate(item) {
       this.dialogAdd = true
+      // item.color = JSON.parse(item.color)
+      // console.log(JSON.parse(item.color))
       this.selected = [item]
     },
     onTrash(item) {

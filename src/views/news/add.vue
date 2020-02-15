@@ -1,36 +1,41 @@
 <template>
   <q-card style="width:700px;max-width:80vw">
     <q-toolbar>
-      <q-avatar icon="open_in_new" />
+      <q-avatar :icon="$route.meta.icon" />
       <q-toolbar-title>
         {{this.item?$t('global.update'):$t('global.add')}}
-        <span class="text-weight-bold">{{$t('route.category')}} {{$t(`route.${$route.meta.type}`)}}</span>
+        <span class="text-weight-bold">{{$t('route.category')}}</span>
       </q-toolbar-title>
-      <q-btn flat round dense icon="close" v-close-popup :disable="loading_add||loading_drafts?true:false">
+      <q-btn flat round dense icon="close" v-close-popup
+        :disable="loadingAdd||loadingDrafts?true:false">
         <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.cancel')}}</q-tooltip>
       </q-btn>
     </q-toolbar>
     <q-form ref="form">
       <q-card-actions v-if="item" align="right">
-        <q-btn flat type="submit" :dense="denseButton" color="amber" icon="offline_pin" :label="$t('global.update')"
-          :loading="loading_add" @click.prevent="onSubmit">
+        <q-btn flat type="submit" :dense="$store.state.app.dense.button" color="amber"
+          icon="offline_pin" :label="$t('global.update')" :loading="loadingAdd"
+          @click.prevent="onSubmit">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle" :label="$t('global.add')" :loading="loading_add"
-          :disable="loading_drafts" @click.prevent="onSubmit(1)">
+        <q-btn flat type="submit" color="blue" icon="check_circle"
+          :label="$t('global.add')" :loading="loadingAdd" :disable="loadingDrafts"
+          @click.prevent="onSubmit(1)" :dense="$store.state.app.dense.button">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
-        <q-btn flat type="submit" color="amber" icon="receipt" :label="$t('global.drafts')" :loading="loading_drafts"
-          :disable="loading_add" @click.prevent="onSubmit(0)">
+        <q-btn flat type="submit" color="amber" icon="receipt"
+          :label="$t('global.drafts')" :loading="loadingDrafts" :disable="loadingAdd"
+          @click.prevent="onSubmit(0)" :dense="$store.state.app.dense.button">
           <!-- <q-tooltip>{{$t('global.drafts')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
-      <q-tabs v-model="tabs" narrow-indicator :dense="denseForm" class="text-deep-purple" align="justify">
+      <q-tabs v-model="tabs" narrow-indicator :dense="$store.state.app.dense.form"
+        class="text-deep-purple" align="justify">
         <q-tab name="main" :label="$t('tabs.main')" />
         <q-tab name="content" :label="$t('global.content')" />
-        <q-tab name="images" :label="$t('global.images')" />
+        <q-tab name="upload" :label="$t('global.upload')" />
         <q-tab name="attributes" :label="$t('global.attributes')" />
       </q-tabs>
       <q-separator />
@@ -39,110 +44,94 @@
         <q-tab-panel name="main">
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              Parent: <q-badge color="blue">{{dependent?dependent.label:'Root'}}</q-badge>
+              <q-select v-model="type" :options="types"
+                :dense="$store.state.app.dense.input"
+                :options-dense="$store.state.app.dense.input" :label="$t('global.types')"
+                :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]"
+                @input="onGetCategories" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              Level: <q-badge color="blue">{{form.level}}</q-badge>
+              <q-select v-model="category" :options="categories"
+                :dense="$store.state.app.dense.input"
+                :options-dense="$store.state.app.dense.input" label="Danh mục"
+                :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.title" v-uppercaseFirst :dense="denseInput" :label="$t('global.title')"
+              <q-input v-model.trim="form.title" v-uppercaseFirst
+                :dense="$store.state.app.dense.input" :label="$t('global.title')"
                 :rules="[v=>v&&v.length>0||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              <q-input v-model.trim="form.code" v-uppercase :dense="denseInput" :label="$t('global.code')"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" :hint="$t('category.hit_code')" />
+              <q-input v-model.trim="form.url" :dense="$store.state.app.dense.input"
+                v-lowercase label="URL" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.url" :dense="denseInput" v-lowercase label="URL" />
+              <q-input v-model.trim="form.icon" :dense="$store.state.app.dense.input"
+                label="Icon">
+                <template v-slot:append>
+                  <div v-html="form.icon"></div>
+                </template>
+              </q-input>
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              <q-input v-model="form.quantity" type="number" :dense="denseInput" :label="$t('global.quantity')" />
-            </div>
-          </div>
-          <div class="row q-gutter-xs">
-            <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.icon" :dense="denseInput" label="Icon">
-                <template v-slot:append>
-                  <q-icon :name="form.icon" /></template>
-              </q-input>
-            </div>
-            <q-space />
-            <div class="col col-md-6 self-center">
-              {{$t('global.color_pick')}}:
-              <q-badge :style="{backgroundColor:form.color}" @click="dialog_color_pick=true">{{form.color}}</q-badge>
-            </div>
-          </div>
-          <div class="row q-gutter-xs">
-            <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.start_at" :dense="denseInput" readonly>
-                <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="startAt" transition-show="scale" transition-hide="scale">
-                      <q-date v-model="form.start_at" today-btn @input="()=>$refs.startAt.hide()" />
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
-            </div>
-            <q-space />
-            <div class="col col-md-6">
-              <q-input v-model.trim="form.end_at" :dense="denseInput" readonly>
-                <template v-slot:append>
-                  <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="endAt" transition-show="scale" transition-hide="scale">
-                      <q-date v-model="form.end_at" today-btn @input="()=>$refs.endAt.hide()" />
-                    </q-popup-proxy>
-                  </q-icon>
-                </template>
-              </q-input>
+              <q-input v-model="form.quantity" type="number"
+                :dense="$store.state.app.dense.input" :label="$t('global.quantity')" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-3">
-              <q-input v-model="form.orders" type="number" :dense="denseInput" :label="$t('global.order')"
+              <q-input v-model="form.orders" type="number"
+                :dense="$store.state.app.dense.input" :label="$t('global.order')"
                 :rules="[v=>v!==null&&v!==''||$t('error.required')]" class="col-md-4" />
             </div>
             <q-space v-if="item" />
             <div class="col-5 self-center" v-if="item">
-              <q-toggle v-model="form.flag" :true-value="1" :dense="denseInput"
+              <q-toggle v-model="form.flag" :true-value="1"
+                :dense="$store.state.app.dense.input"
                 :label="form.flag?$t('global.publish'):$t('global.drafts')" />
             </div>
           </div>
           <div class="q-gutter-sm">
-            <q-input v-model.trim="form.desc" autogrow :dense="denseInput" :label="$t('global.desc')" />
+            <q-input v-model.trim="form.descs" autogrow
+              :dense="$store.state.app.dense.input" :label="$t('global.desc')" />
           </div>
         </q-tab-panel>
         <q-tab-panel name="content">
           <q-editor v-model="form.content" min-height="5rem" />
         </q-tab-panel>
-        <q-tab-panel name="images">
-          <q-uploader ref="upload" square flat :url="upload_url" :headers="upload_headers" @added="onUploadAdded"
-            @uploaded="onUploaded" @finish="onUploadFinish" :max-file-size="1024*1024*2" accept=".jpg,.jpeg,.png,.gif"
-            style="width:300px;">
-            <!-- <template v-slot:list="scope"></template> -->
-          </q-uploader>
-          <q-space />
-          <q-img :src="form.avatar" spinner-color="red" class="rounded-borders"
-            style="height:200px;max-width:284px;margin-top:55px;">
-            <!-- <div class="absolute-top text-subtitle1 text-center">
-              Caption
-            </div> -->
-          </q-img>
-          <!-- <q-input v-model="form.avatar" :label="$t('users.avatar')" /> -->
+        <q-tab-panel name="upload">
+          <div class="row q-gutter-xs">
+            <q-btn icon="cloud_upload" label="Tải ảnh"
+              :dense="$store.state.app.dense.button" @click="dialogUploadImage=true" />
+          </div>
+          <br />
+          <div class="row q-gutter-xs" v-if="image&&image.length">
+            <q-img v-for="(e,i) in image" :key="i" :src="`${uploadPath}/${e.fullName}`"
+              spinner-color="primary" class="rounded-borders"
+              style="height: 140px; max-width: 150px">
+            </q-img>
+          </div>
+          <q-separator class="q-mb-md q-mt-md" />
+          <div class="row q-gutter-xs">
+            <q-btn icon="attach_file" label="Tải tệp đính kèm"
+              :dense="$store.state.app.dense.button" @click="dialogUploadAttach=true" />
+          </div>
+          <br />
+          <div class="row q-gutter-xs" v-if="attach&&attach.length">
+            <q-btn v-for="(e,i) in attach" :key="i" flat color="primary"
+              icon="attach_file" :label="e.filename"
+              :dense="$store.state.app.dense.button"
+              @click="onOpenViewFile(e.filename,`${uploadPath}/${e.fullName}`)" />
+          </div>
         </q-tab-panel>
         <q-tab-panel name="attributes">
-          <div class="q-pt-md q-pb-md">
-            <span>{{$t('global.position')}}</span>
-            <q-option-group v-model="form.position" :options="positions" color="green" type="checkbox" inline />
-          </div>
-          <q-separator />
           <div class="q-pt-md q-pb-md">
             Tags:
           </div>
@@ -150,145 +139,176 @@
             <!-- <span class="col-12 col-md-2">Tags</span> -->
             <!-- <q-space /> -->
             <div class="col-9 col-md-6">
-              <q-input v-model.trim="tag" :dense="denseInput" label="Tags" />
+              <q-input v-model.trim="tag" :dense="$store.state.app.dense.input"
+                label="Tags" />
             </div>
             <q-space />
             <div>
-              <q-btn flat round color="blue" icon="add" size="sm" @click.prevent="onAddTag" />
+              <q-btn flat round color="blue" icon="add" size="sm"
+                :dense="$store.state.app.dense.button" @click.prevent="onAddTag" />
             </div>
           </div>
           <div class="q-pb-md">
             <!-- <template> -->
-            <q-chip v-for="(e,i) in form.tags" :key="i" removable clickable @click="onEditTag(e)"
-              @remove="onRemoveTag(e)" color="primary" text-color="white">{{e}}</q-chip>
+            <q-chip v-for="(e,i) in tags" :key="i" removable clickable
+              @click="onEditTag(e)" @remove="onRemoveTag(e)" color="primary"
+              text-color="white">{{e}}</q-chip>
             <!-- </template> -->
           </div>
-          <q-separator />
-          <div class="q-pt-md q-pb-md">
-            Attributes:
-          </div>
-          <div class="row q-gutter-md">
-            <div class="col-6 col-md-5">
-              <auto-complete :value.sync="attr.key" :items.sync="meta.keys" :label="$t('global.key')"
-                :no-data="$t('table.no_data')" @input="onFilterMetaKey" />
-              <!-- <q-input v-model.trim="attr.key" :dense="denseInput" v-lowercase label="Key" /> -->
-            </div>
-            <q-space />
-            <div class="col-6 col-md-5">
-              <auto-complete :value.sync="attr.value" :items.sync="meta.keys" :label="$t('global.value')"
-                :no-data="$t('table.no_data')" @input="onFilterMetaKey" />
-              <!-- <q-input v-model.trim="attr.value" :dense="denseInput" label="Value" /> -->
-            </div>
-            <q-space />
-            <div>
-              <q-btn flat round color="blue" icon="add" size="sm" @click.prevent="onAddMeta" />
-            </div>
-          </div>
-          <br />
-          <q-list v-if="form.meta" dense bordered separator padding class="rounded-borders">
-            <q-item v-for="(v,k,i) in form.meta" :key="i">
-              <q-item-section>{{k}}</q-item-section>
-              <q-item-section>{{v}}</q-item-section>
-              <q-item-section side>
-                <q-btn flat round color="light-green" icon="edit" size="sm" @click.prevent="onEditMeta(k,v)" />
-              </q-item-section>
-              <q-item-section side>
-                <q-btn flat round color="red" icon="cancel" size="sm" @click.prevent="onRemoveMeta(k)" />
-              </q-item-section>
-            </q-item>
-          </q-list>
         </q-tab-panel>
       </q-tab-panels>
       <!-- </q-card-section> -->
     </q-form>
-    <!-- Dialog color pick -->
-    <q-dialog v-model="dialog_color_pick">
-      <q-card>
+    <!-- Upload Image dialog-->
+    <q-dialog v-model="dialogUploadImage" persistent>
+      <q-card style="width:500px">
         <q-toolbar>
-          <q-toolbar-title>{{$t('global.color_pick')}}</q-toolbar-title>
+          <q-avatar icon="cloud_upload" />
+          <q-toolbar-title>Tải ảnh</q-toolbar-title>
           <q-btn flat round dense icon="close" v-close-popup>
-            <q-tooltip>{{$t('global.cancel')}}</q-tooltip>
+            <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.cancel')}}</q-tooltip>
           </q-btn>
         </q-toolbar>
+        <q-separator />
         <q-card-section>
-          <q-color v-model="form.color" />
+          <q-uploader ref="uploadImages" square flat :url="uploadUrl"
+            :headers="uploadHeaders" @uploaded="onUploadedImages" @finish="onUploadFinish"
+            :max-file-size="1024*1024*2" accept=".jpg,.jpeg,.png,.gif" style="width:100%">
+            <!-- <template v-slot:list="scope"></template> -->
+          </q-uploader>
         </q-card-section>
       </q-card>
+    </q-dialog>
+    <!-- Upload attach dialog-->
+    <q-dialog v-model="dialogUploadAttach" persistent>
+      <q-card style="width:500px">
+        <q-toolbar>
+          <q-avatar icon="attach_file" />
+          <q-toolbar-title>Tải tệp đính kèm</q-toolbar-title>
+          <q-btn flat round dense icon="close" v-close-popup>
+            <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.cancel')}}</q-tooltip>
+          </q-btn>
+        </q-toolbar>
+        <q-separator />
+        <q-card-section>
+          <q-uploader ref="uploadAttach" square flat :url="uploadUrl"
+            :headers="uploadHeaders" @uploaded="onUploadedAttach" @finish="onUploadFinish"
+            :max-file-size="1024*1024*50" accept=".doc,.docx,.xls,.xlsx,.pdf"
+            style="width:100%">
+            <!-- <template v-slot:list="scope"></template> -->
+          </q-uploader>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+    <!-- View file dialog-->
+    <q-dialog v-model="dialogView" :maximized="maximizedView" persistent>
+      <view-file :dialog.sync="dialogView" :maximized.sync="maximizedView"
+        :item="viewItem" :types="types" :categories="categories" />
     </q-dialog>
   </q-card>
 </template>
 
 <script>
-import autoComplete from '@/components/auto-complete'
+// import autoComplete from '@/components/auto-complete'
+import viewFile from '@/components/view-file'
 import * as api from '@/api/news'
+import * as apiTypes from '@/api/types'
+import * as apiCategories from '@/api/categories'
 export default {
-  components: { autoComplete },
+  components: { viewFile },
   props: {
     dialog: { type: Boolean, default: true },
     item: { type: Object, default: () => { } },
-    items: { type: Array, default: () => [] },
-    dependent: { type: Object, default: () => null },
-    positions: { type: Array, default: () => [] },
-    expanded: { type: Array, default: () => [] }
+    items: { type: Array, default: () => [] }
+    // types: { type: Array, default: () => [] },
+    // categories: { type: Array, default: () => [] }
   },
   data() {
     return {
       loading: false,
-      loading_add: false,
-      loading_drafts: false,
-      dialog_color_pick: false,
+      loadingAdd: false,
+      loadingDrafts: false,
+      dialogUploadImage: false,
+      dialogUploadAttach: false,
+      dialogView: false,
       tabs: 'main',
       form: {},
-      attr: {},
-      meta: { keys: [], values: [] },
+      types: [],
+      type: {},
+      categories: [],
+      category: {},
+      tags: [],
       tag: '',
-      upload_url: process.env.API_FILE_UPLOAD,
-      upload_headers: [{ name: 'Upload-Path', value: 'category' }, { name: 'Upload-Rename', value: true }],
+      uploadPath: process.env.API_UPLOAD,
+      uploadUrl: process.env.API_FILE_UPLOAD,
+      image: [],
+      attach: [],
+      viewItem: {},
+      maximizedView: false,
+      uploadHeaders: [
+        { name: 'Upload-Path', value: 'news' },
+        { name: 'Upload-Rename', value: true }
+        // { name: 'Content-Type', value: 'multipart/form-data' }
+      ],
       default: {
-        type: this.$route.meta.type,
-        code: null,
-        dependent: null,
-        level: 1,
+        app_key: '',
+        group_id: null,
         title: '',
-        desc: null,
-        content: '',
+        icon: '<i class="material-icons">class</i>',
+        image: null,
         url: null,
-        images: null,
-        quantity: null,
-        position: [],
+        quantity: 0,
+        descs: null,
+        content: '',
+        attach: null,
         tags: null,
-        icon: 'spa',
-        color: '#009688',
-        meta: null,
-        start_at: null, // this.$moment().format('YYYY/MM/DD'),
-        end_at: null, // this.$moment().format('YYYY/MM/DD'),
         orders: 1,
         flag: 1
       }
-    }
-  },
-  computed: {
-    denseForm() {
-      return this.$store.state.app.dense.form
-    },
-    denseInput() {
-      return this.$store.state.app.dense.input
-    },
-    denseButton() {
-      return this.$store.state.app.dense.button
     }
   },
   watch: {
     dialog: {
       handler(val) {
         this.reset()
-        if (this.item) this.form = { ...this.item }
+        if (this.item) {
+          this.form = { ...this.item }
+          if (this.form.tags) this.tags = this.form.tags.split(',')
+          if (!this.form.content) this.form.content = ''
+          if (!this.form.image) this.form.image = null
+        }
       },
       deep: true,
       immediate: true
     }
   },
+  created() {
+    // this.onSelect({ pagination: this.pagination })
+    this.onGetTypes()
+  },
   methods: {
+    onGetTypes(props) {
+      apiTypes.select(props).then((x) => {
+        if (x && x.length > 0) {
+          this.types = x.map(x => ({ label: x.title, value: x.code }))
+          if (this.item) {
+            if (this.form.app_key) this.type = this.types.find(x => x.value === this.form.app_key)
+            this.onGetCategories()
+          } else {
+            this.type = this.types[0]
+          }
+        }
+      })
+    },
+    onGetCategories(props) {
+      this.category = {}
+      apiCategories.select({ key: this.type.value }).then((x) => {
+        this.categories = x.map(x => ({ label: x.title, value: x.id }))
+        if (this.item) {
+          if (this.form.group_id) this.category = this.categories.find(x => x.value === this.form.group_id)
+        }
+      })
+    },
     onAddTag() {
       if (!this.tag) {
         this.$q.notify({
@@ -298,8 +318,8 @@ export default {
         })
         return
       }
-      if (!this.form.tags) this.form.tags = []
-      this.form.tags.push(this.tag)
+      if (!this.tags) this.tags = []
+      this.tags.push(this.tag)
       this.tag = ''
     },
     onEditTag(val) {
@@ -307,101 +327,60 @@ export default {
       this.onRemoveTag(val)
     },
     onRemoveTag(val) {
-      const i = this.form.tags.indexOf(val)
-      if (i > -1) this.form.tags.splice(i, 1)
-      if (this.form.tags.length < 1) this.form.tags = null
+      const i = this.tags.indexOf(val)
+      if (i > -1) this.tags.splice(i, 1)
+      if (this.form.length < 1) this.tags = null
     },
-    onAddMeta() {
-      if (!this.attr.key || !this.attr.value) {
-        this.$q.notify({
-          color: 'warning',
-          timeout: 3000,
-          message: 'The attr is required Key and Value!'
-        })
-        return
-      }
-      if (!this.form.meta) this.form.meta = []
-      this.form.meta.push(this.attr)
-      this.attr = {}
-    },
-    onEditMeta(key, val) {
-      this.onRemoveMeta(key)
-      this.attr = { key: key, value: val }
-    },
-    onRemoveMeta(key) {
-      delete this.form.meta[key]
-      if (Object.keys(this.form.meta).length < 1) this.form.meta = null
-      this.attr = {}
-    },
-    onFilterMetaKey(val) {
-      let data = { key: true }
-      if (val) data.filter = val
-      api.getMeta(data).then((x) => {
-        if (x) {
-          this.meta.keys = x.data
-        }
-      })
-    },
-    onFilterMetaValue(val) {
-      let data = {}
-      if (val) data.filter = val
-      api.getMeta(data).then((x) => {
-        if (x) {
-          this.meta.values = x.data
-        }
-      })
-    },
-    onUploadAdded(files) {
-      if (this.$refs.upload.files.length > 0) {
-        this.$refs.upload.removeUploadedFiles()
-      }
-    },
-    onUploadFinish() {
-      console.log('Finish')
-    },
-    onUploaded(info) {
+    onUploadedImages(info) {
       var res = JSON.parse(info.xhr.response)
       if (res.length > 0) {
-        this.form.images = `${process.env.API_UPLOAD}/${res[0].filename}`
-      }
+        this.form.image = res[0].fullName// `${process.env.API_UPLOAD}/${res[0].fullName}`
+        this.image = res
+      } else this.form.image = null
     },
-    getDependent() {
-      console.log(this.dependent)
-      if (this.dependent) return this.dependent.label
-      else return 'Root'
+    onUploadedAttach(info) {
+      var res = JSON.parse(info.xhr.response)
+      if (res.length > 0) {
+        this.form.attach = res[0].fullName// `${process.env.API_UPLOAD}/${res[0].fullName}`
+        this.attach = res
+      } else this.form.attach = null
+    },
+    onUploadFinish() {
+      this.dialogUploadImage = false
+      this.dialogUploadAttach = false
+    },
+    onOpenViewFile(title, url) {
+      // window.open(url, '_blank')
+      this.maximizedView = false
+      this.viewItem = { title: title, url: url }
+      this.dialogView = true
     },
     onSubmit(action) {
       // console.log(this.item)
       this.$refs.form.validate().then(valid => {
         if (valid) {
+          this.form.tags = this.tags.join(',')
+          if (this.type && this.type.value) this.form.app_key = this.type.value
+          if (this.category && this.category.value) this.form.group_id = this.category.value
           if (this.item) {
-            this.loading_add = true
+            this.loadingAdd = true
             api.update(this.form).then((x) => {
               if (x.ok) {
-                if (!this.dependent) {
-                  const index = this.items.indexOf(this.item)
-                  if (index > -1) this.items.splice(index, 1, this.form)
-                } else {
-                  const index = this.dependent.children.indexOf(this.item)
-                  if (index > -1) this.dependent.children.splice(index, 1, this.form)
-                }
+                const index = this.items.indexOf(this.item)
+                if (index > -1) this.items.splice(index, 1, this.form)
               }
             }).finally(() => {
-              this.loading_add = false
+              this.loadingAdd = false
             })
           } else {
             this.form.flag = action
-            if (action) this.loading_add = true
-            else this.loading_drafts = true
+            if (action) this.loadingAdd = true
+            else this.loadingDrafts = true
             api.insert(this.form).then((x) => {
-              if (this.dependent) {
-                this.expanded.push(x._id)
-                if (!this.dependent.children) this.dependent.children = []
-                this.dependent.children.push(x)
-              } else this.items.push(x)
+              this.items.push(x)
             }).finally(() => {
-              this.loading_add = false
-              this.loading_drafts = false
+              this.loadingAdd = false
+              this.loadingDrafts = false
               this.reset()
             })
           }
@@ -417,12 +396,13 @@ export default {
     reset() {
       new Promise((resolve, reject) => {
         this.form = { ...this.default }
-        if (this.dependent) {
-          this.form.dependent = this.dependent._id
-          this.form.level = this.dependent.level + 1
-        }
-        this.attr = {}
+        this.tags = []
         this.tag = ''
+        // this.type = {}
+        // this.category = {}
+        this.image = []
+        this.attach = []
+        this.form.image = null
         resolve()
       }).then(() => {
         if (this.$refs.form) this.$refs.form.resetValidation()

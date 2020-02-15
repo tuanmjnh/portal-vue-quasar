@@ -135,47 +135,151 @@ export const dynamic = [
     ]
   },
   {
-    path: '/category',
-    name: 'category',
-    title: 'category',
-    icon: 'category',
+    path: '/diaban',
+    name: 'diaban',
+    title: 'diaban',
+    icon: 'ballot',
     component: 'layout',
     children: [
       {
         path: 'list',
-        name: 'category-list',
+        name: 'diaban-list',
         title: 'list',
         icon: 'list',
-        hidden: true,
         meta: {},
-        component: 'category/index'
+        component: 'diaban/index'
       },
       {
         path: 'add',
-        name: 'category-add',
+        name: 'diaban-add',
         title: 'add',
         icon: 'playlist_add',
         hidden: true,
-        meta: {},
-        component: 'category/add'
+        meta: { noCache: true, activeMenu: '/diaban/list' },
+        component: 'diaban/add'
       },
       {
-        path: 'edit/:id?',
-        name: 'category-edit',
-        title: 'edit',
-        icon: 'edit',
+        path: 'edit',
+        name: 'diaban-edit',
+        title: 'update_nv',
+        icon: 'how_to_reg',
         hidden: true,
-        meta: { noCache: true, activeMenu: '/category/list' },
-        component: 'users/add'
+        meta: { noCache: true, activeMenu: '/diaban/list' },
+        component: 'diaban/index'
       },
       {
-        path: 'trash',
-        name: 'category-trash',
-        title: 'trash',
-        icon: 'delete_sweep',
-        hidden: true,
-        meta: { noCache: true, flag: 0 },
-        component: 'users/index'
+        path: 'manager',
+        name: 'diaban-manager',
+        title: 'diaban_manager',
+        icon: 'perm_data_setting',
+        meta: { noCache: true },
+        component: 'diaban/manager'
+      }
+    ]
+  },
+  {
+    path: '/data',
+    name: 'data',
+    title: 'data',
+    icon: 'data_usage',
+    component: 'layout',
+    children: [
+      {
+        path: 'guide',
+        name: 'data-guide',
+        title: 'guide',
+        icon: 'question_answer',
+        component: 'guide/index'
+      },
+      {
+        path: 'category',
+        name: 'data-category',
+        title: 'category',
+        icon: 'category',
+        component: 'category/index',
+        children: [
+          {
+            path: 'list',
+            name: 'data-category-list',
+            title: 'list',
+            icon: 'list',
+            hidden: true,
+            meta: {},
+            component: 'category/index'
+          },
+          {
+            path: 'add',
+            name: 'data-category-add',
+            title: 'add',
+            icon: 'playlist_add',
+            hidden: true,
+            meta: {},
+            component: 'category/add'
+          },
+          {
+            path: 'edit/:id?',
+            name: 'data-category-edit',
+            title: 'edit',
+            icon: 'edit',
+            hidden: true,
+            meta: { noCache: true, activeMenu: '/category/list' },
+            component: 'category/add'
+          },
+          {
+            path: 'trash',
+            name: 'data-category-trash',
+            title: 'trash',
+            icon: 'delete_sweep',
+            hidden: true,
+            meta: { noCache: true, flag: 0 },
+            component: 'category/index'
+          }
+        ]
+      },
+      {
+        path: 'news',
+        name: 'data-news',
+        title: 'news',
+        icon: 'description',
+        component: 'news/index',
+        children: [
+          {
+            path: 'list',
+            name: 'data-news-list',
+            title: 'list',
+            icon: 'list',
+            hidden: true,
+            meta: {},
+            component: 'news/index'
+          },
+          {
+            path: 'add',
+            name: 'data-news-add',
+            title: 'add',
+            icon: 'playlist_add',
+            hidden: true,
+            meta: {},
+            component: 'news/add'
+          },
+          {
+            path: 'edit/:id?',
+            name: 'data-news-edit',
+            title: 'edit',
+            icon: 'edit',
+            hidden: true,
+            meta: { noCache: true, activeMenu: '/news/list' },
+            component: 'news/add'
+          },
+          {
+            path: 'trash',
+            name: 'data-news-trash',
+            title: 'trash',
+            icon: 'delete_sweep',
+            hidden: true,
+            meta: { noCache: true, flag: 0 },
+            component: 'news/index'
+          }
+        ]
       }
     ]
   },
@@ -379,6 +483,52 @@ export const dynamic = [
         icon: 'vpn_key',
         meta: { icon: 'vpn_key' },
         component: 'users/get-password'
+      },
+      {
+        path: 'types',
+        name: 'manager-types',
+        title: 'types',
+        icon: 'select_all',
+        meta: {},
+        component: 'types/index',
+        children: [
+          {
+            path: 'list',
+            name: 'manager-types-list',
+            title: 'list',
+            icon: 'list',
+            hidden: true,
+            meta: { flag: 1 },
+            component: 'types/index'
+          },
+          {
+            path: 'add',
+            name: 'manager-types-add',
+            title: 'add',
+            icon: 'add',
+            hidden: true,
+            meta: {},
+            component: 'types/add'
+          },
+          {
+            path: 'edit/:id?',
+            name: 'manager-types-edit',
+            title: 'edit',
+            icon: 'edit',
+            hidden: true,
+            meta: {},
+            component: 'types/add'
+          },
+          {
+            path: 'trash',
+            name: 'manager-types-trash',
+            title: 'trash',
+            icon: 'delete',
+            hidden: true,
+            meta: { flag: 0 },
+            component: 'types/index'
+          }
+        ]
       }
       // {
       //   path: '/routes',

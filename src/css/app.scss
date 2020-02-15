@@ -10,6 +10,12 @@
 .q-inner-loading {
   z-index: 999;
 }
+.q-btn {
+  border-radius: initial;
+  .q-btn__wrapper::before {
+    box-shadow: initial;
+  }
+}
 // .component-fade-enter-active,
 // .component-fade-leave-active {
 //   transition: opacity 0.3s ease;

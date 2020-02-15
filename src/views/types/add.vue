@@ -1,113 +1,75 @@
 <template>
   <q-card style="width:700px;max-width:80vw">
     <q-toolbar>
-      <q-avatar icon="open_in_new" />
+      <q-avatar :icon="$route.meta.icon" />
       <q-toolbar-title>
         {{this.item?$t('global.update'):$t('global.add')}}
         <span class="text-weight-bold">{{$t('roles.title')}}</span>
       </q-toolbar-title>
-      <q-btn flat round dense icon="close" v-close-popup :disable="loading_add||loading_drafts?true:false">
+      <q-btn flat round dense icon="close" v-close-popup
+        :disable="loading_add||loading_drafts?true:false">
         <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.cancel')}}</q-tooltip>
       </q-btn>
     </q-toolbar>
+    <q-separator />
     <q-form ref="form">
       <q-card-actions v-if="item" align="right">
-        <q-btn flat type="submit" :dense="denseButton" color="amber" icon="offline_pin" :label="$t('global.update')"
-          :loading="loading_add" @click.prevent="onSubmit">
+        <q-btn flat type="submit" :dense="denseButton" color="amber" icon="offline_pin"
+          :label="$t('global.update')" :loading="loading_add" @click.prevent="onSubmit">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle" :label="$t('global.add')" :loading="loading_add"
-          :disable="loading_drafts" @click.prevent="onSubmit(1)">
+        <q-btn flat type="submit" color="blue" icon="check_circle"
+          :label="$t('global.add')" :loading="loading_add" :disable="loading_drafts"
+          @click.prevent="onSubmit(1)">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
-        <q-btn flat type="submit" color="amber" icon="receipt" :label="$t('global.drafts')" :loading="loading_drafts"
-          :disable="loading_add" @click.prevent="onSubmit(0)">
+        <q-btn flat type="submit" color="amber" icon="receipt"
+          :label="$t('global.drafts')" :loading="loading_drafts" :disable="loading_add"
+          @click.prevent="onSubmit(0)">
           <!-- <q-tooltip>{{$t('global.drafts')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
-      <q-tabs v-model="tabs" narrow-indicator :dense="denseForm" class="text-deep-purple" align="justify">
-        <q-tab name="main" :label="$t('tabs.main')" />
-        <q-tab name="attributes" :label="$t('global.attributes')" />
-      </q-tabs>
-      <q-separator />
-      <!-- <q-card-section> -->
-      <q-tab-panels v-model="tabs" animated>
-        <q-tab-panel name="main">
-          <div class="row q-gutter-xs">
-            <div class="col-12 col-md-5">
-              <!-- <q-input v-model.trim="form.key" :dense="denseInput" v-lowercase :label="$t('global.types')"
+      <q-card-section>
+        <div class="row q-gutter-xs">
+          <div class="col-12 col-md-5">
+            <!-- <q-input v-model.trim="form.key" :dense="denseInput" v-lowercase :label="$t('global.types')"
                 :rules="[v=>v&&v.length>0||$t('error.required')]" /> -->
-              <!-- <q-select v-model="form.key" hide-selected fill-input use-input input-debounce="0" :dense="denseInput"
+            <!-- <q-select v-model="form.key" hide-selected fill-input use-input input-debounce="0" :dense="denseInput"
                 :options-dense="denseInput" @new-value="onAddKey" :options="keys" @filter="onFilterKey"
                 :hint="$t('types.hit_key')" :label="$t('global.types')" /> -->
-              <auto-complete :value.sync="form.key" :items.sync="keys" placeholder="Key" :label="$t('global.types')"
-                :no-data="$t('table.no_data')" @input="onFilterKey" :rules="[v=>v&&v.length>0||$t('error.required')]" />
-            </div>
-            <q-space />
-            <div class="col-12 col-md-6">
-              <q-input v-model.trim="form.code" v-lowercase :dense="denseInput" :label="$t('global.code')"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" :readonly="item?true:false" />
-            </div>
+            <auto-complete :value.sync="form.key" :items.sync="keys" placeholder="Key"
+              :label="$t('global.types')" :no-data="$t('table.no_data')"
+              @input="onFilterKey" :rules="[v=>v&&v.length>0||$t('error.required')]" />
           </div>
-          <div class="row q-gutter-xs">
-            <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.name" :dense="denseInput" :label="$t('global.name')"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
-            </div>
-            <q-space />
-            <div class="col-12 col-md-6">
-              <q-input v-model.trim="form.desc" autogrow :dense="denseInput" :label="$t('global.desc')" />
-            </div>
+          <q-space />
+          <div class="col-12 col-md-6">
+            <q-input v-model.trim="form.code" v-lowercase :dense="denseInput"
+              :label="$t('global.code')" :rules="[v=>v&&v.length>0||$t('error.required')]"
+              :readonly="item?true:false" />
           </div>
-          <div class="row q-gutter-xs">
-            <div class="col-3">
-              <q-input v-model="form.orders" type="number" :dense="denseInput" :label="$t('global.order')"
-                :rules="[v=>v!==null&&v!==''||$t('error.required')]" />
-            </div>
-            <q-space v-if="item" />
-            <div class="col-5 self-center" v-if="item">
-              <q-toggle v-model="form.flag" :true-value="1" :dense="denseInput"
-                :label="form.flag?$t('global.publish'):$t('global.drafts')" />
-            </div>
+        </div>
+        <div class="row q-gutter-xs">
+          <div class="col-12">
+            <q-input v-model.trim="form.title" :dense="denseInput"
+              :label="$t('global.name')"
+              :rules="[v=>v&&v.length>0||$t('error.required')]" />
           </div>
-        </q-tab-panel>
-        <q-tab-panel name="attributes">
-          <div class="row q-gutter-md">
-            <div class="col-12 col-md-5">
-              <q-input v-model.trim="attr.key" :dense="denseInput" v-lowercase label="Key" />
-            </div>
-            <q-space />
-            <div class="col-12 col-md-5">
-              <q-input v-model.trim="attr.value" :dense="denseInput" label="Value" />
-            </div>
-            <q-space />
-            <div>
-              <q-btn type="submit" flat round color="blue" icon="add" size="sm" @click.prevent="onAddMeta" />
-            </div>
+        </div>
+        <div class="row q-gutter-xs">
+          <div class="col-3">
+            <q-input v-model="form.orders" type="number" :dense="denseInput"
+              :label="$t('global.order')"
+              :rules="[v=>v!==null&&v!==''||$t('error.required')]" />
           </div>
-          <br />
-          <div class="row">
-            Attributes:
+          <q-space v-if="item" />
+          <div class="col-5 self-center" v-if="item">
+            <q-toggle v-model="form.flag" :true-value="1" :dense="denseInput"
+              :label="form.flag?$t('global.publish'):$t('global.drafts')" />
           </div>
-          <!-- <div class="row"> -->
-          <q-list v-if="form.meta" dense bordered separator padding class="rounded-borders">
-            <q-item v-for="(v,k,i) in form.meta" :key="i">
-              <q-item-section>{{k}}</q-item-section>
-              <q-item-section>{{v}}</q-item-section>
-              <q-item-section side>
-                <q-btn flat round color="light-green" icon="edit" size="sm" @click.prevent="onEditMeta(k,v)" />
-              </q-item-section>
-              <q-item-section side>
-                <q-btn flat round color="red" icon="cancel" size="sm" @click.prevent="onRemoveMeta(k)" />
-              </q-item-section>
-            </q-item>
-          </q-list>
-          <!-- </div> -->
-        </q-tab-panel>
-      </q-tab-panels>
-      <!-- </q-card-section> -->
+        </div>
+      </q-card-section>
     </q-form>
   </q-card>
 </template>
@@ -134,9 +96,7 @@ export default {
       default: {
         key: '',
         code: '',
-        name: '',
-        desc: '',
-        meta: null,
+        title: '',
         orders: 1,
         flag: 1
       }

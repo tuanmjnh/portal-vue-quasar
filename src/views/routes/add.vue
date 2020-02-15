@@ -1,7 +1,7 @@
 <template>
   <q-card style="width:700px;max-width:80vw">
     <q-toolbar>
-      <q-avatar icon="open_in_new" />
+      <q-avatar :icon="$route.meta.icon" />
       <q-toolbar-title>
         {{this.item?$t('global.update'):$t('global.add')}}
         <span class="text-weight-bold">routes</span>
@@ -12,18 +12,19 @@
     </q-toolbar>
     <q-form ref="form">
       <q-card-actions v-if="item" align="right">
-        <q-btn flat type="submit" :dense="denseButton" color="amber" icon="offline_pin" :label="$t('global.update')"
-          :loading="loading" @click.prevent="onSubmit">
+        <q-btn flat type="submit" :dense="denseButton" color="amber" icon="offline_pin"
+          :label="$t('global.update')" :loading="loading" @click.prevent="onSubmit">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle" :label="$t('global.add')" :loading="loading"
-          @click.prevent="onSubmit()">
+        <q-btn flat type="submit" color="blue" icon="check_circle"
+          :label="$t('global.add')" :loading="loading" @click.prevent="onSubmit()">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
-      <q-tabs v-model="tabs" narrow-indicator :dense="denseForm" class="text-deep-purple" align="justify">
+      <q-tabs v-model="tabs" narrow-indicator :dense="denseForm" class="text-deep-purple"
+        align="justify">
         <q-tab name="main" :label="$t('tabs.main')" />
         <q-tab name="attributes" :label="$t('global.attributes')" />
       </q-tabs>
@@ -33,7 +34,8 @@
         <q-tab-panel name="main">
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              Dependent: <q-badge color="blue">{{dependent?dependent.label:'Root'}}</q-badge>
+              Dependent: <q-badge color="blue">{{dependent?dependent.label:'Root'}}
+              </q-badge>
             </div>
             <q-space />
             <div class="col-12 col-md-6">
@@ -42,29 +44,31 @@
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.path" :dense="denseInput" v-lowercase label="Path"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+              <q-input v-model.trim="form.path" :dense="denseInput" v-lowercase
+                label="Path" :rules="[v=>v&&v.length>0||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
               <q-input v-model.trim="form.name" :dense="denseInput" label="Name"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" :prefix="!item&&dependent?`${dependent.name}-`:''" />
+                :rules="[v=>v&&v.length>0||$t('error.required')]"
+                :prefix="!item&&dependent?`${dependent.name}-`:''" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.component" :dense="denseInput" v-lowercase label="Component"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+              <q-input v-model.trim="form.component" :dense="denseInput" v-lowercase
+                label="Component" :rules="[v=>v&&v.length>0||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              <q-input v-model.trim="form.redirect" :dense="denseInput" label="Redirect" />
+              <q-input v-model.trim="form.redirect" :dense="denseInput"
+                label="Redirect" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.label" :dense="denseInput" v-lowercase label="Label"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+              <q-input v-model.trim="form.label" :dense="denseInput" v-lowercase
+                label="Label" :rules="[v=>v&&v.length>0||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
@@ -76,15 +80,18 @@
           </div>
           <div class="row q-gutter-xs">
             <div class="col-8 col-md-3">
-              <q-input v-model="form.orders" type="number" :dense="denseInput" :label="$t('global.order')"
+              <q-input v-model="form.orders" type="number" :dense="denseInput"
+                :label="$t('global.order')"
                 :rules="[v=>v!==null&&v!==''||$t('error.required')]" class="col-md-4" />
             </div>
             <q-space />
             <div class="col-5 col-md-3 self-center">
-              <q-toggle v-model="form.hidden" :dense="denseInput" :true-value="true" label="Hidden" />
+              <q-toggle v-model="form.hidden" :dense="denseInput" :true-value="true"
+                label="Hidden" />
             </div>
             <div class="col-5 col-md-3 self-center">
-              <q-toggle v-model="form.flag" :dense="denseInput" :true-value="1" label="Flag" />
+              <q-toggle v-model="form.flag" :dense="denseInput" :true-value="1"
+                label="Flag" />
             </div>
           </div>
         </q-tab-panel>
@@ -106,30 +113,36 @@
                   <q-item-section>{{e}}</q-item-section>
                 </q-item>
               </q-list> -->
-              <auto-complete :value.sync="attr.key" :items.sync="meta.keys" :label="$t('global.key')"
-                :no-data="$t('table.no_data')" @input="onFilterMetaKey" />
+              <auto-complete :value.sync="attr.key" :items.sync="meta.keys"
+                :label="$t('global.key')" :no-data="$t('table.no_data')"
+                @input="onFilterMetaKey" />
             </div>
             <q-space />
             <div class="col-6 col-md-5">
               <!-- <q-input v-model.trim="attr.value" :dense="denseInput" label="Value" /> -->
-              <auto-complete :value.sync="attr.value" :items.sync="meta.values" :label="$t('global.value')"
-                :no-data="$t('table.no_data')" @input="onFilterMetaValue" />
+              <auto-complete :value.sync="attr.value" :items.sync="meta.values"
+                :label="$t('global.value')" :no-data="$t('table.no_data')"
+                @input="onFilterMetaValue" />
             </div>
             <q-space />
             <div>
-              <q-btn flat round color="blue" icon="add" size="sm" @click.prevent="onAddMeta" />
+              <q-btn flat round color="blue" icon="add" size="sm"
+                @click.prevent="onAddMeta" />
             </div>
           </div>
           <br />
-          <q-list v-if="form.meta&&form.meta.length>0" dense bordered separator padding class="rounded-borders">
+          <q-list v-if="form.meta&&form.meta.length>0" dense bordered separator padding
+            class="rounded-borders">
             <q-item v-for="(e,i) in form.meta" :key="i">
               <q-item-section>{{e.key}}</q-item-section>
               <q-item-section>{{e.value}}</q-item-section>
               <q-item-section side>
-                <q-btn flat round color="light-green" icon="edit" size="sm" @click.prevent="onEditMeta(e)" />
+                <q-btn flat round color="light-green" icon="edit" size="sm"
+                  @click.prevent="onEditMeta(e)" />
               </q-item-section>
               <q-item-section side>
-                <q-btn flat round color="red" icon="cancel" size="sm" @click.prevent="onRemoveMeta(e.key)" />
+                <q-btn flat round color="red" icon="cancel" size="sm"
+                  @click.prevent="onRemoveMeta(e.key)" />
               </q-item-section>
             </q-item>
           </q-list>

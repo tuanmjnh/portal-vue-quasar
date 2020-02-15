@@ -83,18 +83,19 @@ export default {
     onGetDonvi(params) {
       apiDonvi.select(params).then(x => {
         this.donvi = x.map(x => ({ label: x.ten_dv, value: x.donvi_id }))
+        if (this.donvi.length) {
+          this.formDonvi = this.donvi[0]
+          this.onGetUsers()
+        }
       })
     },
     onGetUsers() {
-      // this.form.user = null
-      console.log(this.formUser)
-      const params = {
-        donvi_id: this.formDonvi.value
-      }
-      api.find(params).then(x => {
+      api.find({ donvi_id: this.formDonvi.value }).then(x => {
         this.users = x.map(x => ({ label: x.ten_nd, value: x.ma_nd }))
-        this.formUser = this.users[0]
-        this.ma_nd = this.formUser.value
+        if (this.users.length) {
+          this.formUser = this.users[0]
+          this.ma_nd = this.formUser.value
+        }
       })
     },
     onGetMaND() {
@@ -106,10 +107,7 @@ export default {
         if (valid) {
           api.getPasword({ ma_nd: this.ma_nd }).then((x) => {
             if (x) {
-              // this.$nextTick(() => {
               this.password = x.matkhau
-              // })
-              console.log(this.password)
             }
           }).finally(() => {
             this.loadingAdd = false

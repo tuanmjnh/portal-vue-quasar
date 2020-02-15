@@ -21,6 +21,16 @@ export async function getMeta(params) {
   })
 }
 
+export async function getKey(params) {
+  return new Promise((resolve, reject) => {
+    return http.API_MAIN.get(`${collection}/get-key`, { params }).then((x) => {
+      resolve(x)
+    }).catch((e) => {
+      reject(e)
+    })
+  })
+}
+
 export async function insert(params) {
   return new Promise((resolve, reject) => {
     http.API_MAIN.post(collection, params).then((x) => {

@@ -4,7 +4,8 @@ export default {
   language: state => state.app.language,
   languages: state => state.app.languages,
   size: state => state.app.size,
-  sizes: state => state.app.sizes
+  sizes: state => state.app.sizes,
+  dense: state => state.app.dense
   // device: state => state.app.device,
   // useLogs: state => state.app.useLogs,
   // visitedViews: state => state.tagsView.visitedViews,

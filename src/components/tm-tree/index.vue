@@ -3,28 +3,30 @@
     <draggable v-if="draggable" :list="nodes" @change="onDragChanged"
       :group="{ name: 'people' }" tag="div" class="tm-nodes">
       <tm-tree-node v-for="(node, index) in nodes" :key="index" :node="node"
-        :node-key="nodeKey" :node-label="nodeLabel" :selected.sync="selected"
-        :ticked.sync="ticked" :expanded.sync="expanded" :expanded-all="expandedAll"
-        :expanded-express="expandedExpress" :add-button="addButtonChild"
-        :add-express="addExpress" :parent="null" :draggable="draggable" :filter="filter"
-        :filter-method="filterMethod" @on-tick="onTick" @make-folder="onMakeFolder"
-        @add-node="onAddChildNode" @click-node="onClickNode" @on-expand="onExpand"
-        @on-drag-changed="onDragChanged">
-        <template v-slot:content-after="prop">
+        :node-key="nodeKey" :node-label="nodeLabel" :icon-html="iconHtml"
+        :selected.sync="selected" :ticked.sync="ticked" :expanded.sync="expanded"
+        :expanded-all="expandedAll" :expanded-express="expandedExpress"
+        :add-button="addButtonChild" :add-express="addExpress" :parent="null"
+        :draggable="draggable" :filter="filter" :filter-method="filterMethod"
+        @on-tick="onTick" @make-folder="onMakeFolder" @add-node="onAddChildNode"
+        @click-node="onClickNode" @on-expand="onExpand" @on-drag-changed="onDragChanged"
+        :slot-content-after="slotContentAfter">
+        <template v-if="slotContentAfter" v-slot:content-after="prop">
           <slot name="content-after" :node="prop.node"></slot>
         </template>
       </tm-tree-node>
     </draggable>
     <div v-else class="tm-nodes">
       <tm-tree-node v-for="(node, index) in nodes" :key="index" :node="node"
-        :node-key="nodeKey" :node-label="nodeLabel" :selected.sync="selected"
-        :ticked.sync="ticked" :expanded.sync="expanded" :expanded-all="expandedAll"
-        :expanded-express="expandedExpress" :add-button="addButtonChild"
-        :add-express="addExpress" :parent="null" :filter="filter"
-        :filter-method="filterMethod" @on-tick="onTick" @make-folder="onMakeFolder"
-        @add-node="onAddChildNode" @click-node="onClickNode" @on-expand="onExpand"
-        @on-drag-changed="onDragChanged">
-        <template v-slot:content-after="prop">
+        :node-key="nodeKey" :node-label="nodeLabel" :icon-html="iconHtml"
+        :selected.sync="selected" :ticked.sync="ticked" :expanded.sync="expanded"
+        :expanded-all="expandedAll" :expanded-express="expandedExpress"
+        :add-button="addButtonChild" :add-express="addExpress" :parent="null"
+        :filter="filter" :filter-method="filterMethod" @on-tick="onTick"
+        @make-folder="onMakeFolder" @add-node="onAddChildNode" @click-node="onClickNode"
+        @on-expand="onExpand" @on-drag-changed="onDragChanged"
+        :slot-content-after="slotContentAfter">
+        <template v-if="slotContentAfter" v-slot:content-after="prop">
           <slot name="content-after" :node="prop.node"></slot>
         </template>
       </tm-tree-node>
@@ -45,7 +47,8 @@ export default {
     nodes: { type: Array, default: () => [] },
     nodeKey: { type: String, default: 'id' },
     nodeLabel: { type: String, default: 'label' },
-    selected: { type: String, default: undefined },
+    iconHtml: { type: Boolean, default: false },
+    selected: { default: undefined },
     ticked: { type: Array, default: () => undefined },
     tickStrategy: { type: String, default: undefined },
     expanded: { type: Array, default: () => [] },
@@ -92,7 +95,7 @@ export default {
   },
   computed: {
     slotContentAfter() {
-      return this.$slots['content-after'] || false
+      return !!this.$scopedSlots['content-after']
     }
   },
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <q-card style="width:700px;max-width:80vw">
     <q-toolbar>
-      <q-avatar icon="open_in_new" />
+      <q-avatar :icon="$route.meta.icon" />
       <q-toolbar-title>
         {{this.item?$t('global.update'):$t('global.add')}}
         <span class="text-weight-bold">{{$t('roles.title')}}</span>
@@ -11,6 +11,7 @@
         <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.cancel')}}</q-tooltip>
       </q-btn>
     </q-toolbar>
+    <q-separator />
     <q-form ref="form">
       <q-card-actions v-if="item" align="right">
         <q-btn flat type="submit" :dense="denseButton" color="amber" icon="offline_pin"
@@ -64,8 +65,8 @@
             <q-space />
             <div class="col self-center">
               Mầu quyền:
-              <q-badge :style="{backgroundColor:color.backgroundColor,color:color.color}"
-                @click="dialog_color_pick=true">{{form.name}}</q-badge>
+              <q-badge :style="color" @click="dialog_color_pick=true">{{form.name}}
+              </q-badge>
             </div>
           </div>
           <q-input v-model.trim="form.desc" autogrow :dense="denseInput"
@@ -73,8 +74,7 @@
         </q-tab-panel>
         <q-tab-panel name="routes">
           <tm-tree :nodes="routes" node-key="name" :no-nodes-label="$t('table.no_data')"
-            :selected.sync="selected" :ticked="ticked" expandedAll
-            tick-strategy="leaf-child">
+            :selected.sync="selected" :ticked="ticked" expandedAll tick-strategy="normal">
           </tm-tree>
           <!-- <q-tree ref="routes" class="col-12 col-sm-6" :nodes="routes" :dense="denseInput"
             node-key="name" node-label="title" :ticked.sync="ticked"
@@ -180,6 +180,7 @@ export default {
         this.reset()
         if (this.item) {
           this.form = { ...this.item }
+          this.color = JSON.parse(this.form.color)
           api.getRoleRoute({ role_id: this.item.id }).then((x) => {
             this.form.routes = x
           }).finally(() => {
@@ -204,7 +205,7 @@ export default {
           if (this.item) {
             this.loading_add = true
             api.update(this.form).then((x) => {
-              if (x.ok) {
+              if (x) {
                 const index = this.items.indexOf(this.item)
                 if (index > -1) this.items.splice(index, 1, this.form)
               }

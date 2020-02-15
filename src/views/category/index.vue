@@ -1,19 +1,24 @@
 <template>
   <div>
     <div class="col-12 row">
-      <div class="col-xs-12 col-sm-auto q-table__title text-h6">{{$t(`category.title_${$route.meta.type}`)}}</div>
+      <div class="col-xs-12 col-sm-auto q-table__title text-h6">
+        {{$t(`category.title`)}}</div>
     </div>
     <div class="col-12 row">
-      <div class="col">
-        <q-btn v-if="isRoutes.add" flat round dense icon="add" color="blue" @click="onAdd()">
-          <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.add')}}</q-tooltip>
-        </q-btn>
+      <div class="col-xs-12 col-sm-5 col-md-4">
+        <q-select v-model="pagination.key" :options="keys"
+          :dense="$store.state.app.dense.input"
+          :options-dense="$store.state.app.dense.input" :label="$t('global.types')"
+          @input="onSelect({pagination:pagination})" />
       </div>
-      <div class="col-xs-5 col-sm-5 col-md-4">
-        <q-input v-model="pagination.filter" :dense="denseInput" debounce="500" :placeholder="$t('global.search')">
+      <q-space />
+      <div class="col-xs-12 col-sm-5 col-md-4">
+        <q-input v-model="pagination.filter" :dense="$store.state.app.dense.input"
+          debounce="500" :placeholder="$t('global.search')">
           <template v-slot:append>
             <q-icon v-if="pagination.filter===''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="pagination.filter=''" />
+            <q-icon v-else name="clear" class="cursor-pointer"
+              @click="pagination.filter=''" />
           </template>
         </q-input>
       </div>
@@ -43,26 +48,36 @@
       </template>
     </q-tree>
     <q-separator></q-separator> -->
-    <tm-tree :nodes="items" node-key="_id" label="label" :no-nodes-label="$t('table.no_data')" :selected.sync="selected"
-      :ticked.sync="ticked" :expanded.sync="expanded" tick-strategy="leaf-child" :draggable="true"
-      :filter-method="onFilter" :filter="pagination.filter" @on-drag-changed="onTreeDragChanged">
+    <div class="row">
+      <q-btn v-if="isRoutes.add" flat round dense icon="add" color="blue"
+        @click="onAdd()">
+        <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.add')}}</q-tooltip>
+      </q-btn>
+    </div>
+    <tm-tree :nodes="items" node-key="id" label="label" icon-html
+      :no-nodes-label="$t('table.no_data')" :selected.sync="selected"
+      :ticked.sync="ticked" :expanded.sync="expanded" tick-strategy="leaf-child"
+      :draggable="true" :filter-method="onFilter" :filter="pagination.filter"
+      @on-drag-changed="onTreeDragChanged">
       <template v-slot:content-after="prop">
-        <div class="row items-center" @mouseover="tooltipAction=prop.node._id" @mouseleave="tooltipAction=''">
-          <q-icon :name="prop.node.icon" color="blue-grey" size="20px" class="q-mr-sm" />
+        <div class="row items-center" @mouseover="tooltipAction=prop.node.id"
+          @mouseleave="tooltipAction=''">
+          <!-- <q-icon :name="prop.node.icon" color="blue-grey" size="20px" class="q-mr-sm" /> -->
+          <div v-html="prop.node.icon" />
           <div :class="['node-label q-pr-md',prop.node.flag===1?'':'text-blue-grey-4']"
             :style="{color:prop.node.color?prop.node.color:'#009688'}">
             {{ prop.node.label }}
           </div>
-          <template v-if="prop.node._id===tooltipAction">
-            <q-icon v-if="isRoutes.add" name="add" color="blue" size="16px" class="q-pl-xs q-pr-xs"
-              @click="onAdd(prop.node)" />
-            <q-icon v-if="isRoutes.edit" name="edit" color="light-green" size="16px" class="q-pl-xs q-pr-xs"
-              @click="onUpdate(prop.node)" />
+          <template v-if="prop.node.id===tooltipAction">
+            <q-icon v-if="isRoutes.add" name="add" color="blue" size="16px"
+              class="q-pl-xs q-pr-xs" @click="onAdd(prop.node)" />
+            <q-icon v-if="isRoutes.edit" name="edit" color="light-green" size="16px"
+              class="q-pl-xs q-pr-xs" @click="onUpdate(prop.node)" />
             <template v-if="isRoutes.trash">
-              <q-icon v-if="prop.node.flag===1" name="clear" color="negative" size="16px" class="q-pl-xs q-pr-xs"
-                @click="onTrash(prop.node)" />
-              <q-icon v-else name="restore" color="amber" size="16px" class="q-pl-xs q-pr-xs"
-                @click="onTrash(prop.node)" />
+              <q-icon v-if="prop.node.flag===1" name="clear" color="negative" size="16px"
+                class="q-pl-xs q-pr-xs" @click="onTrash(prop.node)" />
+              <q-icon v-else name="restore" color="amber" size="16px"
+                class="q-pl-xs q-pr-xs" @click="onTrash(prop.node)" />
             </template>
           </template>
         </div>
@@ -73,8 +88,8 @@
     <div class="row">expanded: {{expanded}}</div> -->
     <!-- Add dialog -->
     <q-dialog v-model="dialogAdd" persistent>
-      <template-add :dialog.sync="dialogAdd" :item.sync="item" :items.sync="items" :dependent="dependent"
-        :positions="positions" :expanded="expanded" />
+      <template-add :dialog.sync="dialogAdd" :item.sync="item" :items.sync="items"
+        :dependent="dependent" :expanded="expanded" :keys="keys" />
     </q-dialog>
   </div>
 </template>
@@ -98,29 +113,28 @@ export default {
       selected: '',
       ticked: [],
       expanded: [],
-      positions: [],
+      keys: [],
       filter: '',
       tooltipAction: '',
       pagination: {
+        key: '',
         filter: '',
         sortBy: 'orders',
         descending: false,
-        page: 1,
-        rowsPerPage: 10,
-        rowsNumber: 1,
-        flag: 1,
-        type: this.$route.meta.type
+        flag: 1
       },
       isRoutes: {
-        add: this.$router.has(`category-${this.$route.meta.type}-add`),
-        edit: this.$router.has(`category-${this.$route.meta.type}-edit`),
-        trash: this.$router.has(`category-${this.$route.meta.type}-trash`)
+        add: this.$router.has(`data-category-add`),
+        edit: this.$router.has(`data-category-edit`),
+        trash: this.$router.has(`data-category-trash`)
       }
     }
   },
-  mounted() {
+  created() {
     this.onSelect({ pagination: this.pagination })
-    this.onGetPosition({ key: 'position' })
+    this.onGetKey()
+    console.log(this.isRoutes)
+    // this.onGetPosition({ key: 'position' })
   },
   computed: {
     denseInput() {
@@ -148,11 +162,18 @@ export default {
         if (x && x.data && x.data.length > 0) this.positions = x.data.map(x => ({ label: this.$t(`position.${x.code}`), value: x.code }))
       })
     },
+    onGetKey(props) {
+      apiTypes.select(props).then((x) => {
+        if (x && x.length > 0) {
+          this.keys = x.map(x => ({ label: x.title, value: x.code }))
+          this.pagination.key = this.keys[0]
+        }
+      })
+    },
     onSelect(props) {
       api.select(props.pagination).then((x) => {
-        this.rootItems = x.data
-        this.items = treeRouters.generateCategory(x.data)
-        // console.log(this.items)
+        this.rootItems = x
+        this.items = treeRouters.generateCategory(x)
       })
     },
     onFilter(node, filter) {
@@ -234,6 +255,11 @@ export default {
 </script>
 
 <style lang="scss" scope>
+.node-item .material-icons {
+  color: #607d8b;
+  font-size: 20px;
+  padding-right: 3px;
+}
 .selected .node-label {
   color: #2196f3 !important;
 }

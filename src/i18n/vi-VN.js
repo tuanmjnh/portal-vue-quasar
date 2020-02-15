@@ -22,7 +22,12 @@ export default {
     contact: 'Hợp đồng',
     business: 'Doanh nghiệp',
     personal: 'Cá nhân',
-    get_password: 'Lấy mật khẩu'
+    get_password: 'Lấy mật khẩu',
+    diaban: 'Địa bàn',
+    diaban_manager: 'Quản lý địa bàn',
+    update_nv: 'Cập nhật nhân viên',
+    data: 'Dữ liệu chung',
+    guide: 'Tài liệu - Hướng dẫn'
   },
   global: {
     list: 'Danh sách dữ liệu',
@@ -84,7 +89,8 @@ export default {
     price_sale: 'Giá giảm',
     price_unit: 'Đơn vị giá',
     pin: 'Ghim',
-    tags: 'Nhãn'
+    tags: 'Nhãn',
+    upload: 'Tải dữ liệu'
   },
   success: {
     insert: 'Thêm mới thành công',
@@ -125,8 +131,8 @@ export default {
     log_out: 'Đăng xuất',
     profile: 'Hồ sơ',
     theme: 'Chủ đề',
-    full_screen: 'Full screen',
-    normal_screen: 'Normal screen',
+    full_screen: 'Toàn màn hình',
+    normal_screen: 'Thu nhỏ',
     size: 'Kích thước chữ',
     switch_language: 'Thay đổi ngôn ngữ'
   },
@@ -187,6 +193,7 @@ export default {
     bot: 'Dưới'
   },
   category: {
+    title: 'Danh mục dữ liệu',
     title_product: 'Danh mục sản phẩm',
     title_news: 'Danh mục tin tức',
     noithatvanphong: 'Nội thất văn phòng',

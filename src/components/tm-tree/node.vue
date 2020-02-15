@@ -14,8 +14,10 @@
           @input="$emit('on-tick',node)" dense class="node-checkbox" />
         <div class="node-item" @click="onClickNode" @dblclick="onMakeFolder">
           <slot v-if="slotContentAfter" name="content-after" :node="node"></slot>
-          <div v-if="!slotContentAfter" class="node-icon material-icons">{{node.icon}}
-          </div>
+          <template v-if="!slotContentAfter">
+            <div v-if="iconHtml" class="node-icon" v-html="node.icon"></div>
+            <div v-else class="node-icon material-icons">{{node.icon}}</div>
+          </template>
           <div v-if="!slotContentAfter" class="node-label">{{ node[nodeLabel] }}</div>
         </div>
       </div>
@@ -27,15 +29,16 @@
       <!-- <div class="tm-node-child" v-show="node.expanded" v-if="isFolder"> -->
       <tm-tree-node v-show="node.expanded" v-for="(child, index) in node.children"
         :key="index" :node="child" :node-key="nodeKey" :node-label="nodeLabel"
-        :is-children="true" :selected.sync="selected" :ticked.sync="ticked"
-        :expanded.sync="expanded" :expanded-all="expandedAll"
+        :icon-html="iconHtml" :is-children="true" :selected.sync="selected"
+        :ticked.sync="ticked" :expanded.sync="expanded" :expanded-all="expandedAll"
         :expanded-express="expandedExpress" :parent.sync="node" :draggable="draggable"
         :filter="filter" :filter-method="filterMethod"
         @make-folder="$emit('make-folder', $event)" @add-node="$emit('add-node', $event)"
         @click-node="$emit('click-node', $event)" @on-tick="$emit('on-tick', $event)"
         @on-expand="$emit('on-expand', $event)"
-        @on-drag-changed="$emit('on-drag-changed', $event)">
-        <template v-slot:content-after="prop">
+        @on-drag-changed="$emit('on-drag-changed', $event)"
+        :slot-content-after="slotContentAfter">
+        <template v-if="slotContentAfter" v-slot:content-after="prop">
           <slot name="content-after" :node="prop.node"></slot>
         </template>
       </tm-tree-node>
@@ -46,14 +49,15 @@
     <div v-else class="tm-nodes tm-node-child">
       <tm-tree-node v-show="node.expanded" v-for="(child, index) in node.children"
         :key="index" :node="child" :node-key="nodeKey" :node-label="nodeLabel"
-        :is-children="true" :selected.sync="selected" :ticked.sync="ticked"
-        :expanded.sync="expanded" :expanded-all="expandedAll"
+        :icon-html="iconHtml" :is-children="true" :selected.sync="selected"
+        :ticked.sync="ticked" :expanded.sync="expanded" :expanded-all="expandedAll"
         :expanded-express="expandedExpress" :parent.sync="node" :filter="filter"
         :filter-method="filterMethod" @make-folder="$emit('make-folder', $event)"
         @add-node="$emit('add-node', $event)" @click-node="$emit('click-node', $event)"
         @on-tick="$emit('on-tick', $event)" @on-expand="$emit('on-expand', $event)"
-        @on-drag-changed="$emit('on-drag-changed', $event)">
-        <template v-slot:content-after="prop">
+        @on-drag-changed="$emit('on-drag-changed', $event)"
+        :slot-content-after="slotContentAfter">
+        <template v-if="slotContentAfter" v-slot:content-after="prop">
           <slot name="content-after" :node="prop.node"></slot>
         </template>
       </tm-tree-node>
@@ -72,8 +76,9 @@ export default {
     // nodes: { type: Array, default: () => [] },
     node: { type: Object, default: () => { } },
     nodeKey: { type: String, default: 'label' },
+    iconHtml: { type: Boolean, default: false },
     nodeLabel: { type: String, default: 'label' },
-    selected: { type: String, default: undefined },
+    selected: { default: undefined },
     ticked: { type: Array, default: () => undefined },
     expanded: { type: Array, default: () => [] },
     expandedExpress: { type: Boolean, default: false },
@@ -83,7 +88,8 @@ export default {
     addButton: { type: Boolean, default: false },
     draggable: { type: Boolean, default: false },
     filter: { type: String, default: '' },
-    filterMethod: { type: Function }
+    filterMethod: { type: Function },
+    slotContentAfter: { type: Boolean, default: false }
   },
   data() {
     return {
@@ -95,10 +101,10 @@ export default {
     // isFolder: function() {
     //   return this.node.children && this.node.children.length
     // },
-    slotContentAfter() {
-      // console.log(this.$slots['content-after'])
-      return this.$slots['content-after'] || false
-    },
+    // slotContentAfter() {
+    //   // console.log(this.$slots['content-after'])
+    //   return this.$slots['content-after'] || false
+    // },
     // isShow() {
     //   return this.node.show
     // },

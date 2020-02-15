@@ -12,7 +12,8 @@ module.exports = function(ctx) {
       'middleware',
       // 'axios',
       'moment',
-      'directive'
+      'directive',
+      'filter'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -109,15 +110,17 @@ module.exports = function(ctx) {
       env: ctx.dev
         ? { // so on dev we'll have
           APP_TITLE: JSON.stringify('Portal'),
+          HOST: JSON.stringify('http://localhost:8001'),
           API: JSON.stringify('http://localhost:8001/api'),
           API_UPLOAD: JSON.stringify('http://localhost:8001/uploads'),
-          API_FILE_UPLOAD: JSON.stringify('http://localhost:8001/api/filemanager')
+          API_FILE_UPLOAD: JSON.stringify('http://localhost:8001/api/file-manager')
         }
         : { // and on build (production):
           APP_TITLE: JSON.stringify('Portal'),
+          HOST: JSON.stringify('http://localhost:8001'),
           API: JSON.stringify('http://localhost:8001/api'),
           API_UPLOAD: JSON.stringify('http://localhost:8001/uploads'),
-          API_FILE_UPLOAD: JSON.stringify('http://localhost:8001/api/filemanager')
+          API_FILE_UPLOAD: JSON.stringify('http://localhost:8001/api/file-manager')
         }
     },
 

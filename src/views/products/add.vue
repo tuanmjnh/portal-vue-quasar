@@ -1,34 +1,38 @@
 <template>
   <q-card style="width:700px;max-width:80vw">
     <q-toolbar>
-      <q-avatar icon="open_in_new" />
+      <q-avatar :icon="$route.meta.icon" />
       <q-toolbar-title>
         {{this.item?$t('global.update'):$t('global.add')}}
         <span class="text-weight-bold">{{$t('route.product')}}</span>
       </q-toolbar-title>
-      <q-btn flat round dense icon="close" v-close-popup :disable="loading_add||loading_drafts?true:false">
+      <q-btn flat round dense icon="close" v-close-popup
+        :disable="loading_add||loading_drafts?true:false">
         <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.cancel')}}</q-tooltip>
       </q-btn>
     </q-toolbar>
     <q-separator />
     <q-form ref="form">
       <q-card-actions v-if="item" align="right">
-        <q-btn flat type="submit" :dense="denseButton" color="amber" icon="offline_pin" :label="$t('global.update')"
-          :loading="loading_add" @click.prevent="onSubmit">
+        <q-btn flat type="submit" :dense="denseButton" color="amber" icon="offline_pin"
+          :label="$t('global.update')" :loading="loading_add" @click.prevent="onSubmit">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle" :label="$t('global.add')" :loading="loading_add"
-          :disable="loading_drafts" @click.prevent="onSubmit(1)">
+        <q-btn flat type="submit" color="blue" icon="check_circle"
+          :label="$t('global.add')" :loading="loading_add" :disable="loading_drafts"
+          @click.prevent="onSubmit(1)">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
-        <q-btn flat type="submit" color="amber" icon="receipt" :label="$t('global.drafts')" :loading="loading_drafts"
-          :disable="loading_add" @click.prevent="onSubmit(0)">
+        <q-btn flat type="submit" color="amber" icon="receipt"
+          :label="$t('global.drafts')" :loading="loading_drafts" :disable="loading_add"
+          @click.prevent="onSubmit(0)">
           <!-- <q-tooltip>{{$t('global.drafts')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
-      <q-tabs v-model="tabs" narrow-indicator :dense="denseForm" class="text-deep-purple" align="justify">
+      <q-tabs v-model="tabs" narrow-indicator :dense="denseForm" class="text-deep-purple"
+        align="justify">
         <q-tab name="main" :label="$t('tabs.main')" />
         <q-tab name="sub" :label="$t('tabs.sub')" />
         <q-tab name="images" :label="$t('global.images')" />
@@ -48,10 +52,12 @@
                   </div>
                 </div>
               </q-badge> -->
-              <q-input v-model.trim="categoriesSelected" v-uppercaseFirst :dense="denseInput" :readonly="true"
-                :label="$t('category.title_product')" :rules="[v=>v&&v.length>0||$t('error.required')]">
+              <q-input v-model.trim="categoriesSelected" v-uppercaseFirst
+                :dense="denseInput" :readonly="true" :label="$t('category.title_product')"
+                :rules="[v=>v&&v.length>0||$t('error.required')]">
                 <template v-slot:after>
-                  <q-btn round dense flat icon="pageview" @click="dialog_categories=!dialog_categories">
+                  <q-btn round dense flat icon="pageview"
+                    @click="dialog_categories=!dialog_categories">
                     <q-tooltip>{{$t('category.select')}}</q-tooltip>
                   </q-btn>
                 </template>
@@ -60,41 +66,48 @@
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.title" v-uppercaseFirst :dense="denseInput" :label="$t('product.name')"
+              <q-input v-model.trim="form.title" v-uppercaseFirst :dense="denseInput"
+                :label="$t('product.name')"
                 :rules="[v=>v&&v.length>0||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              <q-input v-model.trim="form.code" v-uppercase debounce="500" :dense="denseInput"
-                :label="$t('product.code')"
+              <q-input v-model.trim="form.code" v-uppercase debounce="500"
+                :dense="denseInput" :label="$t('product.code')"
                 :rules="[v=>v&&v.length>0||$t('error.required'),v=>!existCode||$t('error.exist')]"
                 :hint="$t('category.hit_code')" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-4">
-              <q-input v-model.trim="form.price" type="number" :dense="denseInput" :label="$t('global.price')" />
+              <q-input v-model.trim="form.price" type="number" :dense="denseInput"
+                :label="$t('global.price')" />
             </div>
             <q-space />
             <div class="col-4">
-              <q-input v-model="form.price_sale" type="number" :dense="denseInput" :label="$t('global.price_sale')" />
+              <q-input v-model="form.price_sale" type="number" :dense="denseInput"
+                :label="$t('global.price_sale')" />
             </div>
             <q-space />
             <div class="col-2">
-              <q-select v-model="price_unit" :dense="denseInput" :options="unitsPriceLocal" use-input hide-selected
-                fill-input input-debounce="200" @filter="onFilterUnitPrice" option-value="_id" option-label="name"
-                :hint="$t('global.price_unit')" :rules="[v=>v||$t('error.required')]">
+              <q-select v-model="price_unit" :dense="denseInput"
+                :options="unitsPriceLocal" use-input hide-selected fill-input
+                input-debounce="200" @filter="onFilterUnitPrice" option-value="_id"
+                option-label="name" :hint="$t('global.price_unit')"
+                :rules="[v=>v||$t('error.required')]">
                 <template v-slot:option="scope">
                   <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
                     <q-item-section>
                       <q-item-label v-html="scope.opt.name" />
-                      <q-item-label v-if="scope.opt.desc" caption>{{`${scope.opt.desc}`}}</q-item-label>
+                      <q-item-label v-if="scope.opt.desc" caption>{{`${scope.opt.desc}`}}
+                      </q-item-label>
                     </q-item-section>
                   </q-item>
                 </template>
                 <template v-slot:no-option>
                   <q-item>
-                    <q-item-section class="text-grey">{{$t('table.no_data')}}</q-item-section>
+                    <q-item-section class="text-grey">{{$t('table.no_data')}}
+                    </q-item-section>
                   </q-item>
                 </template>
               </q-select>
@@ -103,30 +116,35 @@
           </div>
           <div class="row q-gutter-xs">
             <div class="col-3">
-              <q-input v-model="form.quantity" type="number" :dense="denseInput" :label="$t('global.quantity')" />
+              <q-input v-model="form.quantity" type="number" :dense="denseInput"
+                :label="$t('global.quantity')" />
             </div>
             <div class="col-2">
-              <q-select v-model="unit" use-input hide-selected fill-input input-debounce="200" :dense="denseInput"
-                :options="unitsLocal" :hint="$t('global.unit')" @filter="onFilterUnit" option-value="_id"
+              <q-select v-model="unit" use-input hide-selected fill-input
+                input-debounce="200" :dense="denseInput" :options="unitsLocal"
+                :hint="$t('global.unit')" @filter="onFilterUnit" option-value="_id"
                 option-label="name" :rules="[v=>v||$t('error.required')]">
                 <template v-slot:option="scope">
                   <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
                     <q-item-section>
                       <q-item-label v-html="scope.opt.name" />
-                      <q-item-label v-if="scope.opt.desc" caption>{{`${scope.opt.desc}`}}</q-item-label>
+                      <q-item-label v-if="scope.opt.desc" caption>{{`${scope.opt.desc}`}}
+                      </q-item-label>
                     </q-item-section>
                   </q-item>
                 </template>
                 <template v-slot:no-option>
                   <q-item>
-                    <q-item-section class="text-grey">{{$t('table.no_data')}}</q-item-section>
+                    <q-item-section class="text-grey">{{$t('table.no_data')}}
+                    </q-item-section>
                   </q-item>
                 </template>
               </q-select>
             </div>
             <q-space />
             <div class="col-6">
-              <q-input v-model="form.orders" type="number" :dense="denseInput" :label="$t('global.order')"
+              <q-input v-model="form.orders" type="number" :dense="denseInput"
+                :label="$t('global.order')"
                 :rules="[v=>v!==null&&v!==''||$t('error.required')]" class="col-md-4" />
             </div>
           </div>
@@ -134,20 +152,25 @@
         <q-tab-panel name="sub">
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.author" :dense="denseInput" :label="$t('product.origin')" />
+              <q-input v-model.trim="form.author" :dense="denseInput"
+                :label="$t('product.origin')" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              <q-input v-model.trim="form.date" :dense="denseInput" :label="$t('product.date')" />
+              <q-input v-model.trim="form.date" :dense="denseInput"
+                :label="$t('product.date')" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.start_at" :dense="denseInput" readonly :label="$t('global.start_date')">
+              <q-input v-model.trim="form.start_at" :dense="denseInput" readonly
+                :label="$t('global.start_date')">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="startAt" transition-show="scale" transition-hide="scale">
-                      <q-date v-model="form.start_at" today-btn @input="()=>$refs.startAt.hide()" />
+                    <q-popup-proxy ref="startAt" transition-show="scale"
+                      transition-hide="scale">
+                      <q-date v-model="form.start_at" today-btn
+                        @input="()=>$refs.startAt.hide()" />
                     </q-popup-proxy>
                   </q-icon>
                 </template>
@@ -155,11 +178,14 @@
             </div>
             <q-space />
             <div class="col col-md-6">
-              <q-input v-model.trim="form.end_at" :dense="denseInput" readonly :label="$t('global.end_date')">
+              <q-input v-model.trim="form.end_at" :dense="denseInput" readonly
+                :label="$t('global.end_date')">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="endAt" transition-show="scale" transition-hide="scale">
-                      <q-date v-model="form.end_at" today-btn @input="()=>$refs.endAt.hide()" />
+                    <q-popup-proxy ref="endAt" transition-show="scale"
+                      transition-hide="scale">
+                      <q-date v-model="form.end_at" today-btn
+                        @input="()=>$refs.endAt.hide()" />
                     </q-popup-proxy>
                   </q-icon>
                 </template>
@@ -168,7 +194,8 @@
           </div>
           <div class="row q-gutter-sm q-mb-lg">
             <div class="col-12">
-              <q-input v-model.trim="form.desc" autogrow :dense="denseInput" :label="$t('global.desc')" />
+              <q-input v-model.trim="form.desc" autogrow :dense="denseInput"
+                :label="$t('global.desc')" />
             </div>
           </div>
           <div class="row q-gutter-sm">
@@ -181,17 +208,22 @@
         <q-tab-panel name="images">
           <div class="row">
             <div class="col text-right">
-              <q-btn round dense flat icon="cloud_upload" color="primary" @click="dialog_upload=!dialog_upload">
-                <q-tooltip v-if="!$q.platform.is.mobile">{{$t('files.upload')}}</q-tooltip>
+              <q-btn round dense flat icon="cloud_upload" color="primary"
+                @click="dialog_upload=!dialog_upload">
+                <q-tooltip v-if="!$q.platform.is.mobile">{{$t('files.upload')}}
+                </q-tooltip>
               </q-btn>
-              <q-btn round dense flat icon="pageview" color="secondary" @click="dialog_files=!dialog_files">
-                <q-tooltip v-if="!$q.platform.is.mobile">{{$t('files.open_file')}}</q-tooltip>
+              <q-btn round dense flat icon="pageview" color="secondary"
+                @click="dialog_files=!dialog_files">
+                <q-tooltip v-if="!$q.platform.is.mobile">{{$t('files.open_file')}}
+                </q-tooltip>
               </q-btn>
             </div>
           </div>
           <div class="row">
             <div class="col-12 q-gutter-sm images">
-              <q-img v-for="(e,i) in form.images" :src="e" :key="i" spinner-color="primary">
+              <q-img v-for="(e,i) in form.images" :src="e" :key="i"
+                spinner-color="primary">
                 <!-- <div class="absolute-top text-subtitle1 text-center">
               Caption
             </div> -->
@@ -224,40 +256,48 @@
             </div>
             <q-space />
             <div class="col">
-              <q-btn flat round color="blue" icon="add" size="sm" @click.prevent="onAddTag" />
+              <q-btn flat round color="blue" icon="add" size="sm"
+                @click.prevent="onAddTag" />
             </div>
           </div>
           <div class="col-12">
-            <q-chip v-for="(e,i) in form.tags" :key="i" removable clickable @click="onEditTag(e)"
-              @remove="onRemoveTag(e)" color="primary" text-color="white">{{e}}</q-chip>
+            <q-chip v-for="(e,i) in form.tags" :key="i" removable clickable
+              @click="onEditTag(e)" @remove="onRemoveTag(e)" color="primary"
+              text-color="white">{{e}}</q-chip>
           </div>
           <q-separator class="q-mb-md q-mt-md" />
           <div class="row q-gutter-md">
             <div class="col-12">{{$t('global.attributes')}}:</div>
             <div class="col-6 col-md-5">
-              <auto-complete :value.sync="attr.key" :items.sync="meta.keys" :label="$t('global.key')"
-                :no-data="$t('table.no_data')" @input="onFilterMetaKey" />
+              <auto-complete :value.sync="attr.key" :items.sync="meta.keys"
+                :label="$t('global.key')" :no-data="$t('table.no_data')"
+                @input="onFilterMetaKey" />
             </div>
             <q-space />
             <div class="col-6 col-md-5">
-              <auto-complete :value.sync="attr.value" :items.sync="meta.values" :label="$t('global.value')"
-                :no-data="$t('table.no_data')" @input="onFilterMetaValue" />
+              <auto-complete :value.sync="attr.value" :items.sync="meta.values"
+                :label="$t('global.value')" :no-data="$t('table.no_data')"
+                @input="onFilterMetaValue" />
             </div>
             <q-space />
             <div class="col">
-              <q-btn flat round color="blue" icon="add" size="sm" @click.prevent="onAddMeta" />
+              <q-btn flat round color="blue" icon="add" size="sm"
+                @click.prevent="onAddMeta" />
             </div>
           </div>
           <br />
-          <q-list v-if="form.meta" dense bordered separator padding class="rounded-borders">
+          <q-list v-if="form.meta" dense bordered separator padding
+            class="rounded-borders">
             <q-item v-for="(v,k,i) in form.meta" :key="i">
               <q-item-section>{{k}}</q-item-section>
               <q-item-section>{{v}}</q-item-section>
               <q-item-section side>
-                <q-btn flat round color="light-green" icon="edit" size="sm" @click.prevent="onEditMeta(k,v)" />
+                <q-btn flat round color="light-green" icon="edit" size="sm"
+                  @click.prevent="onEditMeta(k,v)" />
               </q-item-section>
               <q-item-section side>
-                <q-btn flat round color="red" icon="cancel" size="sm" @click.prevent="onRemoveMeta(k)" />
+                <q-btn flat round color="red" icon="cancel" size="sm"
+                  @click.prevent="onRemoveMeta(k)" />
               </q-item-section>
             </q-item>
           </q-list>
@@ -275,12 +315,15 @@
           </q-btn>
         </q-toolbar>
         <q-card-section>
-          <tm-tree :nodes="categories" node-key="_id" label="label" :no-nodes-label="$t('table.no_data')"
-            :selected.sync="categoriesSelected" :expanded-all="true" @on-selected="onSelectCategory">
+          <tm-tree :nodes="categories" node-key="_id" label="label"
+            :no-nodes-label="$t('table.no_data')" :selected.sync="categoriesSelected"
+            :expanded-all="true" @on-selected="onSelectCategory">
             <template v-slot:content-after="prop">
               <div class="row items-center">
-                <q-icon :name="prop.node.icon" color="blue-grey" size="20px" class="q-mr-sm" />
-                <div :class="['node-label q-pr-md',prop.node.flag===1?'':'text-blue-grey-4']"
+                <q-icon :name="prop.node.icon" color="blue-grey" size="20px"
+                  class="q-mr-sm" />
+                <div
+                  :class="['node-label q-pr-md',prop.node.flag===1?'':'text-blue-grey-4']"
                   :style="{color:prop.node.color?prop.node.color:'#009688'}">
                   {{ prop.node.label }}
                 </div>
@@ -301,8 +344,10 @@
         </q-toolbar>
         <q-separator />
         <q-card-section>
-          <tm-files url="http://localhost:8001/api/filemanager" :selected.sync="files" :accept="['image/*']" multiple
-            :headers="{'x-access-token': `Bearer ${$store.state.auth.token}`}" @on-finish="onFilesAccept">
+          <tm-files url="http://localhost:8001/api/file-manager" :selected.sync="files"
+            :accept="['image/*']" multiple
+            :headers="{'x-access-token': `Bearer ${$store.state.auth.token}`}"
+            @on-finish="onFilesAccept">
           </tm-files>
         </q-card-section>
       </q-card>
@@ -318,16 +363,16 @@
         </q-toolbar>
         <q-separator />
         <q-card-section>
-          <q-uploader ref="upload" square flat multiple :max-file-size="1024*1024*2" accept=".jpg,.jpeg,.png,.gif"
-            style="width:100%" @uploaded="onUploaded" @finish="onUploadFinish"
-            url="http://localhost:8001/api/filemanager" :headers="[
+          <q-uploader ref="upload" square flat multiple :max-file-size="1024*1024*2"
+            accept=".jpg,.jpeg,.png,.gif" style="width:100%" @uploaded="onUploaded"
+            @finish="onUploadFinish" url="http://localhost:8001/api/file-manager" :headers="[
           { name: 'Upload-Path', value: 'products' },
           { name: 'Upload-Rename', value: true },
           {'x-access-token': `Bearer ${$store.state.auth.token}`}]">
             <template v-slot:list="scope">
               <div class="q-gutter-xs">
-                <q-img v-for="file in scope.files" :key="file.name" :src="file.__img.src" spinner-color="white"
-                  class="vertical-middle" />
+                <q-img v-for="file in scope.files" :key="file.name" :src="file.__img.src"
+                  spinner-color="white" class="vertical-middle" />
               </div>
             </template>
           </q-uploader>

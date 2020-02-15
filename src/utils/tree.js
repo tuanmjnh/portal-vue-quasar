@@ -88,15 +88,16 @@ export function generateRoutesRoles(nodes) {
   return rs
 }
 
-export function generateCategory(nodes, dependent = null) {
+export function generateCategory(nodes, dependent = 0) {
   const rs = []
   try {
-    const childrens = nodes.filter(x => x.dependent !== null)
+    const childrens = nodes.filter(x => !!x.dependent)
     nodes.forEach(e => {
       if (e.dependent === dependent) {
         e.label = e.meta && e.meta.label ? i18n.t(`category.${e.meta.label}`) : e.title
         e.ticked = false
-        const child = generateCategory(childrens, e._id.toString())
+        e.show = true
+        const child = generateCategory(childrens, e.id)
         if (child.length > 0) e.children = child
         else e.children = []
         rs.push(e)

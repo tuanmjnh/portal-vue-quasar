@@ -21,7 +21,12 @@ export default {
     contact: 'Contact',
     business: 'Business',
     personal: 'Personal',
-    get_password: 'Get Password'
+    get_password: 'Get Password',
+    diaban: 'Locality',
+    diaban_manager: 'Manager locality',
+    update_nv: 'Update staff',
+    data: 'Data',
+    guide: 'Manual document'
   },
   global: {
     list: 'List data',
@@ -82,7 +87,10 @@ export default {
     unit: 'Unit',
     price: 'Price',
     price_sale: 'Sale price',
-    price_unit: 'Unit of price'
+    price_unit: 'Unit of price',
+    pin: 'Pins',
+    tags: 'Tags',
+    upload: 'Upload'
   },
   success: {
     insert: 'Insert success',
@@ -185,6 +193,7 @@ export default {
     bot: 'Dưới'
   },
   category: {
+    title: 'Category of data',
     title_product: 'Category of product',
     title_news: 'Category of news',
     noithatvanphong: 'Office furniture',
