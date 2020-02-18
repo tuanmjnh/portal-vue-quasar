@@ -592,7 +592,6 @@ export default {
       if (this.unit) this.form.unit = this.unit.name
       if (this.price_unit) this.form.price_unit = this.price_unit.name
       // this.form.images = this.images.map(x => x.fullName)
-      console.log(this.form)
       this.$refs.form.validate().then(valid => {
         if (valid) {
           if (this.item) {

@@ -10,7 +10,7 @@ export const CANCEL_TOKEN = axios.CancelToken
 // create an axios instance
 export const API_MAIN = axios.create({
   // uploadURL: 'http://localhost:8001/api/upload',
-  baseURL: 'http://localhost:8001/api', // url = base url + request url
+  baseURL: process.env.API, // 'http://localhost:8001/api',
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 10000 // request timeout
   // headers: {
@@ -57,7 +57,7 @@ API_MAIN.interceptors.request.use(
   },
   error => {
     // do something with request error
-    console.log(error) // for debug
+    // console.log(error) // for debug
     // Loading end
     store.commit('DONE_LOADING')
     return Promise.reject(error)

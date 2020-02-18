@@ -230,7 +230,7 @@ export default {
     },
     onActionContext(type) {
       if (type === 'delete') {
-        console.log(this.contextData)
+        // console.log(this.contextData)
       }
     },
     onAccept() {

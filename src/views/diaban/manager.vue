@@ -121,7 +121,7 @@ export default {
         pho: false
       },
       kycuocs: [],
-      kycuoc: {}
+      kycuoc: null
     }
   },
   created() {

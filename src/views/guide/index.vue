@@ -73,7 +73,7 @@ export default {
     return {
       dialogView: false,
       groups: [],
-      group: {},
+      group: null,
       items: [],
       viewItem: {},
       maximizedView: false,

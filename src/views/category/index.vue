@@ -6,10 +6,9 @@
     </div>
     <div class="col-12 row">
       <div class="col-xs-12 col-sm-5 col-md-4">
-        <q-select v-model="pagination.key" :options="keys"
-          :dense="$store.state.app.dense.input"
+        <q-select v-model="key" :options="keys" :dense="$store.state.app.dense.input"
           :options-dense="$store.state.app.dense.input" :label="$t('global.types')"
-          @input="onSelect({pagination:pagination})" />
+          @input="onFilterKey()" />
       </div>
       <q-space />
       <div class="col-xs-12 col-sm-5 col-md-4">
@@ -114,6 +113,7 @@ export default {
       ticked: [],
       expanded: [],
       keys: [],
+      key: null,
       filter: '',
       tooltipAction: '',
       pagination: {
@@ -133,13 +133,7 @@ export default {
   created() {
     this.onSelect({ pagination: this.pagination })
     this.onGetKey()
-    console.log(this.isRoutes)
     // this.onGetPosition({ key: 'position' })
-  },
-  computed: {
-    denseInput() {
-      return this.$store.state.app.dense.input
-    }
   },
   watch: {
     dialogAdd(val) {
@@ -166,7 +160,8 @@ export default {
       apiTypes.select(props).then((x) => {
         if (x && x.length > 0) {
           this.keys = x.map(x => ({ label: x.title, value: x.code }))
-          this.pagination.key = this.keys[0]
+          this.key = this.keys[0]
+          this.pagination.key = this.key.value
         }
       })
     },
@@ -175,6 +170,10 @@ export default {
         this.rootItems = x
         this.items = treeRouters.generateCategory(x)
       })
+    },
+    onFilterKey() {
+      this.pagination.key = this.key.value
+      this.onSelect({ pagination: this.pagination })
     },
     onFilter(node, filter) {
       const filt = normalize(filter.toLowerCase())
@@ -229,13 +228,12 @@ export default {
     },
     onDragTree({ node, index }) {
       // this.$nextTick(() => {
-      console.log(node.dependent)
       if (node.level.toString() === 'NaN') {
         this.onSelect({ pagination: this.pagination })
       } else {
         node.orders = index
         api.updateOrder(node).then((x) => {
-          console.log(index)
+          // console.log(index)
         })
       }
       // })
@@ -247,7 +245,7 @@ export default {
       // console.log(e.element.dependent, e.element.level, e.element.orders)
       e.element.orders = e.newIndex
       api.updateOrder(e.element).then((x) => {
-        console.log(x)
+        // console.log(x)
       })
     }
   }

@@ -30,7 +30,7 @@ routers.router.beforeEach(async (to, from, next) => {
             .then(routers.router.addRoutes(store.state.auth.routes, { replace: true }))
             .then(next(to.path))// next({ ...to, replace: true })
         } catch (err) {
-          console.log(err)
+          // console.log(err)
           // remove token and go to login page to re-login
           await store.dispatch('auth/logout')
           // Message.error(error || 'Has Error')

@@ -10,7 +10,7 @@
           </q-card-section>
           <q-separator />
           <q-card-actions>
-            <q-table :data="pho" :columns="columns" row-key="id"
+            <q-table :data="phos" :columns="columns" row-key="id"
               :loading="$store.state.loading.get||$store.state.loading.patch"
               selection="multiple" :selected.sync="selected" :pagination.sync="pagination"
               :dense="$store.getters.dense.table" :virtual-scroll-sticky-size-start="48"
@@ -20,7 +20,7 @@
               <template v-slot:top="props">
                 <div class="col-12 row">
                   <div class="col-8">
-                    <q-select v-model="formQuan" :options="quan" label="Quận"
+                    <q-select v-model="quan" :options="quans" label="Quận"
                       :dense="$store.getters.dense.input"
                       :options-dense="$store.getters.dense.input" input-debounce="300"
                       @input="onGetPhuong" />
@@ -38,7 +38,7 @@
                 </div>
                 <div class="col-12 row">
                   <div class="col-8 col-md-5">
-                    <q-select v-model="formPhuong" :options="phuong" label="Phường"
+                    <q-select v-model="phuong" :options="phuongs" label="Phường"
                       :dense="$store.getters.dense.input"
                       :options-dense="$store.getters.dense.input" input-debounce="300"
                       @input="onGetPho" />
@@ -117,14 +117,14 @@
           <q-form ref="form">
             <q-card-actions>
               <div class="col-12">
-                <q-select v-model="formDonvi" :options="donvi" label="Đơn vị"
+                <q-select v-model="donvi" :options="donvis" label="Đơn vị"
                   :dense="$store.getters.dense.input"
                   :options-dense="$store.getters.dense.input" input-debounce="300"
                   @input="onGetUsers"
                   :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]" />
               </div>
               <div class="col-12">
-                <q-select v-model="formUser" :options="users" label="Nhân viên"
+                <q-select v-model="user" :options="users" label="Nhân viên"
                   :dense="$store.getters.dense.input"
                   :options-dense="$store.getters.dense.input" input-debounce="300"
                   :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]" />
@@ -162,19 +162,19 @@ export default {
   data() {
     return {
       dialogUpdateNV: false,
-      donvi: [],
-      formDonvi: {},
-      quan: [],
-      formQuan: {},
-      phuong: [],
-      formPhuong: {},
-      pho: [],
-      formPho: {},
+      donvis: [],
+      donvi: null,
+      quans: [],
+      quan: null,
+      phuongs: [],
+      phuong: null,
+      phos: [],
+      pho: null,
       loaiNV: [],
       formLoaiNV: null,
       selected: [],
       users: [],
-      formUser: {},
+      user: null,
       columns: [
         { name: 'ten_pho', field: 'ten_pho', label: 'Tên phố', align: 'left', sortable: true },
         { name: 'ten_lnv', field: 'ten_lnv', label: 'Loại NV', align: 'left', sortable: true },
@@ -207,42 +207,42 @@ export default {
     },
     onGetDonvi() {
       apiDonvi.select().then(x => {
-        this.donvi = x.map(x => ({ label: x.ten_dv, value: x.donvi_id }))
+        this.donvis = x.map(x => ({ label: x.ten_dv, value: x.donvi_id }))
         // if (this.donvi.length) {
         //   this.formDonvi = this.donvi[0]
         // }
       })
     },
     onGetQuan() {
-      this.phuong = []
-      this.formPhuong = null
-      this.pho = []
+      this.phuongs = []
+      this.phuong = null
+      this.phos = []
       apiDiaban.getQuan().then(x => {
-        this.quan = x.map(x => ({ label: `${x.quan_id} - ${x.ten_quan}`, value: x.quan_id }))
+        this.quans = x.map(x => ({ label: `${x.quan_id} - ${x.ten_quan}`, value: x.quan_id }))
       })
     },
     onGetPhuong() {
-      this.phuong = []
-      this.formPhuong = null
-      this.pho = []
-      apiDiaban.getPhuong({ quan_id: this.formQuan.value }).then(x => {
-        this.phuong = x.map(x => ({ label: `${x.phuong_id} - ${x.ten_phuong}`, value: x.phuong_id }))
+      this.phuongs = []
+      this.phuong = null
+      this.phos = []
+      apiDiaban.getPhuong({ quan_id: this.quan.value }).then(x => {
+        this.phuongs = x.map(x => ({ label: `${x.phuong_id} - ${x.ten_phuong}`, value: x.phuong_id }))
       })
     },
     onGetPho() {
-      apiDiaban.getPho({ phuong_id: this.formPhuong.value, loai_nv: parseInt(this.formLoaiNV.id) }).then(x => {
-        this.pho = x
+      apiDiaban.getPho({ phuong_id: this.phuong.value, loai_nv: parseInt(this.formLoaiNV.id) }).then(x => {
+        this.phos = x
         // if (x && x.length) {
         //   this.phuong = x.map(x => ({ label: `${x.phuong_id} - ${x.ten_phuong}`, value: x.phuong_id }))
         // }
       })
     },
     onGetUsers() {
-      apiUsers.find({ donvi_id: this.formDonvi.value }).then(x => {
+      apiUsers.find({ donvi_id: this.donvi.value }).then(x => {
         this.users = x.map(x => ({ label: x.ten_nv, value: x.nhanvien_id }))
         if (this.users.length) {
-          this.formUser = this.users[0]
-          this.ma_nd = this.formUser.value
+          this.user = this.users[0]
+          this.ma_nd = this.user.value
         }
       })
     },
@@ -258,7 +258,7 @@ export default {
             return null
           }
           apiDiaban.update({
-            nhanvien_id: this.formUser.value,
+            nhanvien_id: this.user.value,
             diaban: this.selected.map(x => ({ pho_id: x.pho_id, loai_nv: x.loai_nv }))
           }).then(x => {
             this.onGetPho()

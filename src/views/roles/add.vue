@@ -14,25 +14,26 @@
     <q-separator />
     <q-form ref="form">
       <q-card-actions v-if="item" align="right">
-        <q-btn flat type="submit" :dense="denseButton" color="amber" icon="offline_pin"
-          :label="$t('global.update')" :loading="loading_add" @click.prevent="onSubmit">
+        <q-btn flat type="submit" :dense="$store.state.app.dense.button" color="amber"
+          icon="offline_pin" :label="$t('global.update')" :loading="loading_add"
+          @click.prevent="onSubmit">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle"
-          :label="$t('global.add')" :loading="loading_add" :disable="loading_drafts"
-          @click.prevent="onSubmit(1)">
+        <q-btn flat type="submit" :dense="$store.state.app.dense.button" color="blue"
+          icon="check_circle" :label="$t('global.add')" :loading="loading_add"
+          :disable="loading_drafts" @click.prevent="onSubmit(1)">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
-        <q-btn flat type="submit" color="amber" icon="receipt"
-          :label="$t('global.drafts')" :loading="loading_drafts" :disable="loading_add"
-          @click.prevent="onSubmit(0)">
+        <q-btn flat type="submit" :dense="$store.state.app.dense.button" color="amber"
+          icon="receipt" :label="$t('global.drafts')" :loading="loading_drafts"
+          :disable="loading_add" @click.prevent="onSubmit(0)">
           <!-- <q-tooltip>{{$t('global.drafts')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
-      <q-tabs v-model="tabs" narrow-indicator :dense="denseForm" class="text-deep-purple"
-        align="justify">
+      <q-tabs v-model="tabs" narrow-indicator :dense="$store.state.app.dense.form"
+        class="bg-blue-grey text-white" align="justify">
         <q-tab name="main" :label="$t('tabs.main')" />
         <q-tab name="routes" label="Menu" />
       </q-tabs>
@@ -42,24 +43,26 @@
         <q-tab-panel name="main">
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-6">
-              <q-input v-model.trim="form.name" :dense="denseInput" label="Tên quyền"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+              <q-input v-model.trim="form.name" :dense="$store.state.app.dense.input"
+                label="Tên quyền" :rules="[v=>v&&v.length>0||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.code" :dense="denseInput" v-lowercase
-                label="Mã quyền" :rules="[v=>v&&v.length>0||$t('error.required')]" />
+              <q-input v-model.trim="form.code" :dense="$store.state.app.dense.input"
+                v-lowercase label="Mã quyền"
+                :rules="[v=>v&&v.length>0||$t('error.required')]" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col">
-              <q-input v-model="form.levels" type="number" :dense="denseInput"
-                label="Cấp dộ" :rules="[v=>v!==null&&v!==''||$t('error.required')]"
-                class="col-md-4" />
+              <q-input v-model="form.levels" type="number"
+                :dense="$store.state.app.dense.input" label="Cấp dộ"
+                :rules="[v=>v!==null&&v!==''||$t('error.required')]" class="col-md-4" />
             </div>
             <q-space v-if="item" />
             <div class="col-5 self-center" v-if="item">
-              <q-toggle v-model="form.flag" :true-value="1" :dense="denseInput"
+              <q-toggle v-model="form.flag" :true-value="1"
+                :dense="$store.state.app.dense.input"
                 :label="form.flag?$t('global.publish'):$t('global.drafts')" />
             </div>
             <q-space />
@@ -69,14 +72,14 @@
               </q-badge>
             </div>
           </div>
-          <q-input v-model.trim="form.desc" autogrow :dense="denseInput"
+          <q-input v-model.trim="form.desc" autogrow :dense="$store.state.app.dense.input"
             :label="$t('global.desc')" />
         </q-tab-panel>
         <q-tab-panel name="routes">
           <tm-tree :nodes="routes" node-key="name" :no-nodes-label="$t('table.no_data')"
             :selected.sync="selected" :ticked="ticked" expandedAll tick-strategy="normal">
           </tm-tree>
-          <!-- <q-tree ref="routes" class="col-12 col-sm-6" :nodes="routes" :dense="denseInput"
+          <!-- <q-tree ref="routes" class="col-12 col-sm-6" :nodes="routes" :dense="$store.state.app.dense.input"
             node-key="name" node-label="title" :ticked.sync="ticked"
             tick-strategy="strict" :no-nodes-label="$t('table.no_data')"
             default-expand-all @update:ticked="onTickedUpdate"> -->
@@ -163,17 +166,6 @@ export default {
       }
     }
   },
-  computed: {
-    denseForm() {
-      return this.$store.state.app.dense.form
-    },
-    denseInput() {
-      return this.$store.state.app.dense.input
-    },
-    denseButton() {
-      return this.$store.state.app.dense.button
-    }
-  },
   watch: {
     dialog: {
       handler(val) {
@@ -192,7 +184,7 @@ export default {
       immediate: true
     }
   },
-  mounted() {
+  created() {
     this.routes = tree.generateRoutesRoles(routes.dynamic)
   },
   methods: {

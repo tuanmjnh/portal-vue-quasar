@@ -34,7 +34,7 @@ export default {
   components: { drawer, drawerSearch, headerRight },
   data() {
     return {
-      title: 'TM-Store', // process.env.APP_NAME,
+      title: process.env.APP_TITLE,
       drawer: this.$q.platform.is.desktop
     }
   },

@@ -2,11 +2,17 @@ import http from '@/utils/http-client'
 const collection = '/loai-nv'
 
 export async function select(params) {
-  return new Promise((resolve, reject) => {
-    http.get(collection, { params }).then((x) => {
-      resolve(x)
-    }).catch((e) => {
-      reject(e)
-    })
-  })
+  return http.get(collection, { params })
+}
+
+export async function insert(params) {
+  return http.post(collection, params)
+}
+
+export async function update(params) {
+  return http.put(collection, params)
+}
+
+export async function lock(params) {
+  return http.patch(collection, params)
 }

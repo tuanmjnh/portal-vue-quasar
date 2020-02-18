@@ -148,7 +148,6 @@ export default {
     windowSize: {
       handler(val) {
         this.windowSize = this.$q.screen
-        console.log(this.windowSize)
       },
       deep: true
     }

@@ -1,5 +1,5 @@
 import http from '@/utils/http-client'
-const collection = '/donvi'
+const collection = '/business'
 
 export async function select(params) {
   return http.get(collection, { params })

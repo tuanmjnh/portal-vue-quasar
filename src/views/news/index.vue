@@ -36,11 +36,11 @@
                 </q-tooltip>
                 <q-menu fit>
                   <q-list dense style="min-width:100px">
-                    <template v-for="(item,index) in columns">
-                      <q-item clickable :key="index" v-if="!item.required"
-                        @click="onColumns(item.name)"
-                        :active="visibleColumns.indexOf(item.name)>-1||false">
-                        <q-item-section>{{item.label}}</q-item-section>
+                    <template v-for="(e,i) in columns">
+                      <q-item clickable :key="i" v-if="!e.required"
+                        @click="onColumns(e.name)"
+                        :active="visibleColumns.indexOf(e.name)>-1||false">
+                        <q-item-section>{{e.label}}</q-item-section>
                       </q-item>
                     </template>
                   </q-list>
@@ -199,9 +199,9 @@ export default {
       selected: [],
       roles: [],
       types: [],
-      type: {},
+      type: null,
       categories: [],
-      category: {},
+      category: null,
       host: process.env['HOST'],
       viewItem: {},
       isRoutes: {
@@ -249,7 +249,7 @@ export default {
       })
     },
     onGetCategories(props) {
-      this.category = {}
+      this.category = null
       apiCategories.select({ key: this.type.value }).then((x) => {
         this.categories = x.map(x => ({ label: x.title, value: x.id }))
       })

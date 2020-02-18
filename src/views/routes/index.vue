@@ -193,7 +193,7 @@ export default {
       // console.log(e.element.dependent, e.element.level, e.element.orders)
       e.element.orders = e.newIndex
       api.updateOrder(e.element).then((x) => {
-        console.log(x)
+        // console.log(x)
       })
     }
   }

@@ -65,7 +65,9 @@ export function generateRoutes(nodes, dependent = null) {
         rs.push(e)
       }
     })
-  } catch (e) { console.log(e) }
+  } catch (e) {
+    // console.log(e)
+  }
   return rs
 }
 
@@ -84,7 +86,9 @@ export function generateRoutesRoles(nodes) {
         rs.push(e)
       }
     })
-  } catch (e) { console.log(e) }
+  } catch (e) {
+    // console.log(e)
+  }
   return rs
 }
 
@@ -103,7 +107,9 @@ export function generateCategory(nodes, dependent = 0) {
         rs.push(e)
       }
     })
-  } catch (e) { console.log(e) }
+  } catch (e) {
+    // console.log(e)
+  }
   return rs
 }
 
@@ -117,7 +123,9 @@ export function findNode(nodes, nodeId, nodeKey = 'id') {
         if (child.length) rs = [...rs, ...child]
       }
     })
-  } catch (e) { console.log(e) }
+  } catch (e) {
+    // console.log(e)
+  }
   return rs
 }
 

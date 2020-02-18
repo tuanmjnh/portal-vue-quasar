@@ -67,7 +67,7 @@
             <q-space />
             <div class="col-12 col-md-6">
               <q-input v-model.trim="form.url" :dense="$store.state.app.dense.input"
-                v-lowercase label="URL" />
+                label="Đường dẫn file" />
             </div>
           </div>
           <div class="row q-gutter-xs">
@@ -113,7 +113,7 @@
           </div>
           <br />
           <div class="row q-gutter-xs" v-if="image&&image.length">
-            <q-img v-for="(e,i) in image" :key="i" :src="`${uploadPath}/${e.fullName}`"
+            <q-img v-for="(e,i) in image" :key="i" :src="`${host}/${e.fullName}`"
               spinner-color="primary" class="rounded-borders"
               style="height: 140px; max-width: 150px">
             </q-img>
@@ -125,10 +125,19 @@
           </div>
           <br />
           <div class="row q-gutter-xs" v-if="attach&&attach.length">
-            <q-btn v-for="(e,i) in attach" :key="i" flat color="primary"
+            <q-list dense>
+              <q-item v-for="(e,i) in attach" :key="i">
+                <q-item-section>{{e.fileName}}</q-item-section>
+                <q-item-section avatar class="cursor-pointer"
+                  @click="onOpenViewFile(e.fileName,`${host}/${e.fullName}`)">
+                  <q-icon color="primary" name="remove_red_eye" />
+                </q-item-section>
+              </q-item>
+            </q-list>
+            <!-- <q-btn v-for="(e,i) in attach" :key="i" flat color="primary"
               icon="attach_file" :label="e.filename"
               :dense="$store.state.app.dense.button"
-              @click="onOpenViewFile(e.filename,`${uploadPath}/${e.fullName}`)" />
+              @click="onOpenViewFile(e.filename,`${host}/${e.fullName}`)" /> -->
           </div>
         </q-tab-panel>
         <q-tab-panel name="attributes">
@@ -203,7 +212,7 @@
     <!-- View file dialog-->
     <q-dialog v-model="dialogView" :maximized="maximizedView" persistent>
       <view-file :dialog.sync="dialogView" :maximized.sync="maximizedView"
-        :item="viewItem" :types="types" :categories="categories" />
+        :item="viewItem" />
     </q-dialog>
   </q-card>
 </template>
@@ -234,12 +243,12 @@ export default {
       tabs: 'main',
       form: {},
       types: [],
-      type: {},
+      type: null,
       categories: [],
-      category: {},
+      category: null,
       tags: [],
       tag: '',
-      uploadPath: process.env.API_UPLOAD,
+      host: process.env['HOST'],
       uploadUrl: process.env.API_FILE_UPLOAD,
       image: [],
       attach: [],
@@ -276,6 +285,18 @@ export default {
           if (this.form.tags) this.tags = this.form.tags.split(',')
           if (!this.form.content) this.form.content = ''
           if (!this.form.image) this.form.image = null
+          if (this.form.image) {
+            const tmp = { fileName: this.form.image, fullName: this.form.image }
+            tmp.fileName = this.form.image.split('/')
+            tmp.fileName = tmp.fileName[tmp.fileName.length - 1]
+            this.image.push(tmp)
+          }
+          if (this.form.attach) {
+            const tmp = { fileName: this.form.attach, fullName: this.form.attach }
+            tmp.fileName = this.form.image.split('/')
+            tmp.fileName = tmp.fileName[tmp.fileName.length - 1]
+            this.attach.push(tmp)
+          }
         }
       },
       deep: true,
@@ -301,7 +322,7 @@ export default {
       })
     },
     onGetCategories(props) {
-      this.category = {}
+      this.category = null
       apiCategories.select({ key: this.type.value }).then((x) => {
         this.categories = x.map(x => ({ label: x.title, value: x.id }))
         if (this.item) {

@@ -304,7 +304,6 @@ export default {
           this.form.dependent = this.dependent._id
           this.form.level = this.dependent.level + 1
         }
-        console.log(this.form.level)
         this.attributes = {}
         resolve()
       }).then(() => {

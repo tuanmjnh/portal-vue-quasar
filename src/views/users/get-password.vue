@@ -11,12 +11,12 @@
       <q-card-actions>
         <!-- <div class="row q-gutter-xs"> -->
         <div class="col-12 col-md-5">
-          <q-select v-model="formDonvi" :options="donvi" label="Đơn vị"
+          <q-select v-model="donvi" :options="donvis" label="Đơn vị"
             :dense="denseInput" input-debounce="300" @input="onGetUsers" />
         </div>
         <q-space />
         <div class="col-12 col-md-5">
-          <q-select v-model="formUser" :options="users" label="Người dùng"
+          <q-select v-model="user" :options="users" label="Người dùng"
             :dense="denseInput" @input="onGetMaND" />
         </div>
         <div class="col-12">
@@ -56,10 +56,10 @@ export default {
   data() {
     return {
       loading: false,
-      donvi: [],
+      donvis: [],
+      donvi: null,
       users: [],
-      formDonvi: {},
-      formUser: {},
+      user: null,
       ma_nd: '',
       password: ''
     }
@@ -82,24 +82,24 @@ export default {
   methods: {
     onGetDonvi(params) {
       apiDonvi.select(params).then(x => {
-        this.donvi = x.map(x => ({ label: x.ten_dv, value: x.donvi_id }))
-        if (this.donvi.length) {
-          this.formDonvi = this.donvi[0]
+        this.donvis = x.map(x => ({ label: x.ten_dv, value: x.donvi_id }))
+        if (this.donvis.length) {
+          this.donvi = this.donvis[0]
           this.onGetUsers()
         }
       })
     },
     onGetUsers() {
-      api.find({ donvi_id: this.formDonvi.value }).then(x => {
+      api.find({ donvi_id: this.donvi.value }).then(x => {
         this.users = x.map(x => ({ label: x.ten_nd, value: x.ma_nd }))
         if (this.users.length) {
-          this.formUser = this.users[0]
-          this.ma_nd = this.formUser.value
+          this.user = this.users[0]
+          this.ma_nd = this.user.value
         }
       })
     },
     onGetMaND() {
-      this.ma_nd = this.formUser.value
+      this.ma_nd = this.user.value
     },
     onSubmit() {
       this.loadingAdd = true

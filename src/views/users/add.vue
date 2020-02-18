@@ -289,7 +289,7 @@ export default {
       }
     },
     onUploadFinish() {
-      console.log('Finish')
+      // console.log('Finish')
     },
     onUploaded(info) {
       var res = JSON.parse(info.xhr.response)
@@ -298,8 +298,8 @@ export default {
       }
     },
     onTicked() {
-      console.log(this.$refs.menu.getTickedNodes())
-      console.log(this.$refs.menu.getExpandedNodes())
+      // console.log(this.$refs.menu.getTickedNodes())
+      // console.log(this.$refs.menu.getExpandedNodes())
     },
     validEmail(email) {
       var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

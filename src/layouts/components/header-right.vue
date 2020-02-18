@@ -151,7 +151,7 @@ export default {
       currentSize: '',
       items: [],
       // avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80'
-      avatar: 'http://localhost:8001/public/data/avatar.jpg'
+      avatar: `${process.env.API_PUBLIC}/data/avatar.jpg` // 'http://localhost:8001/public/data/avatar.jpg'
     }
   },
   created() {

@@ -70,7 +70,7 @@
         </div>
         <div class="col-12 row">
           <div class="col-xs-12 col-sm-5 col-md-4">
-            <q-select v-model="pagination.key" :options="keys" dense options-dense
+            <q-select v-model="key" :options="keys" dense options-dense
               :label="$t('global.types')" @input="onSelect({pagination:pagination})" />
           </div>
           <q-space />
@@ -159,6 +159,7 @@ export default {
       items: [],
       selected: [],
       keys: [],
+      key: null,
       isRoutes: {
         add: this.$router.has('manager-types-add'),
         edit: this.$router.has('manager-types-edit'),

@@ -13,25 +13,26 @@
     </q-toolbar>
     <q-form ref="form">
       <q-card-actions v-if="item" align="right">
-        <q-btn flat type="submit" :dense="denseButton" color="amber" icon="offline_pin"
-          :label="$t('global.update')" :loading="loading_add" @click.prevent="onSubmit">
+        <q-btn flat type="submit" :dense="$store.state.app.dense.button" color="amber"
+          icon="offline_pin" :label="$t('global.update')" :loading="loading_add"
+          @click.prevent="onSubmit">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle"
-          :label="$t('global.add')" :loading="loading_add" :disable="loading_drafts"
-          @click.prevent="onSubmit(1)">
+        <q-btn flat type="submit" :dense="$store.state.app.dense.button" color="blue"
+          icon="check_circle" :label="$t('global.add')" :loading="loading_add"
+          :disable="loading_drafts" @click.prevent="onSubmit(1)">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
-        <q-btn flat type="submit" color="amber" icon="receipt"
-          :label="$t('global.drafts')" :loading="loading_drafts" :disable="loading_add"
-          @click.prevent="onSubmit(0)">
+        <q-btn flat type="submit" :dense="$store.state.app.dense.button" color="amber"
+          icon="receipt" :label="$t('global.drafts')" :loading="loading_drafts"
+          :disable="loading_add" @click.prevent="onSubmit(0)">
           <!-- <q-tooltip>{{$t('global.drafts')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
-      <q-tabs v-model="tabs" narrow-indicator :dense="denseForm" class="text-deep-purple"
-        align="justify">
+      <q-tabs v-model="tabs" narrow-indicator :dense="$store.state.app.dense.form"
+        class="text-deep-purple" align="justify">
         <q-tab name="main" :label="$t('tabs.main')" />
         <q-tab name="content" :label="$t('global.content')" />
         <q-tab name="images" :label="$t('global.images')" />
@@ -59,27 +60,28 @@
             </div>
             <!-- <div class="col-1" v-if="!dependent&&!item"></div> -->
             <div class="col">
-              <q-input v-model.trim="form.code" v-uppercase :dense="denseInput"
-                :label="$t('global.code')"
+              <q-input v-model.trim="form.code" v-uppercase
+                :dense="$store.state.app.dense.input" :label="$t('global.code')"
                 :rules="[v=>v&&v.length>0||$t('error.required')]"
                 :hint="$t('category.hit_code')" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.title" v-uppercaseFirst :dense="denseInput"
-                :label="$t('global.title')"
+              <q-input v-model.trim="form.title" v-uppercaseFirst
+                :dense="$store.state.app.dense.input" :label="$t('global.title')"
                 :rules="[v=>v&&v.length>0||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              <q-input v-model.trim="form.url" :dense="denseInput" v-lowercase
-                label="URL" />
+              <q-input v-model.trim="form.url" :dense="$store.state.app.dense.input"
+                v-lowercase label="URL" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.icon" :dense="denseInput" label="Icon">
+              <q-input v-model.trim="form.icon" :dense="$store.state.app.dense.input"
+                label="Icon">
                 <template v-slot:append>
                   <div v-html="form.icon"></div>
                 </template>
@@ -87,8 +89,8 @@
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              <q-input v-model="form.quantity" type="number" :dense="denseInput"
-                :label="$t('global.quantity')" />
+              <q-input v-model="form.quantity" type="number"
+                :dense="$store.state.app.dense.input" :label="$t('global.quantity')" />
             </div>
           </div>
           <div class="row q-gutter-xs">
@@ -96,7 +98,8 @@
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.start_at" :dense="denseInput" readonly>
+              <q-input v-model.trim="form.start_at" :dense="$store.state.app.dense.input"
+                readonly>
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="startAt" transition-show="scale"
@@ -110,7 +113,8 @@
             </div>
             <q-space />
             <div class="col col-md-6">
-              <q-input v-model.trim="form.end_at" :dense="denseInput" readonly>
+              <q-input v-model.trim="form.end_at" :dense="$store.state.app.dense.input"
+                readonly>
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="endAt" transition-show="scale"
@@ -125,19 +129,20 @@
           </div>
           <div class="row q-gutter-xs">
             <div class="col-3">
-              <q-input v-model="form.orders" type="number" :dense="denseInput"
-                :label="$t('global.order')"
+              <q-input v-model="form.orders" type="number"
+                :dense="$store.state.app.dense.input" :label="$t('global.order')"
                 :rules="[v=>v!==null&&v!==''||$t('error.required')]" class="col-md-4" />
             </div>
             <q-space v-if="item" />
             <div class="col-5 self-center" v-if="item">
-              <q-toggle v-model="form.flag" :true-value="1" :dense="denseInput"
+              <q-toggle v-model="form.flag" :true-value="1"
+                :dense="$store.state.app.dense.input"
                 :label="form.flag?$t('global.publish'):$t('global.drafts')" />
             </div>
           </div>
           <div class="q-gutter-sm">
-            <q-input v-model.trim="form.descs" autogrow :dense="denseInput"
-              :label="$t('global.desc')" />
+            <q-input v-model.trim="form.descs" autogrow
+              :dense="$store.state.app.dense.input" :label="$t('global.desc')" />
           </div>
         </q-tab-panel>
         <q-tab-panel name="content">
@@ -172,7 +177,8 @@
             <!-- <span class="col-12 col-md-2">Tags</span> -->
             <!-- <q-space /> -->
             <div class="col-9 col-md-6">
-              <q-input v-model.trim="tag" :dense="denseInput" label="Tags" />
+              <q-input v-model.trim="tag" :dense="$store.state.app.dense.input"
+                label="Tags" />
             </div>
             <q-space />
             <div>
@@ -216,7 +222,7 @@ export default {
       tabs: 'main',
       form: {},
       meta: { keys: [], values: [] },
-      key: {},
+      key: null,
       tags: [],
       tag: '',
       upload_url: process.env.API_FILE_UPLOAD,
@@ -242,17 +248,6 @@ export default {
         orders: 1,
         flag: 1
       }
-    }
-  },
-  computed: {
-    denseForm() {
-      return this.$store.state.app.dense.form
-    },
-    denseInput() {
-      return this.$store.state.app.dense.input
-    },
-    denseButton() {
-      return this.$store.state.app.dense.button
     }
   },
   watch: {
@@ -299,7 +294,7 @@ export default {
       }
     },
     onUploadFinish() {
-      console.log('Finish')
+      // console.log('Finish')
     },
     onUploaded(info) {
       var res = JSON.parse(info.xhr.response)
@@ -308,12 +303,10 @@ export default {
       } else this.form.image = null
     },
     getDependent() {
-      console.log(this.dependent)
       if (this.dependent) return this.dependent.label
       else return 'Root'
     },
     onSubmit(action) {
-      // console.log(this.item)
       this.$refs.form.validate().then(valid => {
         if (valid) {
           this.form.tags = this.tags.join(',')

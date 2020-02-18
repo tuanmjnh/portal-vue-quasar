@@ -88,6 +88,8 @@ module.exports = function(ctx) {
       // analyze: true,
       // preloadChunks: false,
       // extractCSS: false,
+      publicPath: '/portal/',
+      // distDir: '/Application/portal-vue-quasar',
 
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
       extendWebpack(cfg) {
@@ -113,14 +115,16 @@ module.exports = function(ctx) {
           HOST: JSON.stringify('http://localhost:8001'),
           API: JSON.stringify('http://localhost:8001/api'),
           API_UPLOAD: JSON.stringify('http://localhost:8001/uploads'),
+          API_PUBLIC: JSON.stringify('http://localhost:8001/public'),
           API_FILE_UPLOAD: JSON.stringify('http://localhost:8001/api/file-manager')
         }
         : { // and on build (production):
           APP_TITLE: JSON.stringify('Portal'),
-          HOST: JSON.stringify('http://localhost:8001'),
-          API: JSON.stringify('http://localhost:8001/api'),
-          API_UPLOAD: JSON.stringify('http://localhost:8001/uploads'),
-          API_FILE_UPLOAD: JSON.stringify('http://localhost:8001/api/file-manager')
+          HOST: JSON.stringify('http://10.17.20.222/vnpt-express'),
+          API: JSON.stringify('http://10.17.20.222/vnpt-express/api'),
+          API_UPLOAD: JSON.stringify('http://10.17.20.222/vnpt-express/uploads'),
+          API_PUBLIC: JSON.stringify('http://10.17.20.222/vnpt-express/public'),
+          API_FILE_UPLOAD: JSON.stringify('http://10.17.20.222/vnpt-express/api/file-manager')
         }
     },
 
@@ -128,7 +132,7 @@ module.exports = function(ctx) {
     devServer: {
       // https: true,
       port: 8000,
-      open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations
