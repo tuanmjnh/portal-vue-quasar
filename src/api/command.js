@@ -1,12 +1,8 @@
 import * as http from '@/utils/http-client'
-const collection = '/types'
+const collection = '/command'
 
 export async function select(params) {
   return http.API_MAIN.get(collection, { params })
-}
-
-export async function getKey(params) {
-  return http.API_MAIN.get(`${collection}/get-key`, { params })
 }
 
 export async function insert(params) {

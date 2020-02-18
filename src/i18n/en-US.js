@@ -16,6 +16,7 @@ export default {
     news: 'News',
     template: 'Template',
     types: 'Type data',
+    command: 'Command mamager',
     pin: 'Pin',
     tags: 'Tags',
     contact: 'Contact',

@@ -17,6 +17,7 @@ export default {
     demo: 'Bản giới thiệu',
     template: 'Template',
     types: 'Kiểu dữ liệu',
+    command: 'Quản lý lệnh',
     pin: 'Gim',
     tags: 'Thẻ',
     contact: 'Hợp đồng',

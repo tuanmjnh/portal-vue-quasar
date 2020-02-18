@@ -529,6 +529,52 @@ export const dynamic = [
             component: 'types/index'
           }
         ]
+      },
+      {
+        path: 'command',
+        name: 'manager-command',
+        title: 'command',
+        icon: 'code',
+        meta: {},
+        component: 'command/index',
+        children: [
+          {
+            path: 'list',
+            name: 'manager-command-list',
+            title: 'list',
+            icon: 'list',
+            hidden: true,
+            meta: { flag: 1 },
+            component: 'command/index'
+          },
+          {
+            path: 'add',
+            name: 'manager-command-add',
+            title: 'add',
+            icon: 'add',
+            hidden: true,
+            meta: {},
+            component: 'command/add'
+          },
+          {
+            path: 'edit/:id?',
+            name: 'manager-command-edit',
+            title: 'edit',
+            icon: 'edit',
+            hidden: true,
+            meta: {},
+            component: 'command/add'
+          },
+          {
+            path: 'trash',
+            name: 'manager-command-trash',
+            title: 'trash',
+            icon: 'delete',
+            hidden: true,
+            meta: { flag: 0 },
+            component: 'command/index'
+          }
+        ]
       }
       // {
       //   path: '/routes',

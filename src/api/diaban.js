@@ -44,3 +44,11 @@ export async function updateDBPhuong(params) {
 export async function updateDBPho(params) {
   return http.put(`${collection}/update-pho`, params)
 }
+
+export async function updatePhoCuoc(params) {
+  return http.put(`${collection}/update-pho-cuoc`, params)
+}
+
+export async function updateDoiTuongCuoc(params) {
+  return http.put(`${collection}/update-doituong-cuoc`, params)
+}

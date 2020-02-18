@@ -19,36 +19,71 @@
     <q-list bordered separator :dense="false">
       <q-item>
         <q-item-section avatar>
-          <q-btn color="primary" icon="touch_app" label="Thực hiện" size="sm"
+          <q-btn color="indigo" icon="touch_app" label="Thực hiện" size="sm"
             :loading="loading.createPNVKC" @click="onCreatePhoNVKC" />
         </q-item-section>
         <q-item-section>
           <q-item-label>Tạo dữ liệu phố nhân viên theo kỳ cước</q-item-label>
-          <q-item-label caption class="text-indigo">Lựa chọn kỳ cước trước khi thực hiện
+          <q-item-label caption class="text-red">
+            Lựa chọn kỳ cước trước khi thực hiện
           </q-item-label>
         </q-item-section>
       </q-item>
       <q-item>
         <q-item-section avatar>
-          <q-btn color="primary" icon="touch_app" label="Thực hiện" size="sm"
+          <q-btn color="deep-purple" icon="touch_app" label="Thực hiện" size="sm"
             :loading="loading.donvi" @click="onUpdateDonvi" />
         </q-item-section>
         <q-item-section>
           <q-item-label>Cập nhật đơn vị</q-item-label>
-          <q-item-label caption class="text-indigo">Cập nhật lại đơn vị của bảng
-            TTKD_.PHO_NV theo trường ghichu trong bảng CSS_.QUAN
+          <q-item-label caption class="text-indigo">
+            Cập nhật lại đơn vị của bảng TTKD_.PHO_NV theo trường ghichu trong bảng
+            CSS_.QUAN
           </q-item-label>
         </q-item-section>
       </q-item>
       <q-item>
         <q-item-section avatar>
-          <q-btn color="primary" icon="touch_app" label="Thực hiện" size="sm"
+          <q-btn color="deep-purple" icon="touch_app" label="Thực hiện" size="sm"
             :loading="loading.donviNV" @click="onUpdateDonviNV" />
         </q-item-section>
         <q-item-section>
           <q-item-label>Cập nhật đơn vị Nhân viên, Tên nhân viên</q-item-label>
-          <q-item-label caption class="text-indigo">Cập nhật lại đơn vị nhân viên, tên
-            nhân viên của bảng TTKD_.PHO_NV theo bảng ADMIN_.NHANVIEN
+          <q-item-label caption class="text-indigo">
+            Cập nhật lại đơn vị nhân viên, tên nhân viên của bảng TTKD_.PHO_NV theo bảng
+            ADMIN_.NHANVIEN
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section avatar>
+          <q-btn color="orange" icon="touch_app" label="Thực hiện" size="sm"
+            :loading="loading.donviNV" @click="onUpdatePhoCuoc" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Cập nhật PHO_ID của TINHCUOC_BKN.DBTB_[Kỳ cước]</q-item-label>
+          <q-item-label caption class="text-indigo">
+            Cập nhật PHO_ID của TINHCUOC_BKN.DBTB_[Kỳ cước] từ PHO_ID của DB_THUEBAO
+          </q-item-label>
+          <q-item-label caption class="text-red">
+            Lưu ý chọn kỳ cước trước khi thực hiện
+          </q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-item>
+        <q-item-section avatar>
+          <q-btn color="orange" icon="touch_app" label="Thực hiện" size="sm"
+            :loading="loading.donviNV" @click="onUpdateDoiTuongCuoc" />
+        </q-item-section>
+        <q-item-section>
+          <q-item-label>Cập nhật DOITUONG_ID của TINHCUOC_BKN.DBTB_[Kỳ cước]
+          </q-item-label>
+          <q-item-label caption class="text-indigo">
+            Cập nhật DOITUONG_ID của TINHCUOC_BKN.DBTB_[Kỳ cước] từ DOITUONG_ID của
+            DB_THUEBAO
+          </q-item-label>
+          <q-item-label caption class="text-red">
+            Lưu ý chọn kỳ cước trước khi thực hiện
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -59,8 +94,9 @@
         </q-item-section>
         <q-item-section>
           <q-item-label>Cập PHO_ID Like địa</q-item-label>
-          <q-item-label caption class="text-indigo">Cập nhật lại trường PHO_ID của bảng
-            CSS_.DIACHI dựa theo địa chỉ phố like tên phố
+          <q-item-label caption class="text-indigo">
+            Cập nhật lại trường PHO_ID của bảng CSS_.DIACHI dựa theo địa chỉ phố like tên
+            phố
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -71,8 +107,8 @@
         </q-item-section>
         <q-item-section>
           <q-item-label>Cập QUAN_ID</q-item-label>
-          <q-item-label caption class="text-indigo">Cập nhật QUAN_ID dựa vào đơn vị và
-            địa chỉ thuê bao
+          <q-item-label caption class="text-indigo">
+            Cập nhật QUAN_ID dựa vào đơn vị và địa chỉ thuê bao
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -83,8 +119,8 @@
         </q-item-section>
         <q-item-section>
           <q-item-label>Cập PHUONG_ID</q-item-label>
-          <q-item-label caption class="text-indigo">Cập nhật PHUONG_ID dựa vào
-            TTKD_.DB_DONVI và QUAN_ID của thuê bao
+          <q-item-label caption class="text-indigo">
+            Cập nhật PHUONG_ID dựa vào TTKD_.DB_DONVI và QUAN_ID của thuê bao
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -95,8 +131,8 @@
         </q-item-section>
         <q-item-section>
           <q-item-label>Cập PHO_ID</q-item-label>
-          <q-item-label caption class="text-indigo">Cập nhật PHO_ID dựa vào
-            TTKD_.DB_DONVI và PHUONG_ID của thuê bao
+          <q-item-label caption class="text-indigo">
+            Cập nhật PHO_ID dựa vào TTKD_.DB_DONVI và PHUONG_ID của thuê bao
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -180,6 +216,18 @@ export default {
     onUpdateDBPho() {
       this.loading.pho = true
       api.updateDBPho().then(x => {
+        this.loading.pho = false
+      })
+    },
+    onUpdatePhoCuoc() {
+      this.loading.pho = true
+      api.updatePhoCuoc().then(x => {
+        this.loading.pho = false
+      })
+    },
+    onUpdateDoiTuongCuoc() {
+      this.loading.pho = true
+      api.updateDoiTuongCuoc().then(x => {
         this.loading.pho = false
       })
     }
