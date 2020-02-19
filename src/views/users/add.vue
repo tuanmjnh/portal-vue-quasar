@@ -4,7 +4,6 @@
       <q-avatar :icon="$route.meta.icon" />
       <q-toolbar-title>
         {{this.item?$t('global.update'):$t('global.add')}}
-        <span class="text-weight-bold">{{$t('roles.title')}}</span>
       </q-toolbar-title>
       <q-btn flat round dense icon="close" v-close-popup
         :disable="loading_add||loading_drafts?true:false">

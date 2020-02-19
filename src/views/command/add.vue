@@ -34,14 +34,6 @@
       <q-card-section>
         <div class="row q-gutter-xs">
           <div class="col-12 col-md-5">
-            <!-- <q-input v-model.trim="form.key" :dense="denseInput" v-lowercase :label="$t('global.types')"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" /> -->
-            <!-- <q-select v-model="form.key" hide-selected fill-input use-input input-debounce="0" :dense="denseInput"
-                :options-dense="denseInput" @new-value="onAddKey" :options="keys" @filter="onFilterKey"
-                :hint="$t('types.hit_key')" :label="$t('global.types')" /> -->
-            <auto-complete :value.sync="form.key" :items.sync="keys" placeholder="Key"
-              :label="$t('global.types')" :no-data="$t('table.no_data')"
-              @input="onFilterKey" :rules="[v=>v&&v.length>0||$t('error.required')]" />
           </div>
           <q-space />
           <div class="col-12 col-md-6">
@@ -75,10 +67,10 @@
 </template>
 
 <script>
-import autoComplete from '@/components/auto-complete'
+// import autoComplete from '@/components/auto-complete'
 import * as api from '@/api/command'
 export default {
-  components: { autoComplete },
+  components: { },
   props: {
     dialog: { type: Boolean, default: true },
     item: { type: Object, default: () => { } },
@@ -91,8 +83,6 @@ export default {
       loading_drafts: false,
       tabs: 'main',
       form: {},
-      keys: [],
-      attr: {},
       default: {
         key: '',
         code: '',
@@ -129,43 +119,6 @@ export default {
   //   this.onGetKey()
   // },
   methods: {
-    // onGetKey() {
-    //   api.getKey().then((x) => {
-    //     if (x) this.keys = x
-    //   })
-    // },
-    onAddKey(val, done) {
-      if (val.length > 0) {
-        if (!this.keys.includes(val)) this.keys.push(val)
-        if (done) done(val, 'toggle')
-      }
-    },
-    onFilterKey() {
-      api.getKey().then((x) => {
-        if (x) this.keys = x.data
-      })
-    },
-    onAddMeta() {
-      if (!this.attr.key || !this.attr.value) {
-        this.$q.notify({
-          color: 'warning',
-          timeout: 3000,
-          message: 'The attr is required Key and Value!'
-        })
-        return
-      }
-      if (!this.form.meta) this.form.meta = []
-      this.form.meta.push(this.attr)
-      this.attr = {}
-    },
-    onEditMeta(key, val) {
-      this.attr = { key: key, value: val }
-    },
-    onRemoveMeta(key) {
-      delete this.form.meta[key]
-      if (Object.keys(this.form.meta).length < 1) this.form.meta = null
-      this.attr = {}
-    },
     onSubmit(action) {
       // console.log(this.item)
       this.$refs.form.validate().then(valid => {
@@ -179,7 +132,6 @@ export default {
               }
             }).finally(() => {
               this.loading_add = false
-              this.onAddKey(this.form.key)
             })
           } else {
             this.form.flag = action
@@ -191,7 +143,6 @@ export default {
             }).finally(() => {
               this.loading_add = false
               this.loading_drafts = false
-              this.onAddKey(this.form.key)
               this.reset()
             })
           }

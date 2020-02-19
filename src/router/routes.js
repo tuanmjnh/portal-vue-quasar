@@ -4,23 +4,19 @@ export const constant = [
   {
     path: '',
     redirect: 'dashboard',
-    hidden: true,
-    constant: true
+    meta: { hidden: true, constant: true }
   },
   {
     path: '/login',
     name: 'login',
     icon: 'login',
-    component: () => import('@/views/login'),
-    hidden: true,
-    constant: true
+    meta: { hidden: true, constant: true },
+    component: () => import('@/views/login')
   },
   {
     path: '/dashboard',
     name: 'dashboard',
-    title: 'dashboard',
-    icon: 'dashboard',
-    constant: true,
+    meta: { title: 'dashboard', icon: 'dashboard', constant: true },
     component: () => import('@/views/dashboard')
   }
   // {
@@ -36,52 +32,37 @@ export const dynamic = [
   {
     path: '/contact',
     name: 'contact',
-    title: 'contact',
-    icon: 'chrome_reader_mode',
+    meta: { title: 'contact', icon: 'chrome_reader_mode' },
     component: 'layout',
     children: [
       {
         path: 'business',
         name: 'contact-business',
-        title: 'business',
-        icon: 'supervised_user_circle',
-        meta: {},
+        meta: { title: 'business', icon: 'supervised_user_circle' },
         component: 'contact/business/index',
         children: [
           {
             path: 'list',
-            name: 'contact-business-list',
-            title: 'list',
-            icon: 'list',
-            hidden: true,
-            meta: { noCache: true, flag: 1 },
+            name: 'contact-business-view',
+            meta: { title: 'view', icon: 'list', hidden: true, noCache: true, flag: 1 },
             component: 'contact/business/index'
           },
           {
             path: 'add',
             name: 'contact-business-add',
-            title: 'add',
-            icon: 'playlist_add',
-            hidden: true,
-            meta: {},
+            meta: { title: 'add', icon: 'playlist_add', hidden: true },
             component: 'contact/business/add'
           },
           {
             path: 'edit/:id?',
             name: 'contact-business-edit',
-            title: 'edit',
-            icon: 'edit',
-            hidden: true,
-            meta: { noCache: true, activeMenu: 'news/list' },
+            meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: 'news/list' },
             component: 'contact/business/add'
           },
           {
             path: 'trash',
             name: 'contact-business-trash',
-            title: 'trash',
-            icon: 'delete_sweep',
-            hidden: true,
-            meta: { noCache: true, flag: 0 },
+            meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
             component: 'contact/business/index'
           }
         ]
@@ -89,45 +70,31 @@ export const dynamic = [
       {
         path: 'personal',
         name: 'contact-personal',
-        title: 'personal',
-        icon: 'supervisor_account',
-        meta: {},
+        meta: { title: 'personal', icon: 'supervisor_account' },
         component: 'contact/personal/index',
         children: [
           {
             path: 'list',
-            name: 'contact-personal-list',
-            title: 'list',
-            icon: 'list',
-            hidden: true,
-            meta: { noCache: true, flag: 1 },
+            name: 'contact-personal-view',
+            meta: { title: 'view', icon: 'list', hidden: true, noCache: true, flag: 1 },
             component: 'contact/personal/index'
           },
           {
             path: 'add',
             name: 'contact-personal-add',
-            title: 'add',
-            icon: 'playlist_add',
-            hidden: true,
-            meta: {},
+            meta: { title: 'add', icon: 'playlist_add', hidden: true },
             component: 'contact/personal/add'
           },
           {
             path: 'edit/:id?',
             name: 'contact-personal-edit',
-            title: 'edit',
-            icon: 'edit',
-            hidden: true,
-            meta: { noCache: true, activeMenu: 'news/list' },
+            meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: 'news/list' },
             component: 'contact/personal/add'
           },
           {
             path: 'trash',
             name: 'contact-personal-trash',
-            title: 'trash',
-            icon: 'delete_sweep',
-            hidden: true,
-            meta: { noCache: true, flag: 0 },
+            meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
             component: 'contact/personal/index'
           }
         ]
@@ -137,101 +104,103 @@ export const dynamic = [
   {
     path: '/diaban',
     name: 'diaban',
-    title: 'diaban',
-    icon: 'ballot',
+    meta: { title: 'diaban', icon: 'ballot' },
     component: 'layout',
     children: [
       {
         path: 'list',
-        name: 'diaban-list',
-        title: 'list',
-        icon: 'list',
-        meta: {},
+        name: 'diaban-view',
+        meta: { title: 'view', icon: 'list' },
         component: 'diaban/index'
       },
       {
         path: 'add',
         name: 'diaban-add',
-        title: 'add',
-        icon: 'playlist_add',
-        hidden: true,
-        meta: { noCache: true, activeMenu: '/diaban/list' },
+        meta: { title: 'add', icon: 'playlist_add', hidden: true, noCache: true, activeMenu: '/diaban/list' },
         component: 'diaban/add'
       },
       {
         path: 'edit',
         name: 'diaban-edit',
-        title: 'update_nv',
-        icon: 'how_to_reg',
-        hidden: true,
-        meta: { noCache: true, activeMenu: '/diaban/list' },
+        meta: { title: 'update_nv', icon: 'how_to_reg', hidden: true, noCache: true, activeMenu: '/diaban/list' },
         component: 'diaban/index'
       },
       {
         path: 'manager',
         name: 'diaban-manager',
-        title: 'diaban_manager',
-        icon: 'perm_data_setting',
-        meta: { noCache: true },
+        meta: { title: 'diaban_manager', icon: 'perm_data_setting', noCache: true },
         component: 'diaban/manager'
+      }
+    ]
+  },
+  {
+    path: '/pttb',
+    name: 'pttb',
+    meta: { title: 'pttb', icon: 'dns' },
+    component: 'layout',
+    children: [
+      {
+        path: 'tuyen-thu',
+        name: 'pttb-tuyen-thu',
+        meta: { title: 'tuyen_thu', icon: 'swap_vert', noCache: true },
+        component: 'pttb/tuyen-thu',
+        children: [
+          {
+            path: 'list',
+            name: 'pttb-tuyen-thu-view',
+            meta: { title: 'view', icon: 'list', hidden: true },
+            component: 'category/index'
+          },
+          {
+            path: 'edit',
+            name: 'pttb-tuyen-thu-edit',
+            meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: '/category/list' },
+            component: 'category/add'
+          }
+        ]
       }
     ]
   },
   {
     path: '/data',
     name: 'data',
-    title: 'data',
-    icon: 'data_usage',
+    meta: { title: 'data', icon: 'data_usage' },
     component: 'layout',
     children: [
       {
         path: 'guide',
         name: 'data-guide',
-        title: 'guide',
-        icon: 'question_answer',
+        meta: { title: 'guide', icon: 'question_answer' },
         component: 'guide/index'
       },
       {
         path: 'category',
         name: 'data-category',
-        title: 'category',
-        icon: 'category',
+        meta: { title: 'category', icon: 'category' },
         component: 'category/index',
         children: [
           {
             path: 'list',
-            name: 'data-category-list',
-            title: 'list',
-            icon: 'list',
-            hidden: true,
-            meta: {},
+            name: 'data-category-view',
+            meta: { title: 'view', icon: 'list', hidden: true },
             component: 'category/index'
           },
           {
             path: 'add',
             name: 'data-category-add',
-            title: 'add',
-            icon: 'playlist_add',
-            hidden: true,
-            meta: {},
+            meta: { title: 'add', icon: 'playlist_add', hidden: true },
             component: 'category/add'
           },
           {
             path: 'edit/:id?',
             name: 'data-category-edit',
-            title: 'edit',
-            icon: 'edit',
-            hidden: true,
-            meta: { noCache: true, activeMenu: '/category/list' },
+            meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: '/category/list' },
             component: 'category/add'
           },
           {
             path: 'trash',
             name: 'data-category-trash',
-            title: 'trash',
-            icon: 'delete_sweep',
-            hidden: true,
-            meta: { noCache: true, flag: 0 },
+            meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
             component: 'category/index'
           }
         ]
@@ -239,44 +208,31 @@ export const dynamic = [
       {
         path: 'news',
         name: 'data-news',
-        title: 'news',
-        icon: 'description',
+        meta: { title: 'news', icon: 'description' },
         component: 'news/index',
         children: [
           {
             path: 'list',
-            name: 'data-news-list',
-            title: 'list',
-            icon: 'list',
-            hidden: true,
-            meta: {},
+            name: 'data-news-view',
+            meta: { title: 'view', icon: 'list', hidden: true },
             component: 'news/index'
           },
           {
             path: 'add',
             name: 'data-news-add',
-            title: 'add',
-            icon: 'playlist_add',
-            hidden: true,
-            meta: {},
+            meta: { title: 'add', icon: 'playlist_add', hidden: true },
             component: 'news/add'
           },
           {
             path: 'edit/:id?',
             name: 'data-news-edit',
-            title: 'edit',
-            icon: 'edit',
-            hidden: true,
-            meta: { noCache: true, activeMenu: '/news/list' },
+            meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: '/news/list' },
             component: 'news/add'
           },
           {
             path: 'trash',
             name: 'data-news-trash',
-            title: 'trash',
-            icon: 'delete_sweep',
-            hidden: true,
-            meta: { noCache: true, flag: 0 },
+            meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
             component: 'news/index'
           }
         ]
@@ -286,45 +242,31 @@ export const dynamic = [
   {
     path: '/products',
     name: 'products',
-    title: 'product',
-    icon: 'perm_media',
-    meta: {},
+    meta: { title: 'product', icon: 'perm_media' },
     component: 'layout',
     children: [
       {
         path: 'list',
-        name: 'products-list',
-        title: 'list',
-        icon: 'list',
-        hidden: true,
-        meta: { noCache: true, flag: 1 },
+        name: 'products-view',
+        meta: { title: 'view', icon: 'list', hidden: true, noCache: true, flag: 1 },
         component: 'products/index'
       },
       {
         path: 'add',
         name: 'products-add',
-        title: 'add',
-        icon: 'playlist_add',
-        hidden: true,
-        meta: {},
+        meta: { title: 'add', icon: 'playlist_add', hidden: true },
         component: 'products/add'
       },
       {
         path: 'edit/:id?',
         name: 'products-edit',
-        title: 'edit',
-        icon: 'edit',
-        hidden: true,
-        meta: { noCache: true, activeMenu: 'products/list' },
+        meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: 'products/list' },
         component: 'products/add'
       },
       {
         path: 'trash',
         name: 'products-trash',
-        title: 'trash',
-        icon: 'delete_sweep',
-        hidden: true,
-        meta: { noCache: true, flag: 0 },
+        meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
         component: 'products/index'
       }
     ]
@@ -332,45 +274,31 @@ export const dynamic = [
   {
     path: '/news',
     name: 'news',
-    title: 'news',
-    icon: 'library_books',
-    meta: {},
+    meta: { title: 'news', icon: 'library_books' },
     component: 'layout',
     children: [
       {
         path: 'list',
-        name: 'news-list',
-        title: 'list',
-        icon: 'list',
-        hidden: true,
-        meta: { noCache: true, flag: 1 },
+        name: 'news-view',
+        meta: { title: 'view', icon: 'list', hidden: true, noCache: true, flag: 1 },
         component: 'news/index'
       },
       {
         path: 'add',
         name: 'news-add',
-        title: 'add',
-        icon: 'playlist_add',
-        hidden: true,
-        meta: {},
+        meta: { title: 'add', icon: 'playlist_add', hidden: true },
         component: 'news/add'
       },
       {
         path: 'edit/:id?',
         name: 'news-edit',
-        title: 'edit',
-        icon: 'edit',
-        hidden: true,
-        meta: { noCache: true, activeMenu: 'news/list' },
+        meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: 'news/list' },
         component: 'news/add'
       },
       {
         path: 'trash',
         name: 'news-trash',
-        title: 'trash',
-        icon: 'delete_sweep',
-        hidden: true,
-        meta: { noCache: true, flag: 0 },
+        meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
         component: 'news/index'
       }
     ]
@@ -379,53 +307,37 @@ export const dynamic = [
     path: '/manager',
     name: 'manager',
     redirect: 'noRedirect',
-    title: 'manager',
-    icon: 'security',
-    meta: {},
+    meta: { title: 'manager', icon: 'security' },
     component: 'layout',
     children: [
       {
         path: 'users',
         name: 'manager-users',
-        title: 'users',
-        icon: 'account_box',
-        meta: {},
+        meta: { title: 'users', icon: 'account_box' },
         component: 'users/index',
         children: [
           {
             path: 'list',
-            name: 'manager-users-list',
-            title: 'list',
-            icon: 'list',
-            hidden: true,
-            meta: { flag: 1 },
+            name: 'manager-users-view',
+            meta: { title: 'view', icon: 'list', hidden: true, flag: 1 },
             component: 'users/index'
           },
           {
             path: 'add',
             name: 'manager-users-add',
-            title: 'add',
-            icon: 'add',
-            hidden: true,
-            meta: {},
+            meta: { title: 'add', icon: 'add', hidden: true },
             component: 'users/add'
           },
           {
             path: 'edit/:id?',
             name: 'manager-users-edit',
-            title: 'edit',
-            icon: 'edit',
-            hidden: true,
-            meta: {},
+            meta: { title: 'edit', icon: 'edit', hidden: true },
             component: 'users/add'
           },
           {
             path: 'trash',
             name: 'manager-users-trash',
-            title: 'trash',
-            icon: 'delete',
-            hidden: true,
-            meta: { flag: 0 },
+            meta: { title: 'trash', icon: 'delete', hidden: true, flag: 0 },
             component: 'users/index'
           }
         ]
@@ -433,45 +345,31 @@ export const dynamic = [
       {
         path: 'roles',
         name: 'manager-roles',
-        title: 'roles',
-        icon: 'verified_user',
-        meta: {},
+        meta: { title: 'roles', icon: 'verified_user' },
         component: 'roles/index',
         children: [
           {
             path: 'list',
-            name: 'manager-roles-list',
-            title: 'list',
-            icon: 'list',
-            hidden: true,
-            meta: { flag: 1 },
+            name: 'manager-roles-view',
+            meta: { title: 'view', icon: 'list', hidden: true, flag: 1 },
             component: 'roles/index'
           },
           {
             path: 'add',
             name: 'manager-roles-add',
-            title: 'add',
-            icon: 'add',
-            hidden: true,
-            meta: {},
+            meta: { title: 'add', icon: 'add', hidden: true },
             component: 'roles/add'
           },
           {
             path: 'edit/:id?',
             name: 'manager-roles-edit',
-            title: 'edit',
-            icon: 'edit',
-            hidden: true,
-            meta: {},
+            meta: { title: 'edit', icon: 'edit', hidden: true },
             component: 'roles/add'
           },
           {
             path: 'trash',
             name: 'manager-roles-trash',
-            title: 'trash',
-            icon: 'delete',
-            hidden: true,
-            meta: { flag: 0 },
+            meta: { title: 'trash', icon: 'delete', hidden: true, flag: 0 },
             component: 'roles/index'
           }
         ]
@@ -479,53 +377,37 @@ export const dynamic = [
       {
         path: 'get-password',
         name: 'get-password',
-        title: 'get_password',
-        icon: 'vpn_key',
-        meta: { icon: 'vpn_key' },
+        meta: { title: 'get_password', icon: 'vpn_key' },
         component: 'users/get-password'
       },
       {
         path: 'types',
         name: 'manager-types',
-        title: 'types',
-        icon: 'select_all',
-        meta: {},
+        meta: { title: 'types', icon: 'select_all' },
         component: 'types/index',
         children: [
           {
             path: 'list',
-            name: 'manager-types-list',
-            title: 'list',
-            icon: 'list',
-            hidden: true,
-            meta: { flag: 1 },
+            name: 'manager-types-view',
+            meta: { title: 'view', icon: 'list', hidden: true, flag: 1 },
             component: 'types/index'
           },
           {
             path: 'add',
             name: 'manager-types-add',
-            title: 'add',
-            icon: 'add',
-            hidden: true,
-            meta: {},
+            meta: { title: 'add', icon: 'add', hidden: true },
             component: 'types/add'
           },
           {
             path: 'edit/:id?',
             name: 'manager-types-edit',
-            title: 'edit',
-            icon: 'edit',
-            hidden: true,
-            meta: {},
+            meta: { title: 'edit', icon: 'edit', hidden: true },
             component: 'types/add'
           },
           {
             path: 'trash',
             name: 'manager-types-trash',
-            title: 'trash',
-            icon: 'delete',
-            hidden: true,
-            meta: { flag: 0 },
+            meta: { title: 'trash', icon: 'delete', hidden: true, flag: 0 },
             component: 'types/index'
           }
         ]
@@ -533,45 +415,31 @@ export const dynamic = [
       {
         path: 'command',
         name: 'manager-command',
-        title: 'command',
-        icon: 'code',
-        meta: {},
+        meta: { title: 'command', icon: 'code' },
         component: 'command/index',
         children: [
           {
             path: 'list',
-            name: 'manager-command-list',
-            title: 'list',
-            icon: 'list',
-            hidden: true,
-            meta: { flag: 1 },
+            name: 'manager-command-view',
+            meta: { title: 'view', icon: 'list', hidden: true, flag: 1 },
             component: 'command/index'
           },
           {
             path: 'add',
             name: 'manager-command-add',
-            title: 'add',
-            icon: 'add',
-            hidden: true,
-            meta: {},
+            meta: { title: 'add', icon: 'add', hidden: true },
             component: 'command/add'
           },
           {
             path: 'edit/:id?',
             name: 'manager-command-edit',
-            title: 'edit',
-            icon: 'edit',
-            hidden: true,
-            meta: {},
+            meta: { title: 'edit', icon: 'edit', hidden: true },
             component: 'command/add'
           },
           {
             path: 'trash',
             name: 'manager-command-trash',
-            title: 'trash',
-            icon: 'delete',
-            hidden: true,
-            meta: { flag: 0 },
+            meta: { title: 'trash', icon: 'delete', hidden: true, flag: 0 },
             component: 'command/index'
           }
         ]
@@ -593,9 +461,7 @@ if (process.env.MODE !== 'ssr') {
     path: '*',
     name: '404',
     component: () => import('@/pages/error404'),
-    hidden: true,
-    constant: true,
-    meta: { title: 'error404', icon: '404' }
+    meta: { title: 'error404', icon: '404', hidden: true, constant: true }
   })
 }
 

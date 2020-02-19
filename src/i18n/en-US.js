@@ -1,6 +1,7 @@
 export default {
   route: {
     index: 'Index',
+    view: 'View',
     list: 'List',
     add: 'Add',
     edit: 'Edit',
@@ -27,7 +28,9 @@ export default {
     diaban_manager: 'Manager locality',
     update_nv: 'Update staff',
     data: 'Data',
-    guide: 'Manual document'
+    guide: 'Manual document',
+    pttb: 'PTTB',
+    tuyen_thu: 'Gland revenue'
   },
   global: {
     list: 'List data',

@@ -1,6 +1,7 @@
 export default {
   route: {
     index: 'Trang chủ',
+    view: 'Xem',
     list: 'Danh sách',
     add: 'Thêm mới',
     edit: 'Sửa',
@@ -28,7 +29,9 @@ export default {
     diaban_manager: 'Quản lý địa bàn',
     update_nv: 'Cập nhật nhân viên',
     data: 'Dữ liệu chung',
-    guide: 'Tài liệu - Hướng dẫn'
+    guide: 'Tài liệu - Hướng dẫn',
+    pttb: 'PTTB',
+    tuyen_thu: 'Tuyến thu'
   },
   global: {
     list: 'Danh sách dữ liệu',

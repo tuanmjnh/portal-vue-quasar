@@ -54,22 +54,30 @@
             </div>
           </div>
           <div class="row q-gutter-xs">
-            <div class="col">
+            <div class="col-3">
               <q-input v-model="form.levels" type="number"
                 :dense="$store.state.app.dense.input" label="Cấp dộ"
                 :rules="[v=>v!==null&&v!==''||$t('error.required')]" class="col-md-4" />
             </div>
-            <q-space v-if="item" />
-            <div class="col-5 self-center" v-if="item">
-              <q-toggle v-model="form.flag" :true-value="1"
-                :dense="$store.state.app.dense.input"
-                :label="form.flag?$t('global.publish'):$t('global.drafts')" />
+            <q-space />
+            <div class="col-md-3">
+              <q-input v-model="form.orders" type="number"
+                :dense="$store.state.app.dense.input" label="Vị trí"
+                :rules="[v=>v!==null&&v!==''||$t('error.required')]" class="col-md-4" />
             </div>
             <q-space />
-            <div class="col self-center">
+            <div class="col-3 self-center">
               Mầu quyền:
               <q-badge :style="color" @click="dialog_color_pick=true">{{form.name}}
               </q-badge>
+            </div>
+          </div>
+          <div class="row q-gutter-xs">
+            <q-space />
+            <div class="col-3 self-center" v-if="item">
+              <q-toggle v-model="form.flag" :true-value="1"
+                :dense="$store.state.app.dense.input"
+                :label="form.flag?$t('global.publish'):$t('global.drafts')" />
             </div>
           </div>
           <q-input v-model.trim="form.desc" autogrow :dense="$store.state.app.dense.input"

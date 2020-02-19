@@ -58,7 +58,7 @@
       <q-item>
         <q-item-section avatar>
           <q-btn color="orange" icon="touch_app" label="Thực hiện" size="sm"
-            :loading="loading.donviNV" @click="onUpdatePhoCuoc" />
+            :loading="loading.phoCuoc" @click="onUpdatePhoCuoc" />
         </q-item-section>
         <q-item-section>
           <q-item-label>Cập nhật PHO_ID của TINHCUOC_BKN.DBTB_[Kỳ cước]</q-item-label>
@@ -73,7 +73,7 @@
       <q-item>
         <q-item-section avatar>
           <q-btn color="orange" icon="touch_app" label="Thực hiện" size="sm"
-            :loading="loading.donviNV" @click="onUpdateDoiTuongCuoc" />
+            :loading="loading.doituongCuoc" @click="onUpdateDoiTuongCuoc" />
         </q-item-section>
         <q-item-section>
           <q-item-label>Cập nhật DOITUONG_ID của TINHCUOC_BKN.DBTB_[Kỳ cước]
@@ -154,7 +154,9 @@ export default {
         phoLike: false,
         quan: false,
         phuong: false,
-        pho: false
+        pho: false,
+        phoCuoc: false,
+        doituongCuoc: false
       },
       kycuocs: [],
       kycuoc: null
@@ -170,66 +172,73 @@ export default {
       })
     },
     onCreatePhoNVKC() {
+      if (!this.onCheckKyCuoc()) return null
+      this.loading.createPNVKC = true
+      api.createPhoNVKC({ kycuoc: this.kycuoc.value }).finally(() => {
+        setTimeout(() => { this.loading.createPNVKC = false }, 1000)
+      })
+    },
+    onUpdateDonvi() {
+      this.loading.donvi = true
+      api.updateDonvi().finally(() => {
+        this.loading.donvi = false
+      })
+    },
+    onUpdateDonviNV() {
+      this.loading.donviNV = true
+      api.updateDonviNV().finally(() => {
+        this.loading.donviNV = false
+      })
+    },
+    onUpdateDBPhoLike() {
+      this.loading.phoLike = true
+      api.updateDBPhoLike().finally(() => {
+        this.loading.phoLike = false
+      })
+    },
+    onUpdateDBQuan() {
+      this.loading.quan = true
+      api.updateDBQuan().finally(() => {
+        this.loading.quan = false
+      })
+    },
+    onUpdateDBPhuong() {
+      this.loading.phuong = true
+      api.updateDBPhuong().finally(() => {
+        this.loading.phuong = false
+      })
+    },
+    onUpdateDBPho() {
+      this.loading.pho = true
+      api.updateDBPho().finally(() => {
+        this.loading.pho = false
+      })
+    },
+    onUpdatePhoCuoc() {
+      if (!this.onCheckKyCuoc()) return null
+      this.loading.phoCuoc = true
+      api.updatePhoCuoc({ kycuoc: this.kycuoc.value }).finally(() => {
+        this.loading.phoCuoc = false
+      })
+    },
+    onUpdateDoiTuongCuoc() {
+      if (!this.onCheckKyCuoc()) return null
+      this.loading.doituongCuoc = true
+      api.updateDoiTuongCuoc({ kycuoc: this.kycuoc.value }).finally(() => {
+        this.loading.doituongCuoc = false
+      })
+    },
+    // Kiểm tra kỳ cước
+    onCheckKyCuoc() {
       if (!this.kycuoc || !this.kycuoc.value) {
         this.$q.notify({
           color: 'warning',
           timeout: 3000,
           message: 'Vui lòng chọn kỳ cước trước khi thực hiện!'
         })
-        return null
+        return false
       }
-      this.loading.createPNVKC = true
-      api.createPhoNVKC({ kycuoc: this.kycuoc.value }).then(x => {
-        setTimeout(() => { this.loading.createPNVKC = false }, 1000)
-      })
-    },
-    onUpdateDonvi() {
-      this.loading.donvi = true
-      api.updateDonvi().then(x => {
-        this.loading.donvi = false
-      })
-    },
-    onUpdateDonviNV() {
-      this.loading.donviNV = true
-      api.updateDonviNV().then(x => {
-        this.loading.donviNV = false
-      })
-    },
-    onUpdateDBPhoLike() {
-      this.loading.phoLike = true
-      api.updateDBPhoLike().then(x => {
-        this.loading.phoLike = false
-      })
-    },
-    onUpdateDBQuan() {
-      this.loading.quan = true
-      api.updateDBQuan().then(x => {
-        this.loading.quan = false
-      })
-    },
-    onUpdateDBPhuong() {
-      this.loading.phuong = true
-      api.updateDBPhuong().then(x => {
-        this.loading.phuong = false
-      })
-    },
-    onUpdateDBPho() {
-      this.loading.pho = true
-      api.updateDBPho().then(x => {
-        this.loading.pho = false
-      })
-    },
-    onUpdatePhoCuoc() {
-      this.loading.pho = true
-      api.updatePhoCuoc().then(x => {
-        this.loading.pho = false
-      })
-    },
-    onUpdateDoiTuongCuoc() {
-      this.loading.pho = true
-      api.updateDoiTuongCuoc().then(x => {
-        this.loading.pho = false
-      })
+      return true
     }
   }
 }

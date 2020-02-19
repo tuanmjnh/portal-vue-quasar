@@ -77,7 +77,7 @@ export function generateRoutesRoles(nodes) {
     nodes.forEach(_e => {
       const e = { ..._e }
       if (!e.constant) {
-        e.label = i18n.t(`route.${e.title}`)
+        e.label = i18n.t(`route.${e.meta.title}`)
         if (e.children) {
           const child = generateRoutesRoles(e.children)
           if (child.length > 0) e.children = child
