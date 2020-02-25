@@ -240,6 +240,7 @@ export default {
         quantity: 0,
         position: null,
         tags: null,
+        attach: null,
         icon: '<i class="material-icons">class</i>',
         color: '#009688',
         meta: null,

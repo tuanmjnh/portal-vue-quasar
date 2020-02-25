@@ -93,7 +93,7 @@
             :loading="loading.phoLike" @click="onUpdateDBPhoLike" />
         </q-item-section>
         <q-item-section>
-          <q-item-label>Cập PHO_ID Like địa</q-item-label>
+          <q-item-label>Cập PHO_ID Like địa chỉ</q-item-label>
           <q-item-label caption class="text-indigo">
             Cập nhật lại trường PHO_ID của bảng CSS_.DIACHI dựa theo địa chỉ phố like tên
             phố

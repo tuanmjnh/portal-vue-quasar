@@ -365,6 +365,10 @@ export default {
           if (this.form.ngay_kt) this.form.ngay_kt = this.$moment(this.form.ngay_kt).format('YYYY-MM-DD')
           if (this.form.group_id) this.group = this.groups.find(x => x.value === this.form.group_id)
           if (this.form.nguoi_gt) this.selectedNV = { label: this.form.ten_nguoi_gt, value: this.form.nguoi_gt }
+          if (this.form.dinh_kem) {
+            this.attach = { fileName: this.form.dinh_kem.split('/'), fullName: this.form.dinh_kem }
+            this.attach.fileName = this.attach.fileName[this.attach.fileName.length - 1]
+          }
         }
       },
       deep: true,
@@ -396,7 +400,6 @@ export default {
       if (res.length > 0) {
         this.form.dinh_kem = res[0].fullName// `${process.env.API_UPLOAD}/${res[0].fullName}`
         this.attach = res[0]
-        console.log(this.attach)
       } else this.form.dinh_kem = null
     },
     onUploadFinish() {

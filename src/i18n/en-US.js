@@ -30,7 +30,10 @@ export default {
     data: 'Data',
     guide: 'Manual document',
     pttb: 'PTTB',
-    tuyen_thu: 'Gland revenue'
+    tuyen_thu: 'Gland revenue',
+    hddt: 'HDDT',
+    create_hddt: 'HDDT Create',
+    remove_hddt: 'HDDT Remove'
   },
   global: {
     list: 'List data',

@@ -12,7 +12,7 @@ export const API_MAIN = axios.create({
   // uploadURL: 'http://localhost:8001/api/upload',
   baseURL: process.env.API, // 'http://localhost:8001/api',
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 10000 // request timeout
+  timeout: 0 // 10000 // request timeout
   // headers: {
   //   // Authorization: storageAuth.GetToken() || '',
   //   // Author: storageAuth.GetUid() || '',

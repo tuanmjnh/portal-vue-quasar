@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     onGetKey() {
-      apiCategories.select({ key: 'guide', children: true }).then(x => {
+      apiCategories.select({ key: 'guide' }).then(x => {
         this.groups = x.map(x => ({ value: x.id, label: x.title }))
       })
     },

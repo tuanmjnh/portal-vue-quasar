@@ -236,70 +236,26 @@ export const dynamic = [
             component: 'news/index'
           }
         ]
-      }
-    ]
-  },
-  {
-    path: '/products',
-    name: 'products',
-    meta: { title: 'product', icon: 'perm_media' },
-    component: 'layout',
-    children: [
-      {
-        path: 'list',
-        name: 'products-view',
-        meta: { title: 'view', icon: 'list', hidden: true, noCache: true, flag: 1 },
-        component: 'products/index'
       },
       {
-        path: 'add',
-        name: 'products-add',
-        meta: { title: 'add', icon: 'playlist_add', hidden: true },
-        component: 'products/add'
-      },
-      {
-        path: 'edit/:id?',
-        name: 'products-edit',
-        meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: 'products/list' },
-        component: 'products/add'
-      },
-      {
-        path: 'trash',
-        name: 'products-trash',
-        meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
-        component: 'products/index'
-      }
-    ]
-  },
-  {
-    path: '/news',
-    name: 'news',
-    meta: { title: 'news', icon: 'library_books' },
-    component: 'layout',
-    children: [
-      {
-        path: 'list',
-        name: 'news-view',
-        meta: { title: 'view', icon: 'list', hidden: true, noCache: true, flag: 1 },
-        component: 'news/index'
-      },
-      {
-        path: 'add',
-        name: 'news-add',
-        meta: { title: 'add', icon: 'playlist_add', hidden: true },
-        component: 'news/add'
-      },
-      {
-        path: 'edit/:id?',
-        name: 'news-edit',
-        meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: 'news/list' },
-        component: 'news/add'
-      },
-      {
-        path: 'trash',
-        name: 'news-trash',
-        meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
-        component: 'news/index'
+        path: 'hddt',
+        name: 'data-hddt',
+        meta: { title: 'hddt', icon: 'subtitles' },
+        component: 'hddt/index'
+        // children: [
+        //   {
+        //     path: 'tao',
+        //     name: 'hddt-create',
+        //     meta: { title: 'create_hddt', icon: 'layers', hidden: false },
+        //     component: 'hddt/create'
+        //   },
+        //   {
+        //     path: 'huy',
+        //     name: 'hddt-remove',
+        //     meta: { title: 'remove_hddt', icon: 'layers_clear', hidden: false },
+        //     component: 'hddt/remove'
+        //   }
+        // ]
       }
     ]
   },
@@ -329,7 +285,7 @@ export const dynamic = [
             component: 'users/add'
           },
           {
-            path: 'edit/:id?',
+            path: 'edit',
             name: 'manager-users-edit',
             meta: { title: 'edit', icon: 'edit', hidden: true },
             component: 'users/add'

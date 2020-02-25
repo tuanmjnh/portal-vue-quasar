@@ -31,7 +31,10 @@ export default {
     data: 'Dữ liệu chung',
     guide: 'Tài liệu - Hướng dẫn',
     pttb: 'PTTB',
-    tuyen_thu: 'Tuyến thu'
+    tuyen_thu: 'Tuyến thu',
+    hddt: 'HĐĐT',
+    create_hddt: 'HĐĐT Tạo',
+    remove_hddt: 'HĐĐT Hủy'
   },
   global: {
     list: 'Danh sách dữ liệu',

@@ -73,8 +73,15 @@
           </div>
         </div>
         <div class="col-12 row">
+          <div class="col-xs-12 col-sm-5">
+            <q-select v-model="donvi" :options="donvis" label="Đơn vị"
+              :dense="$store.getters.dense.input"
+              :options-dense="$store.getters.dense.input" input-debounce="300"
+              @input="onSelect({pagination:pagination})"
+              :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]" />
+          </div>
           <q-space />
-          <div class="col-xs-12 col-sm-6">
+          <div class="col-xs-12 col-sm-5">
             <q-input v-model="pagination.filter" :dense="$store.state.app.dense.input"
               debounce="500" :placeholder="$t('global.search')">
               <template v-slot:append>
@@ -137,10 +144,10 @@
             </q-badge>
             <!-- {{ props.row.roles.length>0?props.row.roles.length:$t('global.undefined') }} -->
           </q-td>
-          <q-td v-if="isRoutes.edit||isRoutes.trash" key="actions" :props="props"
-            auto-width class="text-center">
+          <q-td v-if="isRoutes.edit||isRoutes.trash" key="actions" auto-width
+            class="text-center">
             <q-btn v-if="isRoutes.edit" flat round dense icon="verified_user"
-              @click="onSetRoles(props.row)" color="light-green">
+              @click="onSetRoles(props.row)" color="indigo">
               <q-tooltip v-if="!$q.platform.is.mobile">Cập nhật quyền</q-tooltip>
             </q-btn>
             <!-- <q-btn v-if="pagination.trangthai" flat round dense color="green"
@@ -186,6 +193,7 @@ import templateAdd from './add'
 import templateRoles from './roles'
 import * as api from '@/api/users'
 import * as apiRoles from '@/api/roles'
+import * as apiDonvi from '@/api/donvi'
 export default {
   components: { templateAdd, templateRoles },
   data() {
@@ -197,6 +205,8 @@ export default {
       selected: [],
       roles: [],
       loadingResetPassword: false,
+      donvis: [],
+      donvi: null,
       isRoutes: {
         add: this.$router.has('manager-users-add'),
         edit: this.$router.has('manager-users-edit'),
@@ -226,6 +236,7 @@ export default {
   mounted() {
     this.onSelect({ pagination: this.pagination })
     this.onGetRoles()
+    this.onGetDonvi()
   },
   watch: {
     dialogAdd(val) {
@@ -234,10 +245,19 @@ export default {
   },
   methods: {
     onSelect(props) {
+      if (this.donvi) props.pagination.donvi_id = this.donvi.value
       api.select(props.pagination).then((x) => {
         this.items = x.data
         this.pagination = props.pagination
         this.pagination.rowsNumber = x.rowsNumber
+      })
+    },
+    onGetDonvi() {
+      apiDonvi.select().then(x => {
+        this.donvis = x.map(x => ({ label: x.ten_dv, value: x.donvi_id }))
+        // if (this.donvi.length) {
+        //   this.formDonvi = this.donvi[0]
+        // }
       })
     },
     onGetRoles(props) {
