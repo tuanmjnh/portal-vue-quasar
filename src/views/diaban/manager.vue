@@ -9,10 +9,17 @@
     <q-separator />
     <q-card-actions>
       <div class="col-12 row">
-        <div class="col-xs-12 col-sm-5 col-md-4">
+        <div class="col-sm-12 col-md-4">
           <q-select v-model="kycuoc" :options="kycuocs"
             :dense="$store.state.app.dense.input"
             :options-dense="$store.state.app.dense.input" label="Kỳ cước" />
+        </div>
+        <q-space />
+        <div class="col-sm-12 col-md-5">
+          <q-select v-model="donvi" :options="donvis" option-label="ten_dv"
+            :dense="$store.state.app.dense.input"
+            :options-dense="$store.state.app.dense.input" label="Đơn vị" />
+          <!-- <q-btn label="test" @click="testDonVi"></q-btn> -->
         </div>
       </div>
     </q-card-actions>
@@ -141,8 +148,9 @@
 </template>
 
 <script>
-import * as api from '@/api/diaban'
 import * as apiBilling from '@/api/billing'
+import * as apiDonvi from '@/api/donvi'
+import * as api from '@/api/diaban'
 export default {
   name: 'diaban-manager',
   data() {
@@ -159,16 +167,30 @@ export default {
         doituongCuoc: false
       },
       kycuocs: [],
-      kycuoc: null
+      kycuoc: null,
+      donvis: [],
+      donvi: null
     }
   },
   created() {
     this.onSelectKyCuoc()
+    this.onSelectDonvi()
   },
   methods: {
+    testDonVi() {
+      // console.log(this.donvi)
+      console.log(this.donvi && this.donvi.donvi_id ? 'true' : 'false')
+    },
     onSelectKyCuoc() {
       apiBilling.getKyCuoc().then(x => {
         this.kycuocs = x
+      })
+    },
+    onSelectDonvi() {
+      apiDonvi.getDonviTTKD().then(x => {
+        const all = [{ donvi_id: 0, donvi_ql_id: 0, ten_dv: '-- Không chọn --' }]
+        this.donvis = [...all, ...x]
+        this.donvi = this.donvis[0]
       })
     },
     onCreatePhoNVKC() {
@@ -217,14 +239,20 @@ export default {
     onUpdatePhoCuoc() {
       if (!this.onCheckKyCuoc()) return null
       this.loading.phoCuoc = true
-      api.updatePhoCuoc({ kycuoc: this.kycuoc.value }).finally(() => {
+      api.updatePhoCuoc({
+        kycuoc: this.kycuoc.value,
+        donvi_id: this.donvi && this.donvi.donvi_id ? [this.donvi.donvi_id, this.donvi.donvi_ql_id] : []
+      }).finally(() => {
         this.loading.phoCuoc = false
       })
     },
     onUpdateDoiTuongCuoc() {
       if (!this.onCheckKyCuoc()) return null
       this.loading.doituongCuoc = true
-      api.updateDoiTuongCuoc({ kycuoc: this.kycuoc.value }).finally(() => {
+      api.updateDoiTuongCuoc({
+        kycuoc: this.kycuoc.value,
+        donvi_id: this.donvi && this.donvi.donvi_id ? [this.donvi.donvi_id, this.donvi.donvi_ql_id] : []
+      }).finally(() => {
         this.loading.doituongCuoc = false
       })
     },

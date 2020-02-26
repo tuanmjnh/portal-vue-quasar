@@ -5,6 +5,10 @@ export async function select(params) {
   return http.get(collection, { params })
 }
 
+export async function getDonviTTKD(params) {
+  return http.get(`${collection}/ttkd`, { params })
+}
+
 export async function insert(params) {
   return http.post(collection, params)
 }
