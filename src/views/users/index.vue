@@ -19,6 +19,10 @@
                 @click="dialogAdd=true">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.add')}}</q-tooltip>
               </q-btn>
+              <q-btn v-if="isRoutes.edit&&selected.length>0" flat round dense
+                icon="verified_user" color="indigo" @click="onSetRoles()">
+                <q-tooltip v-if="!$q.platform.is.mobile">Cập nhật quyền</q-tooltip>
+              </q-btn>
               <q-btn v-if="isRoutes.trash&&selected.length>0&&pagination.trangthai" flat
                 round dense color="negative" icon="delete" @click="onTrash()">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.delete')}}
@@ -182,8 +186,8 @@
         :roles="roles" />
     </q-dialog>
     <q-dialog v-model="dialogSetRole" persistent>
-      <template-roles :dialog.sync="dialogAdd" :item.sync="selected[0]"
-        :items.sync="items" :roles="roles" />
+      <template-roles :dialog.sync="dialogAdd" :item.sync="selected" :items.sync="items"
+        :roles="roles" />
     </q-dialog>
   </div>
 </template>
@@ -286,7 +290,7 @@ export default {
     },
     onSetRoles(item) {
       this.dialogSetRole = true
-      this.selected = [item]
+      if (item) this.selected = [item]
     },
     onUpdate(item) {
       this.dialogAdd = true

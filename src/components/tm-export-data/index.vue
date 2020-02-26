@@ -51,7 +51,7 @@ export default {
       if (item.type === 'csv') {
         this.getData().then((x) => {
           if (!x) {
-            console.log('No data available!')
+            // console.log('No data available!')
             return
           }
           // console.log(x.has)
@@ -66,7 +66,7 @@ export default {
     ExportCSV(data = []) {
       // console.log(data)
       if (data.length < 1) {
-        console.log('No data available!')
+        // console.log('No data available!')
         return
       }
       let csvContent = ''// "data:text/csv;charset=utf-8,"
@@ -89,7 +89,7 @@ export default {
     },
     ExportXML(xmlString) {
       if (!xmlString) {
-        console.log('No data available!')
+        // console.log('No data available!')
         return
       }
       var BOM = '\uFEFF'
@@ -102,7 +102,7 @@ export default {
     },
     ExportZipXML(xmlString) {
       if (!xmlString) {
-        console.log('No data available!')
+        // console.log('No data available!')
         return
       }
       const zip = new JSZip()
@@ -116,8 +116,8 @@ export default {
           link.setAttribute('download', `${this.suffixFileName ? `${this.zipname}_${moment().format('YYYYMMDDhhmmss')}` : this.zipname}.zip`)
           link.click()
         })
-        .catch((err) => {
-          console.log(err)
+        .catch(e => {
+          // console.log(e)
         })
     },
     ex() {
