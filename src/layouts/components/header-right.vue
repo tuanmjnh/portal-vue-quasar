@@ -115,7 +115,7 @@
           </q-item>
           <q-item>
             <q-toggle dense v-model="darkMode" label="Dark mode" size="xs"
-              color="blue-grey" style="white-space:nowrap"
+              color="blue-grey" style="white-space:nowrap;padding-left:18px;"
               :class="$store.state.app.darkMode?'':'q-toggle-setting'" />
           </q-item>
         </q-list>
@@ -129,7 +129,7 @@
         <div class="q-mt-md q-mb-xs cursor-pointer text-blue"
           @click="onRouterLink('/profile')">
           {{$store.state.auth.user?
-            ($store.state.auth.user.full_name?$store.state.auth.user.full_name:$store.state.auth.user.email):
+            ($store.state.auth.user.ten_nd?$store.state.auth.user.ten_nd:$store.state.auth.user.ma_nd):
             $t('global.undefined')}}
         </div>
         <!-- </router-link> -->

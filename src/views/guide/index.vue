@@ -54,6 +54,11 @@
         </q-item>
       </template>
     </q-list>
+    <q-pagination v-if="items&&items.length&&totalPage>1" v-model="pagination.page" :max="totalPage"
+      :direction-links="true" :boundary-links="true" icon-first="skip_previous"
+      icon-last="skip_next" icon-prev="fast_rewind" icon-next="fast_forward"
+      class="pagination q-pb-md flex flex-center" @input="onSelect">
+    </q-pagination>
     <!-- </q-card-actions> -->
     <!-- View file dialog-->
     <q-dialog v-model="dialogView" :maximized="maximizedView" persistent>
@@ -79,7 +84,12 @@ export default {
       maximizedView: false,
       host: process.env['HOST'],
       pagination: {
-        key: 'guide'
+        key: 'guide',
+        sortBy: 'orders',
+        descending: false,
+        page: 1,
+        rowsPerPage: 10,
+        rowsNumber: 1
       }
     }
   },
@@ -91,6 +101,11 @@ export default {
       if (!val) this.maximizedView = false
     }
   },
+  computed: {
+    totalPage() {
+      return Math.ceil(this.pagination.rowsNumber / this.pagination.rowsPerPage)
+    }
+  },
   methods: {
     onGetKey() {
       apiCategories.select({ key: 'guide' }).then(x => {
@@ -100,7 +115,8 @@ export default {
     onSelect() {
       this.pagination.group_id = this.group.value
       api.select(this.pagination).then(x => {
-        this.items = x
+        this.items = x.data
+        this.pagination.rowsNumber = x.rowsNumber
       })
     },
     onOpenUrl(title, url) {
@@ -117,5 +133,8 @@ export default {
 .q-item__section,
 .q-expansion-item >>> .q-item__section {
   min-width: initial;
+}
+.pagination >>> .q-btn {
+  font-size: 12px;
 }
 </style>
