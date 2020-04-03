@@ -1,6 +1,23 @@
 <template>
   <div>
     <div class="row">
+      <div v-if="notify" class="bg-deep-orange text-white q-pa-sm q-mb-md row">
+        <div class="col">
+          <span class="text-bold">
+            Từ ngày 01-10 hàng tháng (trong thời gian tính cước),
+          </span>
+          <span>
+            Anh/Chị không được cập nhật lại nhân viên quản lý tuyến thu để tránh
+            lỗi khi sinh công nợ trên hệ thống tính cước tập trung!
+          </span>
+        </div>
+        <div style="padding:5px;display:flex;" @click="notify=false">
+          <i class="material-icons cursor-pointer">close</i>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="row"></div>
       <div class="col">
         <q-card>
           <q-card-section class="bg-indigo text-white">
@@ -9,7 +26,7 @@
           <q-separator />
           <q-card-actions>
             <q-table :data="tuyenThus" :columns="columns" row-key="tuyenthu_id"
-              :loading="$store.state.loading.get||$store.state.loading.patch"
+              :loading="$store.state.loading.get || $store.state.loading.patch"
               selection="multiple" :selected.sync="selected" :pagination.sync="pagination"
               :dense="$store.getters.dense.table" :virtual-scroll-sticky-size-start="48"
               virtual-scroll :virtual-scroll-item-size="48" hide-bottom
@@ -21,16 +38,24 @@
                     <q-select v-model="donvi" :options="donvis" label="Đơn vị"
                       :dense="$store.getters.dense.input"
                       :options-dense="$store.getters.dense.input" input-debounce="300"
-                      :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]"
-                      @input="onGetUsers" />
+                      :rules="[
+                        v =>
+                          (v && Object.keys(v).length > 0) ||
+                          $t('error.required')
+                      ]" @input="onGetUsers" />
                   </div>
                   <q-space />
                   <div class="col-4 col-sm-auto self-center text-right">
-                    <q-btn flat round dense :color="$store.state.app.darkMode?'':'grey-7'"
-                      :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-                      @click="props.toggleFullscreen">
+                    <q-btn flat round dense
+                      :color="$store.state.app.darkMode ? '' : 'grey-7'" :icon="
+                        props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'
+                      " @click="props.toggleFullscreen">
                       <q-tooltip v-if="!$q.platform.is.mobile">
-                        {{props.inFullscreen?$t('table.normal_screen'):$t('table.full_screen')}}
+                        {{
+                          props.inFullscreen
+                            ? $t('table.normal_screen')
+                            : $t('table.full_screen')
+                        }}
                       </q-tooltip>
                     </q-btn>
                   </div>
@@ -40,12 +65,14 @@
                     <q-select v-model="user" :options="users"
                       label="Nhân viên đang quản lý" :dense="$store.getters.dense.input"
                       :options-dense="$store.getters.dense.input" input-debounce="300"
-                      :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]"
-                      @input="onGetTuyenThu" />
+                      :rules="[
+                        v =>
+                          (v && Object.keys(v).length > 0) ||
+                          $t('error.required')
+                      ]" @input="onGetTuyenThu" />
                   </div>
                   <q-space />
-                  <div class="col-8 col-md-8">
-                  </div>
+                  <div class="col-8 col-md-8"></div>
                 </div>
               </template>
               <template v-slot:header="props">
@@ -55,10 +82,12 @@
                       :dense="$store.getters.dense.table" indeterminate-value="some" />
                   </q-th>
                   <q-th v-for="col in props.cols" :key="col.name" :props="props">
-                    <span v-if="$store.state.app.darkMode"
-                      class="text-bold">{{ col.label }}</span>
-                    <span v-else
-                      class="text-bold text-blue-grey-10">{{ col.label }}</span>
+                    <span v-if="$store.state.app.darkMode" class="text-bold">{{
+                      col.label
+                    }}</span>
+                    <span v-else class="text-bold text-blue-grey-10">{{
+                      col.label
+                    }}</span>
                   </q-th>
                 </q-tr>
               </template>
@@ -72,7 +101,7 @@
                     {{ props.row.ma_tuyen }}
                   </q-td>
                   <q-td key="tentuyen" :props="props">
-                    {{props.row.tentuyen}}
+                    {{ props.row.tentuyen }}
                   </q-td>
                   <q-td key="kieuthu" :props="props">
                     {{ props.row.kieuthu }}
@@ -92,7 +121,9 @@
         <q-card>
           <q-card-section class="bg-teal text-white">
             <div class="text-h6">Cập nhật</div>
-            <div class="text-subtitle2">Cập nhật nhân viên quản lý tuyến thu</div>
+            <div class="text-subtitle2">
+              Cập nhật nhân viên quản lý tuyến thu
+            </div>
           </q-card-section>
           <q-separator />
           <q-form ref="form">
@@ -102,15 +133,17 @@
                   label="Nhân viên quản lý mới"
                   hint="Tích chọn tuyến cần thay đổi, chọn nhân viên quản lý mới"
                   :dense="$store.getters.dense.input"
-                  :options-dense="$store.getters.dense.input" input-debounce="300"
-                  :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]" />
+                  :options-dense="$store.getters.dense.input" input-debounce="300" :rules="[
+                    v =>
+                      (v && Object.keys(v).length > 0) || $t('error.required')
+                  ]" />
               </div>
             </q-card-actions>
             <q-card-actions align="right">
-              <q-btn type="submit" dense color="blue" :disable="$store.state.loading.post"
-                @click.prevent="onUpdateTuyenThu">
+              <q-btn v-if="allowUpdate" type="submit" dense color="blue"
+                :disable="$store.state.loading.post" @click.prevent="onUpdateTuyenThu">
                 <q-icon left size="16px" name="rate_review" />
-                {{$t('global.update')}}
+                {{ $t('global.update') }}
                 <!-- <q-tooltip v-if="!$q.platform.is.mobile">
                       {{$t('global.update')}}
                     </q-tooltip> -->
@@ -129,14 +162,16 @@
 
 <script>
 // import updateNv from './update-nv'
-import * as apiDonvi from '@/api/donvi'
-import * as apiUsers from '@/api/users'
-import * as apiPTTB from '@/api/pttb'
+import * as apiDonvi from '@/api/donvi';
+import * as apiUsers from '@/api/users';
+import * as apiPTTB from '@/api/pttb';
 export default {
   // components: { updateNv },
   data() {
     return {
       dialogUpdateNV: false,
+      allowUpdate: false,
+      notify: true,
       donvis: [],
       donvi: null,
       tuyenThus: [],
@@ -146,10 +181,34 @@ export default {
       nhanviens: [],
       nhanvien: null,
       columns: [
-        { name: 'ma_tuyen', field: 'ma_tuyen', label: 'Mã tuyến', align: 'left', sortable: true },
-        { name: 'tentuyen', field: 'tentuyen', label: 'Tên tuyến', align: 'left', sortable: true },
-        { name: 'kieuthu', field: 'kieuthu', label: 'Kiểu thu', align: 'right', sortable: true },
-        { name: 'hinhthuc_tt', field: 'hinhthuc_tt', label: 'Hình thức TT', align: 'right', sortable: true }
+        {
+          name: 'ma_tuyen',
+          field: 'ma_tuyen',
+          label: 'Mã tuyến',
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'tentuyen',
+          field: 'tentuyen',
+          label: 'Tên tuyến',
+          align: 'left',
+          sortable: true
+        },
+        {
+          name: 'kieuthu',
+          field: 'kieuthu',
+          label: 'Kiểu thu',
+          align: 'right',
+          sortable: true
+        },
+        {
+          name: 'hinhthuc_tt',
+          field: 'hinhthuc_tt',
+          label: 'Hình thức TT',
+          align: 'right',
+          sortable: true
+        }
       ],
       pagination: {
         sortBy: 'ma_tuyen',
@@ -161,33 +220,51 @@ export default {
         view: this.$router.has(`pttb-tuyen-thu-view`),
         edit: this.$router.has(`pttb-tuyen-thu-edit`)
       }
-    }
+    };
+  },
+  created() {
+    // this.$q.notify({
+    //   color: 'warning',
+    //   timeout: 90000,
+    //   html: true,
+    //   message: `Từ ngày 01-10 hàng tháng (trong thời gian tính cước)<br/>
+    //   Anh/Chị không được cập nhật lại nhân viên quản lý tuyến thu
+    //   để tránh lỗi khi sinh công nợ trên hệ thống tính cước tập trung!`
+    // });
+    apiPTTB.getAllowUpdateTuyenThu().then(x => {
+      this.allowUpdate = x;
+    });
   },
   mounted() {
-    this.onGetDonvi()
+    this.onGetDonvi();
   },
   methods: {
     onGetDonvi() {
       apiDonvi.select().then(x => {
-        this.donvis = x.map(x => ({ label: x.ten_dv, value: x.donvi_id }))
-      })
+        this.donvis = x.map(x => ({ label: x.ten_dv, value: x.donvi_id }));
+      });
     },
     onGetUsers() {
-      this.users = []
-      this.nhanviens = []
+      this.users = [];
+      this.nhanviens = [];
       apiUsers.find({ donvi_id: this.donvi.value }).then(x => {
-        this.users = x.map(x => ({ label: x.ten_nv, value: x.nhanvien_id }))
-        this.nhanviens = [...this.users]
+        this.users = x.map(x => ({ label: x.ten_nv, value: x.nhanvien_id }));
+        this.nhanviens = [...this.users];
         if (this.users.length) {
-          this.user = this.users[0]
-          this.ma_nd = this.user.value
+          this.user = this.users[0];
+          this.ma_nd = this.user.value;
         }
-      })
+      });
     },
     onGetTuyenThu() {
-      apiPTTB.getTuyenThu({ donvi_id: this.donvi.value, nhanvien_id: this.user.value }).then(x => {
-        this.tuyenThus = x
-      })
+      apiPTTB
+        .getTuyenThu({
+          donvi_id: this.donvi.value,
+          nhanvien_id: this.user.value
+        })
+        .then(x => {
+          this.tuyenThus = x;
+        });
     },
     onUpdateTuyenThu() {
       this.$refs.form.validate().then(valid => {
@@ -197,22 +274,25 @@ export default {
               color: 'warning',
               timeout: 3000,
               message: 'Vui lòng chọn tuyến thu cần cập nhật!'
-            })
-            return null
+            });
+            return null;
           }
-          apiPTTB.updateTuyenThu({
-            nhanvien_id: this.nhanvien.value,
-            tuyenthu_id: this.selected.map(x => x.tuyenthu_id)
-          }).then(x => {
-            this.onGetTuyenThu()
-          }).finally(() => {
-            this.selected = []
-          })
+          apiPTTB
+            .updateTuyenThu({
+              nhanvien_id: this.nhanvien.value,
+              tuyenthu_id: this.selected.map(x => x.tuyenthu_id)
+            })
+            .then(x => {
+              this.onGetTuyenThu();
+            })
+            .finally(() => {
+              this.selected = [];
+            });
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss">

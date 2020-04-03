@@ -179,7 +179,7 @@ export default {
   methods: {
     testDonVi() {
       // console.log(this.donvi)
-      console.log(this.donvi && this.donvi.donvi_id ? 'true' : 'false')
+      // console.log(this.donvi && this.donvi.donvi_id ? 'true' : 'false')
     },
     onSelectKyCuoc() {
       apiBilling.getKyCuoc().then(x => {
