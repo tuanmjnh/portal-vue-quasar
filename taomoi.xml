@@ -1,0 +1,60 @@
+<Invoices>
+  <BillTime>201907</BillTime>
+  <Inv>
+    <key>46173289202003</key>
+    <Invoice>
+      <CusCode>BKNA00333317</CusCode>
+      <CusName><![CDATA[Sở Nội Vụ Tỉnh Bắc Kạn]]></CusName>
+      <CusAddress><![CDATA[Tổ 5, Phường Phùng Chí Kiên, Thành Phố Bắc Kạn, Tỉnh Bắc Kạn]]></CusAddress>
+      <CusPhone>000131952TSL</CusPhone>
+      <CusTaxCode>4700146435</CusTaxCode>
+      <PaymentMethod>TM/CK</PaymentMethod>
+      <KindOfService>03/2020</KindOfService>
+      <Products>
+        <Product>
+          <ProdName><![CDATA[Cước dịch vụ viễn thông]]></ProdName>
+          <ProdUnit></ProdUnit>
+          <ProdQuantity></ProdQuantity>
+          <ProdPrice></ProdPrice>
+          <Amount>492000</Amount>
+        </Product>
+        <Product>
+          <ProdName><![CDATA[Cước dịch vụ Viễn thông không thuế]]></ProdName>
+          <ProdUnit></ProdUnit>
+          <ProdQuantity></ProdQuantity>
+          <ProdPrice></ProdPrice>
+          <Amount>0</Amount>
+        </Product>
+        <Product>
+          <ProdName><![CDATA[Chiết khấu + đa dịch vụ]]></ProdName>
+          <ProdUnit></ProdUnit>
+          <ProdQuantity></ProdQuantity>
+          <ProdPrice></ProdPrice>
+          <Amount>0</Amount>
+        </Product>
+        <Product>
+          <ProdName><![CDATA[Khuyến mại]]></ProdName>
+          <ProdUnit></ProdUnit>
+          <ProdQuantity></ProdQuantity>
+          <ProdPrice></ProdPrice>
+          <Amount>0</Amount>
+        </Product>
+        <Product>
+          <ProdName><![CDATA[Cước phí thu tại nhà]]></ProdName>
+          <ProdUnit></ProdUnit>
+          <ProdQuantity></ProdQuantity>
+          <ProdPrice></ProdPrice>
+          <Amount>0</Amount>
+        </Product>
+      </Products>
+      <Extra><![CDATA[0;541200;TBK225]]></Extra>
+      <MaThanhToan>0002020102112620994814010686973800115204000153037045802VN5914VNPT VINAPHONE6005HANOI6106100000625501060320200612BKNA003333170703BKN08182CUOC MANG CO DINH</MaThanhToan>
+      <Total>492000</Total>
+      <DiscountAmount></DiscountAmount>
+      <VATRate>10</VATRate>
+      <VATAmount>49200</VATAmount>
+      <Amount>541200</Amount>
+      <AmountInWords>Năm trăm bốn mươi mốt nghìn, hai trăm đồng</AmountInWords>
+    </Invoice>
+  </Inv>
+</Invoices>
