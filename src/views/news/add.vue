@@ -20,14 +20,14 @@
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle"
-          :label="$t('global.add')" :loading="loadingAdd" :disable="loadingDrafts"
-          @click.prevent="onSubmit(1)" :dense="$store.state.app.dense.button">
+        <q-btn flat type="submit" color="blue" icon="check_circle" :label="$t('global.add')"
+          :loading="loadingAdd" :disable="loadingDrafts" @click.prevent="onSubmit(1)"
+          :dense="$store.state.app.dense.button">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
-        <q-btn flat type="submit" color="amber" icon="receipt"
-          :label="$t('global.drafts')" :loading="loadingDrafts" :disable="loadingAdd"
-          @click.prevent="onSubmit(0)" :dense="$store.state.app.dense.button">
+        <q-btn flat type="submit" color="amber" icon="receipt" :label="$t('global.drafts')"
+          :loading="loadingDrafts" :disable="loadingAdd" @click.prevent="onSubmit(0)"
+          :dense="$store.state.app.dense.button">
           <!-- <q-tooltip>{{$t('global.drafts')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
@@ -44,8 +44,7 @@
         <q-tab-panel name="main">
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-select v-model="type" :options="types"
-                :dense="$store.state.app.dense.input"
+              <q-select v-model="type" :options="types" :dense="$store.state.app.dense.input"
                 :options-dense="$store.state.app.dense.input" :label="$t('global.types')"
                 :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]"
                 @input="onGetCategories" />
@@ -53,16 +52,15 @@
             <q-space />
             <div class="col-12 col-md-6">
               <q-select v-model="category" :options="categories"
-                :dense="$store.state.app.dense.input"
-                :options-dense="$store.state.app.dense.input" label="Danh mục"
-                :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]" />
+                :dense="$store.state.app.dense.input" :options-dense="$store.state.app.dense.input"
+                label="Danh mục" :rules="[v=>v&&Object.keys(v).length||$t('error.required')]" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
               <q-input v-model.trim="form.title" v-uppercaseFirst
                 :dense="$store.state.app.dense.input" :label="$t('global.title')"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+                :rules="[v=>!!v||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
@@ -72,8 +70,7 @@
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.icon" :dense="$store.state.app.dense.input"
-                label="Icon">
+              <q-input v-model.trim="form.icon" :dense="$store.state.app.dense.input" label="Icon">
                 <template v-slot:append>
                   <div v-html="form.icon"></div>
                 </template>
@@ -81,26 +78,25 @@
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              <q-input v-model="form.quantity" type="number"
-                :dense="$store.state.app.dense.input" :label="$t('global.quantity')" />
+              <q-input v-model="form.quantity" type="number" :dense="$store.state.app.dense.input"
+                :label="$t('global.quantity')" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-3">
-              <q-input v-model="form.orders" type="number"
-                :dense="$store.state.app.dense.input" :label="$t('global.order')"
-                :rules="[v=>v!==null&&v!==''||$t('error.required')]" class="col-md-4" />
+              <q-input v-model="form.orders" type="number" :dense="$store.state.app.dense.input"
+                :label="$t('global.order')" :rules="[v=>!!v||$t('error.required')]"
+                class="col-md-4" />
             </div>
             <q-space v-if="item" />
             <div class="col-5 self-center" v-if="item">
-              <q-toggle v-model="form.flag" :true-value="1"
-                :dense="$store.state.app.dense.input"
+              <q-toggle v-model="form.flag" :true-value="1" :dense="$store.state.app.dense.input"
                 :label="form.flag?$t('global.publish'):$t('global.drafts')" />
             </div>
           </div>
           <div class="q-gutter-sm">
-            <q-input v-model.trim="form.descs" autogrow
-              :dense="$store.state.app.dense.input" :label="$t('global.desc')" />
+            <q-input v-model.trim="form.descs" autogrow :dense="$store.state.app.dense.input"
+              :label="$t('global.desc')" />
           </div>
         </q-tab-panel>
         <q-tab-panel name="content">
@@ -108,8 +104,8 @@
         </q-tab-panel>
         <q-tab-panel name="upload">
           <div class="row q-gutter-xs">
-            <q-btn icon="cloud_upload" label="Tải ảnh"
-              :dense="$store.state.app.dense.button" @click="dialogUploadImage=true" />
+            <q-btn icon="cloud_upload" label="Tải ảnh" :dense="$store.state.app.dense.button"
+              @click="dialogUploadImage=true" />
           </div>
           <br />
           <div class="row q-gutter-xs" v-if="image&&image.length">
@@ -148,8 +144,7 @@
             <!-- <span class="col-12 col-md-2">Tags</span> -->
             <!-- <q-space /> -->
             <div class="col-9 col-md-6">
-              <q-input v-model.trim="tag" :dense="$store.state.app.dense.input"
-                label="Tags" />
+              <q-input v-model.trim="tag" :dense="$store.state.app.dense.input" label="Tags" />
             </div>
             <q-space />
             <div>
@@ -159,9 +154,8 @@
           </div>
           <div class="q-pb-md">
             <!-- <template> -->
-            <q-chip v-for="(e,i) in tags" :key="i" removable clickable
-              @click="onEditTag(e)" @remove="onRemoveTag(e)" color="primary"
-              text-color="white">{{e}}</q-chip>
+            <q-chip v-for="(e,i) in tags" :key="i" removable clickable @click="onEditTag(e)"
+              @remove="onRemoveTag(e)" color="primary" text-color="white">{{e}}</q-chip>
             <!-- </template> -->
           </div>
         </q-tab-panel>
@@ -180,9 +174,9 @@
         </q-toolbar>
         <q-separator />
         <q-card-section>
-          <q-uploader ref="uploadImages" square flat :url="uploadUrl"
-            :headers="uploadHeaders" @uploaded="onUploadedImages" @finish="onUploadFinish"
-            :max-file-size="1024*1024*2" accept=".jpg,.jpeg,.png,.gif" style="width:100%">
+          <q-uploader ref="uploadImages" square flat :url="uploadUrl" :headers="uploadHeaders"
+            @uploaded="onUploadedImages" @finish="onUploadFinish" :max-file-size="1024*1024*2"
+            accept=".jpg,.jpeg,.png,.gif" style="width:100%">
             <!-- <template v-slot:list="scope"></template> -->
           </q-uploader>
         </q-card-section>
@@ -200,10 +194,9 @@
         </q-toolbar>
         <q-separator />
         <q-card-section>
-          <q-uploader ref="uploadAttach" square flat :url="uploadUrl"
-            :headers="uploadHeaders" @uploaded="onUploadedAttach" @finish="onUploadFinish"
-            :max-file-size="1024*1024*50" accept=".doc,.docx,.xls,.xlsx,.pdf"
-            style="width:100%">
+          <q-uploader ref="uploadAttach" square flat :url="uploadUrl" :headers="uploadHeaders"
+            @uploaded="onUploadedAttach" @finish="onUploadFinish" :max-file-size="1024*1024*50"
+            accept=".doc,.docx,.xls,.xlsx,.pdf" style="width:100%">
             <!-- <template v-slot:list="scope"></template> -->
           </q-uploader>
         </q-card-section>
@@ -211,8 +204,7 @@
     </q-dialog>
     <!-- View file dialog-->
     <q-dialog v-model="dialogView" :maximized="maximizedView" persistent>
-      <view-file :dialog.sync="dialogView" :maximized.sync="maximizedView"
-        :item="viewItem" />
+      <view-file :dialog.sync="dialogView" :maximized.sync="maximizedView" :item="viewItem" />
     </q-dialog>
   </q-card>
 </template>

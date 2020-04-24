@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header :class="$store.state.app.darkMode?'bg-black':''">
       <q-toolbar>
         <q-btn flat dense round @click="drawer = !drawer" aria-label="Menu">
           <q-icon name="menu" />
@@ -8,15 +8,15 @@
         <q-toolbar-title>
           {{ title }}
         </q-toolbar-title>
-        <header-right :items="navbarItems"></header-right>
+        <header-right />
         <!-- <div>Quasar v{{ $q.version }}</div> -->
       </q-toolbar>
     </q-header>
     <q-drawer v-model="drawer" bordered>
       <q-scroll-area style="height:calc(100% - 50px);margin-top:50px;">
-        <drawer :items="this.$router.options.routes" />
+        <drawer :items="$store.getters.routes" :dense="denseMenu" />
       </q-scroll-area>
-      <drawer-search></drawer-search>
+      <drawer-search />
     </q-drawer>
     <q-page-container>
       <q-page padding>
@@ -34,16 +34,12 @@ export default {
   components: { drawer, drawerSearch, headerRight },
   data() {
     return {
-      title: 'TM-Store', // process.env.APP_NAME,
-      drawer: this.$q.platform.is.desktop,
-      navbarItems: [
-        { title: 'navbar.profile', icon: 'assignment_ind', path: '/profile' },
-        { separator: true },
-        { title: 'navbar.log_out', icon: 'power_settings_new', path: '/auth/logout' }
-      ]
+      title: process.env.APP_TITLE,
+      drawer: this.$q.platform.is.desktop
     }
   },
   created() {
+    // console.log(this.$store.getters.routes)
     // get status
     // console.log(this.$q.dark.isActive) // true, false
 
@@ -55,6 +51,11 @@ export default {
 
     // toggle
     // this.$q.dark.toggle()
+  },
+  computed: {
+    denseMenu() {
+      return this.$store.state.app.dense.menu
+    }
   },
   methods: {}
 }

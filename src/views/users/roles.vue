@@ -24,7 +24,7 @@
           <!-- <div class="col-12 col-md-6">
             <q-input v-model.trim="form.full_name" :dense="denseInput"
               :label="$t('users.full_name')"
-              :rules="[v=>v&&v.length>0||$t('error.required')]" />
+              :rules="[v=>!!v||$t('error.required')]" />
           </div> -->
         </div>
       </q-card-actions>

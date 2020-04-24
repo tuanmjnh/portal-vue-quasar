@@ -11,8 +11,8 @@
           <q-separator />
           <q-card-actions>
             <q-table :data="phos" :columns="columns" row-key="id"
-              :loading="$store.state.loading.get||$store.state.loading.patch"
-              selection="multiple" :selected.sync="selected" :pagination.sync="pagination"
+              :loading="$store.state.loading.get||$store.state.loading.patch" selection="multiple"
+              :selected.sync="selected" :pagination.sync="pagination"
               :dense="$store.getters.dense.table" :virtual-scroll-sticky-size-start="48"
               virtual-scroll :virtual-scroll-item-size="48" hide-bottom
               :no-data-label="$t('table.no_data')" :dark="$store.state.app.darkMode"
@@ -62,10 +62,8 @@
                       :dense="$store.getters.dense.table" indeterminate-value="some" />
                   </q-th>
                   <q-th v-for="col in props.cols" :key="col.name" :props="props">
-                    <span v-if="$store.state.app.darkMode"
-                      class="text-bold">{{ col.label }}</span>
-                    <span v-else
-                      class="text-bold text-blue-grey-10">{{ col.label }}</span>
+                    <span v-if="$store.state.app.darkMode" class="text-bold">{{ col.label }}</span>
+                    <span v-else class="text-bold text-blue-grey-10">{{ col.label }}</span>
                   </q-th>
                 </q-tr>
               </template>
@@ -118,15 +116,14 @@
             <q-card-actions>
               <div class="col-12">
                 <q-select v-model="donvi" :options="donvis" label="Đơn vị"
-                  :dense="$store.getters.dense.input"
-                  :options-dense="$store.getters.dense.input" input-debounce="300"
-                  @input="onGetUsers"
+                  :dense="$store.getters.dense.input" :options-dense="$store.getters.dense.input"
+                  input-debounce="300" @input="onGetUsers"
                   :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]" />
               </div>
               <div class="col-12">
                 <q-select v-model="user" :options="users" label="Nhân viên"
-                  :dense="$store.getters.dense.input"
-                  :options-dense="$store.getters.dense.input" input-debounce="300"
+                  :dense="$store.getters.dense.input" :options-dense="$store.getters.dense.input"
+                  input-debounce="300"
                   :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]" />
               </div>
             </q-card-actions>

@@ -9,10 +9,8 @@
     <q-card-actions align="right">
       <div class="col-12 row">
         <div class="col-xs-12 col-sm-5 col-md-4">
-          <q-select v-model="group" :options="groups"
-            :dense="$store.state.app.dense.input"
-            :options-dense="$store.state.app.dense.input" label="Nhóm tài liệu"
-            @input="onSelect" />
+          <q-select v-model="group" :options="groups" :dense="$store.state.app.dense.input"
+            :options-dense="$store.state.app.dense.input" label="Nhóm tài liệu" @input="onSelect" />
         </div>
       </div>
     </q-card-actions>
@@ -20,8 +18,8 @@
     <!-- <q-card-actions> -->
     <q-list separator :dense="$store.state.app.dense.form" padding>
       <template v-for="(e,i) in items">
-        <q-expansion-item switch-toggle-side :dense="$store.state.app.dense.form"
-          expand-separator :label="e.title" v-if="e.descs||e.content" :key="i">
+        <q-expansion-item switch-toggle-side :dense="$store.state.app.dense.form" expand-separator
+          :label="e.title" v-if="e.descs||e.content" :key="i">
           <q-card>
             <q-card-section class="q-pa-sm">
               <div class="text-caption q-pb-sm">{{e.descs}}</div>
@@ -62,8 +60,7 @@
     <!-- </q-card-actions> -->
     <!-- View file dialog-->
     <q-dialog v-model="dialogView" :maximized="maximizedView" persistent>
-      <view-file :dialog.sync="dialogView" :maximized.sync="maximizedView"
-        :item="viewItem" />
+      <view-file :dialog.sync="dialogView" :maximized.sync="maximizedView" :item="viewItem" />
     </q-dialog>
   </q-card>
 </template>

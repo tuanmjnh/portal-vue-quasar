@@ -11,20 +11,20 @@
       <q-card-actions>
         <!-- <div class="row q-gutter-xs"> -->
         <div class="col-12 col-md-5">
-          <q-select v-model="donvi" :options="donvis" label="Đơn vị"
-            :dense="denseInput" input-debounce="300" @input="onGetUsers" />
+          <q-select v-model="donvi" :options="donvis" label="Đơn vị" :dense="denseInput"
+            input-debounce="300" @input="onGetUsers" />
         </div>
         <q-space />
         <div class="col-12 col-md-5">
-          <q-select v-model="user" :options="users" label="Người dùng"
-            :dense="denseInput" @input="onGetMaND" />
+          <q-select v-model="user" :options="users" label="Người dùng" :dense="denseInput"
+            @input="onGetMaND" />
         </div>
         <div class="col-12">
           <p />
         </div>
         <div class="col-12 col-md-5">
           <q-input v-model="ma_nd" label="Mã người dùng" :dense="denseInput"
-            :rules="[v=>v&&v.length>0||$t('error.required')]">
+            :rules="[v=>!!v||$t('error.required')]">
             <template v-slot:prepend>
               <q-icon name="account_circle" />
             </template>
@@ -40,8 +40,8 @@
         <!-- </div> -->
       </q-card-actions>
       <q-card-actions align="right">
-        <q-btn type="submit" :dense="denseButton" color="amber" icon="offline_pin"
-          label="Thực hiện" :loading="loading" @click.prevent="onSubmit">
+        <q-btn type="submit" :dense="denseButton" color="amber" icon="offline_pin" label="Thực hiện"
+          :loading="loading" @click.prevent="onSubmit">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>

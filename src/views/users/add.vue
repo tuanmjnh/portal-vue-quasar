@@ -18,14 +18,12 @@
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle"
-          :label="$t('global.add')" :loading="loading_add" :disable="loading_drafts"
-          @click.prevent="onSubmit(true)">
+        <q-btn flat type="submit" color="blue" icon="check_circle" :label="$t('global.add')"
+          :loading="loading_add" :disable="loading_drafts" @click.prevent="onSubmit(true)">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
-        <q-btn flat type="submit" color="amber" icon="receipt"
-          :label="$t('global.drafts')" :loading="loading_drafts" :disable="loading_add"
-          @click.prevent="onSubmit(false)">
+        <q-btn flat type="submit" color="amber" icon="receipt" :label="$t('global.drafts')"
+          :loading="loading_drafts" :disable="loading_add" @click.prevent="onSubmit(false)">
           <!-- <q-tooltip>{{$t('global.drafts')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
@@ -43,13 +41,12 @@
             <div class="col-12 col-md-5">
               <q-input v-model.trim="form.email" :dense="denseInput" v-lowercase
                 :label="$t('users.email')"
-                :rules="[v=>v&&v.length>0||$t('error.required'),v=>validEmail(v)||$t('error.email')]" />
+                :rules="[v=>!!v||$t('error.required'),v=>validEmail(v)||$t('error.email')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
               <q-input v-model.trim="form.full_name" :dense="denseInput"
-                :label="$t('users.full_name')"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+                :label="$t('users.full_name')" :rules="[v=>!!v||$t('error.required')]" />
             </div>
           </div>
           <div class="row q-gutter-xs">
@@ -57,8 +54,7 @@
               <q-input v-model.trim="form.date_birth" :dense="denseInput" readonly>
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="qDateProxy" transition-show="scale"
-                      transition-hide="scale">
+                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
                       <q-date v-model="form.date_birth" today-btn
                         @input="()=>$refs.qDateProxy.hide()" />
                       <!-- @input="() => $refs.qDateProxy.hide()" -->
@@ -71,18 +67,16 @@
             <q-space />
             <div class="col-12 col-md-6">
               <q-input v-model.trim="form.person_number" type="number" :dense="denseInput"
-                :label="$t('users.person_number')"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+                :label="$t('users.person_number')" :rules="[v=>!!v||$t('error.required')]" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-3">
               <q-select v-model="selected_region" use-input hide-selected fill-input
-                input-debounce="0" :dense="denseInput" :options="regions"
-                @filter="onFilterRegion" :hint="$t('users.select_region')"
-                :option-value="opt=>opt===null?null:opt.id"
+                input-debounce="0" :dense="denseInput" :options="regions" @filter="onFilterRegion"
+                :hint="$t('users.select_region')" :option-value="opt=>opt===null?null:opt.id"
                 :option-label="opt=>opt===null?$t('table.no_data'):opt.name_l"
-                :rules="[v=>v||$t('error.required')]">
+                :rules="[v=>!!v||$t('error.required')]">
                 <!-- <template v-slot:selected-item="scope">
                   <q-item-label v-html="scope.opt.name_l" />
                   <q-item-label caption>{{`+${scope.opt.pc}`}}</q-item-label>
@@ -114,10 +108,9 @@
             <div class="col-6 col-md-5">
               <q-input v-model.trim="form.phone" outlined :hint="$t('users.phone')"
                 :placeholder="$t('users.phone')" :dense="denseInput"
-                :rules="[v=>v&&v.length>0||$t('error.required')]">
+                :rules="[v=>!!v||$t('error.required')]">
                 <template v-if="selected_region" v-slot:prepend>
-                  <span
-                    style="font-size:14px;line-height:0">+{{selected_region.pc}}</span>
+                  <span style="font-size:14px;line-height:0">+{{selected_region.pc}}</span>
                 </template>
               </q-input>
             </div>
@@ -125,8 +118,7 @@
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5 self-center">
               <q-toggle v-model="form.verified" :true-value="true" :dense="denseInput"
-                :label="$t('users.verified')"
-                :text-color="form.verified?'green':'blue-grey-10'" />
+                :label="$t('users.verified')" :text-color="form.verified?'green':'blue-grey-10'" />
             </div>
             <q-space />
             <div class="col-12 col-md-6 self-center" v-if="item">
@@ -147,8 +139,7 @@
         <q-tab-panel name="avatar" class="row">
           <q-uploader ref="upload" square flat :url="upload_url" :headers="upload_headers"
             @added="onUploadAdded" @uploaded="onUploaded" @finish="onUploadFinish"
-            :max-file-size="1024*1024*2" accept=".jpg,.jpeg,.png,.gif"
-            style="width:300px;">
+            :max-file-size="1024*1024*2" accept=".jpg,.jpeg,.png,.gif" style="width:300px;">
             <!-- <template v-slot:list="scope"></template> -->
           </q-uploader>
           <q-space />

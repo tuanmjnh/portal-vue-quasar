@@ -19,14 +19,12 @@
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle"
-          :label="$t('global.add')" :loading="loading_add" :disable="loading_drafts"
-          @click.prevent="onSubmit(1)">
+        <q-btn flat type="submit" color="blue" icon="check_circle" :label="$t('global.add')"
+          :loading="loading_add" :disable="loading_drafts" @click.prevent="onSubmit(1)">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
-        <q-btn flat type="submit" color="amber" icon="receipt"
-          :label="$t('global.drafts')" :loading="loading_drafts" :disable="loading_add"
-          @click.prevent="onSubmit(0)">
+        <q-btn flat type="submit" color="amber" icon="receipt" :label="$t('global.drafts')"
+          :loading="loading_drafts" :disable="loading_add" @click.prevent="onSubmit(0)">
           <!-- <q-tooltip>{{$t('global.drafts')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
@@ -39,28 +37,26 @@
                 :options-dense="denseInput" @new-value="onAddKey" :options="keys" @filter="onFilterKey"
                 :hint="$t('types.hit_key')" :label="$t('global.types')" /> -->
             <auto-complete :value.sync="form.key" :items.sync="keys" placeholder="Key"
-              :label="$t('global.types')" :no-data="$t('table.no_data')"
-              @input="onFilterKey" :rules="[v=>v&&v.length>0||$t('error.required')]" />
+              :label="$t('global.types')" :no-data="$t('table.no_data')" @input="onFilterKey"
+              :rules="[v=>!!v||$t('error.required')]" />
           </div>
           <q-space />
           <div class="col-12 col-md-6">
             <q-input v-model.trim="form.code" v-lowercase :dense="denseInput"
-              :label="$t('global.code')" :rules="[v=>v&&v.length>0||$t('error.required')]"
+              :label="$t('global.code')" :rules="[v=>!!v||$t('error.required')]"
               :readonly="item?true:false" />
           </div>
         </div>
         <div class="row q-gutter-xs">
           <div class="col-12">
-            <q-input v-model.trim="form.title" :dense="denseInput"
-              :label="$t('global.name')"
-              :rules="[v=>v&&v.length>0||$t('error.required')]" />
+            <q-input v-model.trim="form.title" :dense="denseInput" :label="$t('global.name')"
+              :rules="[v=>!!v||$t('error.required')]" />
           </div>
         </div>
         <div class="row q-gutter-xs">
           <div class="col-3">
             <q-input v-model="form.orders" type="number" :dense="denseInput"
-              :label="$t('global.order')"
-              :rules="[v=>v!==null&&v!==''||$t('error.required')]" />
+              :label="$t('global.order')" :rules="[v=>!!v||$t('error.required')]" />
           </div>
           <q-space v-if="item" />
           <div class="col-5 self-center" v-if="item">

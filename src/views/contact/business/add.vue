@@ -44,38 +44,34 @@
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-6">
               <q-input v-model.trim="form.ten_kh" :dense="$store.state.app.dense.input"
-                label="Tên khách hàng/cơ quan"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+                label="Tên khách hàng/cơ quan" :rules="[v=>!!v||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-5">
               <q-input v-model.trim="form.nguoi_dd" :dense="$store.state.app.dense.input"
-                label="Người đại diện"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+                label="Người đại diện" :rules="[v=>!!v||$t('error.required')]" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col">
               <q-input v-model.trim="form.diachi_kh" :dense="$store.state.app.dense.input"
-                label="Địa chỉ khách hàng/cơ quan"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+                label="Địa chỉ khách hàng/cơ quan" :rules="[v=>!!v||$t('error.required')]" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-sm-5 col-md-3">
-              <q-input v-model.trim="form.sdt" type="number"
-                :dense="$store.state.app.dense.input" label="Số điện thoại"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+              <q-input v-model.trim="form.sdt" type="number" :dense="$store.state.app.dense.input"
+                label="Số điện thoại" :rules="[v=>!!v||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-sm-5 col-md-3">
               <q-input v-model.trim="form.stk" :dense="$store.state.app.dense.input"
-                label="Số tài khoản" :rules="[v=>v&&v.length>0||$t('error.required')]" />
+                label="Số tài khoản" :rules="[v=>!!v||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-sm-5 col-md-3">
               <q-input v-model.trim="form.mst" :dense="$store.state.app.dense.input"
-                label="Mã số thuế" :rules="[v=>v&&v.length>0||$t('error.required')]" />
+                label="Mã số thuế" :rules="[v=>!!v||$t('error.required')]" />
             </div>
           </div>
           <div class="row q-gutter-xs">
@@ -89,10 +85,8 @@
                 :dense="$store.state.app.dense.input" readonly>
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="NgayCap" transition-show="scale"
-                      transition-hide="scale">
-                      <q-date v-model="form.ngay_cap" today-btn
-                        @input="()=>$refs.NgayCap.hide()" />
+                    <q-popup-proxy ref="NgayCap" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="form.ngay_cap" today-btn @input="()=>$refs.NgayCap.hide()" />
                     </q-popup-proxy>
                   </q-icon>
                 </template>
@@ -108,15 +102,14 @@
         <q-tab-panel name="hopdong">
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-select v-model="group" :options="groups"
-                :dense="$store.state.app.dense.input"
+              <q-select v-model="group" :options="groups" :dense="$store.state.app.dense.input"
                 :options-dense="$store.state.app.dense.input" label="Loại dịch vụ"
                 :rules="[v=>v&&Object.keys(v).length>0||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-5">
               <q-input v-model.trim="form.ma_hd" :dense="$store.state.app.dense.input"
-                label="Mã hợp đồng" :rules="[v=>v&&v.length>0||$t('error.required')]" />
+                label="Mã hợp đồng" :rules="[v=>!!v||$t('error.required')]" />
             </div>
           </div>
           <div class="row q-gutter-xs">
@@ -125,10 +118,8 @@
                 :dense="$store.state.app.dense.input" readonly>
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="NgayBD" transition-show="scale"
-                      transition-hide="scale">
-                      <q-date v-model="form.ngay_bd" today-btn
-                        @input="()=>$refs.NgayBD.hide()" />
+                    <q-popup-proxy ref="NgayBD" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="form.ngay_bd" today-btn @input="()=>$refs.NgayBD.hide()" />
                     </q-popup-proxy>
                   </q-icon>
                 </template>
@@ -140,10 +131,8 @@
                 :dense="$store.state.app.dense.input" readonly>
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="NgayKT" transition-show="scale"
-                      transition-hide="scale">
-                      <q-date v-model="form.ngay_kt" today-btn
-                        @input="()=>$refs.NgayKT.hide()" />
+                    <q-popup-proxy ref="NgayKT" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="form.ngay_kt" today-btn @input="()=>$refs.NgayKT.hide()" />
                     </q-popup-proxy>
                   </q-icon>
                 </template>
@@ -152,15 +141,13 @@
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model="form.so_luong" type="number"
-                :dense="$store.state.app.dense.input" label="Số lượng"
-                :rules="[v=>v&&v>0||$t('error.required')]" @keyup="onCalPrice" />
+              <q-input v-model="form.so_luong" type="number" :dense="$store.state.app.dense.input"
+                label="Số lượng" :rules="[v=>!!v||$t('error.required')]" @keyup="onCalPrice" />
             </div>
             <q-space />
             <div class="col-12 col-md-5">
-              <q-input v-model="form.tien" type="number"
-                :dense="$store.state.app.dense.input" label="Đơn giá"
-                :rules="[v=>v&&v>0||$t('error.required')]" @keyup="onCalPrice" />
+              <q-input v-model="form.tien" type="number" :dense="$store.state.app.dense.input"
+                label="Đơn giá" :rules="[v=>!!v||$t('error.required')]" @keyup="onCalPrice" />
             </div>
           </div>
           <div class="row q-gutter-xs">
@@ -192,9 +179,8 @@
             </div>
             <q-space />
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="attach.fileName" readonly
-                :dense="$store.state.app.dense.input" label="Hợp đồng"
-                :rules="[v=>v&&v.length>0||$t('error.required')]">
+              <q-input v-model.trim="attach.fileName" readonly :dense="$store.state.app.dense.input"
+                label="Hợp đồng" :rules="[v=>!!v||$t('error.required')]">
                 <template v-slot:append>
                   <q-icon v-if="attach.fileName&&attach.fullName" name="remove_red_eye"
                     color="primary" class="cursor-pointer"
@@ -209,8 +195,8 @@
         <q-tab-panel name="ghiChu">
           <div class="row q-gutter-xs q-mb-md">
             <div class="col-12">
-              <q-input v-model.trim="form.ghi_chu" autogrow
-                :dense="$store.state.app.dense.input" label="Ghi chú" />
+              <q-input v-model.trim="form.ghi_chu" autogrow :dense="$store.state.app.dense.input"
+                label="Ghi chú" />
             </div>
           </div>
           <div class="row q-gutter-xs">
@@ -236,8 +222,7 @@
         <q-card-section>
           <div class="row">
             <div class="col-12">
-              <q-select v-model="donvi" :options="donvis"
-                :dense="$store.state.app.dense.input"
+              <q-select v-model="donvi" :options="donvis" :dense="$store.state.app.dense.input"
                 :options-dense="$store.state.app.dense.input" label="Đơn vị"
                 @input="onGetNhanvien" />
             </div>
@@ -245,8 +230,8 @@
           <div class="row">
             <div class="col-12">
               <q-select v-model="nhanvien" :options="nhanviens"
-                :dense="$store.state.app.dense.input"
-                :options-dense="$store.state.app.dense.input" label="Nhân viên" />
+                :dense="$store.state.app.dense.input" :options-dense="$store.state.app.dense.input"
+                label="Nhân viên" />
             </div>
           </div>
         </q-card-section>
@@ -268,9 +253,9 @@
         </q-toolbar>
         <q-separator />
         <q-card-section>
-          <q-uploader ref="uploadAttach" square flat :url="uploadUrl"
-            :headers="uploadHeaders" @uploaded="onUploadedAttach" @finish="onUploadFinish"
-            :max-file-size="1024*1024*50" accept=".pdf" style="width:100%">
+          <q-uploader ref="uploadAttach" square flat :url="uploadUrl" :headers="uploadHeaders"
+            @uploaded="onUploadedAttach" @finish="onUploadFinish" :max-file-size="1024*1024*50"
+            accept=".pdf" style="width:100%">
             <!-- <template v-slot:list="scope"></template> -->
           </q-uploader>
         </q-card-section>
@@ -278,8 +263,7 @@
     </q-dialog>
     <!-- View file dialog-->
     <q-dialog v-model="dialogView" :maximized="maximizedView" persistent>
-      <view-file :dialog.sync="dialogView" :maximized.sync="maximizedView"
-        :item="viewItem" />
+      <view-file :dialog.sync="dialogView" :maximized.sync="maximizedView" :item="viewItem" />
     </q-dialog>
   </q-card>
 </template>

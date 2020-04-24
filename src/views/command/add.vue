@@ -20,14 +20,12 @@
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle"
-          :label="$t('global.add')" :loading="loading_add" :disable="loading_drafts"
-          @click.prevent="onSubmit(1)">
+        <q-btn flat type="submit" color="blue" icon="check_circle" :label="$t('global.add')"
+          :loading="loading_add" :disable="loading_drafts" @click.prevent="onSubmit(1)">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
-        <q-btn flat type="submit" color="amber" icon="receipt"
-          :label="$t('global.drafts')" :loading="loading_drafts" :disable="loading_add"
-          @click.prevent="onSubmit(0)">
+        <q-btn flat type="submit" color="amber" icon="receipt" :label="$t('global.drafts')"
+          :loading="loading_drafts" :disable="loading_add" @click.prevent="onSubmit(0)">
           <!-- <q-tooltip>{{$t('global.drafts')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
@@ -44,16 +42,14 @@
         </div>
         <div class="row q-gutter-xs">
           <div class="col-12">
-            <q-input v-model.trim="form.title" :dense="denseInput"
-              :label="$t('global.name')"
-              :rules="[v=>v&&v.length>0||$t('error.required')]" />
+            <q-input v-model.trim="form.title" :dense="denseInput" :label="$t('global.name')"
+              :rules="[v=>!!v||$t('error.required')]" />
           </div>
         </div>
         <div class="row q-gutter-xs">
           <div class="col-3">
             <q-input v-model="form.orders" type="number" :dense="denseInput"
-              :label="$t('global.order')"
-              :rules="[v=>v!==null&&v!==''||$t('error.required')]" />
+              :label="$t('global.order')" :rules="[v=>!!v||$t('error.required')]" />
           </div>
           <q-space v-if="item" />
           <div class="col-5 self-center" v-if="item">
@@ -70,7 +66,7 @@
 // import autoComplete from '@/components/auto-complete'
 import * as api from '@/api/command'
 export default {
-  components: { },
+  components: {},
   props: {
     dialog: { type: Boolean, default: true },
     item: { type: Object, default: () => { } },

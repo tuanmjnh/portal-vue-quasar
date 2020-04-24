@@ -18,8 +18,8 @@
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle"
-          :label="$t('global.add')" :loading="loading" @click.prevent="onSubmit()">
+        <q-btn flat type="submit" color="blue" icon="check_circle" :label="$t('global.add')"
+          :loading="loading" @click.prevent="onSubmit()">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
@@ -44,31 +44,30 @@
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.path" :dense="denseInput" v-lowercase
-                label="Path" :rules="[v=>v&&v.length>0||$t('error.required')]" />
+              <q-input v-model.trim="form.path" :dense="denseInput" v-lowercase label="Path"
+                :rules="[!!v||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
               <q-input v-model.trim="form.name" :dense="denseInput" label="Name"
-                :rules="[v=>v&&v.length>0||$t('error.required')]"
+                :rules="[!!v||$t('error.required')]"
                 :prefix="!item&&dependent?`${dependent.name}-`:''" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
               <q-input v-model.trim="form.component" :dense="denseInput" v-lowercase
-                label="Component" :rules="[v=>v&&v.length>0||$t('error.required')]" />
+                label="Component" :rules="[!!v||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              <q-input v-model.trim="form.redirect" :dense="denseInput"
-                label="Redirect" />
+              <q-input v-model.trim="form.redirect" :dense="denseInput" label="Redirect" />
             </div>
           </div>
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
-              <q-input v-model.trim="form.label" :dense="denseInput" v-lowercase
-                label="Label" :rules="[v=>v&&v.length>0||$t('error.required')]" />
+              <q-input v-model.trim="form.label" :dense="denseInput" v-lowercase label="Label"
+                :rules="[!!v||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
@@ -81,8 +80,7 @@
           <div class="row q-gutter-xs">
             <div class="col-8 col-md-3">
               <q-input v-model="form.orders" type="number" :dense="denseInput"
-                :label="$t('global.order')"
-                :rules="[v=>v!==null&&v!==''||$t('error.required')]" class="col-md-4" />
+                :label="$t('global.order')" :rules="[!!v||$t('error.required')]" class="col-md-4" />
             </div>
             <q-space />
             <div class="col-5 col-md-3 self-center">
@@ -90,8 +88,7 @@
                 label="Hidden" />
             </div>
             <div class="col-5 col-md-3 self-center">
-              <q-toggle v-model="form.flag" :dense="denseInput" :true-value="1"
-                label="Flag" />
+              <q-toggle v-model="form.flag" :dense="denseInput" :true-value="1" label="Flag" />
             </div>
           </div>
         </q-tab-panel>
@@ -114,8 +111,7 @@
                 </q-item>
               </q-list> -->
               <auto-complete :value.sync="attr.key" :items.sync="meta.keys"
-                :label="$t('global.key')" :no-data="$t('table.no_data')"
-                @input="onFilterMetaKey" />
+                :label="$t('global.key')" :no-data="$t('table.no_data')" @input="onFilterMetaKey" />
             </div>
             <q-space />
             <div class="col-6 col-md-5">
@@ -126,8 +122,7 @@
             </div>
             <q-space />
             <div>
-              <q-btn flat round color="blue" icon="add" size="sm"
-                @click.prevent="onAddMeta" />
+              <q-btn flat round color="blue" icon="add" size="sm" @click.prevent="onAddMeta" />
             </div>
           </div>
           <br />

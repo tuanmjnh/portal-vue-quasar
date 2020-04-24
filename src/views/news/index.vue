@@ -1,13 +1,12 @@
 <template>
   <div>
-    <q-table :data="items" :columns="columns" row-key="id"
-      :visible-columns="visibleColumns"
-      :loading="$store.state.loading.get||$store.state.loading.patch"
-      :selected.sync="selected" :dense="$store.state.app.dense.table" selection="multiple"
+    <q-table :data="items" :columns="columns" row-key="id" :visible-columns="visibleColumns"
+      :loading="$store.state.loading.get||$store.state.loading.patch" :selected.sync="selected"
+      :dense="$store.state.app.dense.table" selection="multiple"
       :no-data-label="$t('table.no_data')" :rows-per-page-label="$t('table.row_per_page')"
-      :selected-rows-label="getSelectedString"
-      :rows-per-page-options="[10, 20, 50 ,100, 200, 0]" :pagination.sync="pagination"
-      @request="onSelect" :filter="pagination.filter" binary-state-sort>
+      :selected-rows-label="getSelectedString" :rows-per-page-options="[10, 20, 50 ,100, 200, 0]"
+      :pagination.sync="pagination" @request="onSelect" :filter="pagination.filter"
+      binary-state-sort>
       <template v-slot:top="props">
         <div class="col-12 row">
           <div class="col-xs-12 col-sm-auto q-table__title text-h6">
@@ -20,13 +19,13 @@
                 @click="dialogAdd=true">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.add')}}</q-tooltip>
               </q-btn>
-              <q-btn v-if="isRoutes.trash&&selected.length>0&&pagination.flag" flat round
-                dense color="negative" icon="delete" @click="onTrash()">
+              <q-btn v-if="isRoutes.trash&&selected.length>0&&pagination.flag" flat round dense
+                color="negative" icon="delete" @click="onTrash()">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.delete')}}
                 </q-tooltip>
               </q-btn>
-              <q-btn v-if="isRoutes.trash&&selected.length>0&&!pagination.flag" flat round
-                dense color="warning" icon="restore_page" @click="onTrash()">
+              <q-btn v-if="isRoutes.trash&&selected.length>0&&!pagination.flag" flat round dense
+                color="warning" icon="restore_page" @click="onTrash()">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.recover')}}
                 </q-tooltip>
               </q-btn>
@@ -37,8 +36,7 @@
                 <q-menu fit>
                   <q-list dense style="min-width:100px">
                     <template v-for="(e,i) in columns">
-                      <q-item clickable :key="i" v-if="!e.required"
-                        @click="onColumns(e.name)"
+                      <q-item clickable :key="i" v-if="!e.required" @click="onColumns(e.name)"
                         :active="visibleColumns.indexOf(e.name)>-1||false">
                         <q-item-section>{{e.label}}</q-item-section>
                       </q-item>
@@ -75,8 +73,7 @@
         </div>
         <div class="col-12 row">
           <div class="col-xs-12 col-sm-5 col-md-4">
-            <q-select v-model="type" :options="types"
-              :dense="$store.state.app.dense.input"
+            <q-select v-model="type" :options="types" :dense="$store.state.app.dense.input"
               :options-dense="$store.state.app.dense.input" :label="$t('global.types')"
               @input="onGetCategories" />
           </div>
@@ -86,16 +83,14 @@
               debounce="500" :placeholder="$t('global.search')">
               <template v-slot:append>
                 <q-icon v-if="pagination.filter===''" name="search" />
-                <q-icon v-else name="clear" class="cursor-pointer"
-                  @click="pagination.filter=''" />
+                <q-icon v-else name="clear" class="cursor-pointer" @click="pagination.filter=''" />
               </template>
             </q-input>
           </div>
         </div>
         <div class="col-12 row">
           <div class="col-xs-12 col-sm-5 col-md-4">
-            <q-select v-model="category" :options="categories"
-              :dense="$store.state.app.dense.input"
+            <q-select v-model="category" :options="categories" :dense="$store.state.app.dense.input"
               :options-dense="$store.state.app.dense.input" label="Danh mục"
               @input="onSelect({pagination:pagination})" />
           </div>
@@ -109,8 +104,7 @@
               :dense="$store.state.app.dense.table" indeterminate-value="some" />
           </q-th>
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
-            <span v-if="$store.state.app.darkMode"
-              class="text-bold">{{ col.label }}</span>
+            <span v-if="$store.state.app.darkMode" class="text-bold">{{ col.label }}</span>
             <span v-else class="text-bold text-blue-grey-10">{{ col.label }}</span>
           </q-th>
           <q-th auto-width v-if="isRoutes.edit||isRoutes.trash">#</q-th>
@@ -148,8 +142,8 @@
             </q-icon>
           </q-td>
           <q-td auto-width class="text-center" v-if="isRoutes.edit||isRoutes.trash">
-            <q-btn v-if="isRoutes.edit" flat round dense icon="edit"
-              @click="onUpdate(props.row)" color="light-green">
+            <q-btn v-if="isRoutes.edit" flat round dense icon="edit" @click="onUpdate(props.row)"
+              color="light-green">
               <q-tooltip v-if="!$q.platform.is.mobile">
                 {{$t('global.update')}}</q-tooltip>
             </q-btn>
@@ -175,8 +169,7 @@
     </q-dialog>
     <!-- View file dialog-->
     <q-dialog v-model="dialogView" :maximized="maximizedView" persistent>
-      <view-file :dialog.sync="dialogView" :maximized.sync="maximizedView"
-        :item="viewItem" />
+      <view-file :dialog.sync="dialogView" :maximized.sync="maximizedView" :item="viewItem" />
     </q-dialog>
   </div>
 </template>

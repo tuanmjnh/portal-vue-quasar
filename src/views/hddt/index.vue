@@ -6,90 +6,69 @@
       </q-toolbar-title>
     </q-toolbar>
     <q-separator />
-    <q-form
-      ref="form"
-      class="q-pa-md q-gutter-xs"
-    >
+    <q-form ref="form" class="q-pa-md q-gutter-xs">
       <div class="row">
-        <div class="col-7">
+        <div class="col-sm-12 col-md-7 q-mb-md">
           <div class="text-subtitle2 text-teal">Thông tin dữ liệu</div>
           <!-- <q-input v-model.trim="dsMaTT" :dense="$store.state.app.dense.input" autogrow
             label="Mã thanh toán cần tạo nếu có" /> -->
-          <q-input
-            v-model.trim="table"
-            :dense="$store.state.app.dense.input"
-            v-uppercase
-            label="Bảng dữ liệu HĐĐT"
-            hint="ví dụ: BCSS_BKN.HDDT_20200101"
-            :rules="[
-              v => (v && Object.keys(v).length > 0) || $t('error.required')
-            ]"
-          />
-          <q-input
-            v-model.trim="dsMaTT"
-            type="textarea"
-            label="Mã thanh toán cần tạo nếu có"
-          />
+          <q-input v-model.trim="table" :dense="$store.state.app.dense.input" v-uppercase
+            label="Bảng dữ liệu HĐĐT" hint="ví dụ: BCSS_BKN.HDDT_20200101"
+            :rules="[v=>!!v||$t('error.required')]" />
+          <q-input v-model.trim="dsMaTT" type="textarea" label="Mã thanh toán cần tạo nếu có"
+            rows="3" />
         </div>
         <q-space />
-        <div class="col-4">
-          <div class="col text-right">
-            <q-btn
-              type="submit"
-              color="blue"
-              icon="layers"
-              dense
-              :loading="loading"
-              flat
-              :disable="loading"
-              @click.prevent="onSubmit('create')"
-            >
-              <q-tooltip v-if="!$q.platform.is.mobile">Tạo hóa đơn</q-tooltip>
-            </q-btn>
-            <q-btn
-              type="submit"
-              color="red"
-              icon="layers_clear"
-              dense
-              :loading="loading"
-              flat
-              :disable="loading"
-              @click.prevent="onSubmit('remove')"
-            >
-              <q-tooltip v-if="!$q.platform.is.mobile">Tạo hủy hóa đơn</q-tooltip>
-            </q-btn>
+        <div class="col-sm-12 col-md-4">
+          <div class="row">
+            <div class="col-5">
+              <!-- <q-btn type="submit" color="blue" icon="sync" :loading="loading" dense
+              :disable="loading" @click.prevent="onSubmit()">
+              <q-tooltip v-if="!$q.platform.is.mobile">Lấy dữ liệu</q-tooltip>
+            </q-btn> -->
+              <q-chip clickable @click.prevent="onSubmit" color="primary" text-color="white"
+                :loading="loading" icon="event">
+                Lấy dữ liệu
+              </q-chip>
+            </div>
+            <div v-if="exportData.data.length" class="col-7 q-mb-lg">
+              <div class="text-right">
+                <q-btn type="submit" color="orange" icon="layers" dense :loading="loading" flat
+                  :disable="loading" @click.prevent="onGetXML('create')">
+                  <q-tooltip v-if="!$q.platform.is.mobile">Tạo hóa đơn</q-tooltip>
+                </q-btn>
+                <q-btn type="submit" color="red" icon="layers_clear" dense :loading="loading" flat
+                  :disable="loading" @click.prevent="onGetXML('remove')">
+                  <q-tooltip v-if="!$q.platform.is.mobile">Tạo hủy hóa đơn</q-tooltip>
+                </q-btn>
+                <q-btn type="submit" color="indigo" icon="view_array" dense :loading="loading" flat
+                  :disable="loading" @click.prevent="onGetXML('adjust')">
+                  <q-tooltip v-if="!$q.platform.is.mobile">Tạo hóa đơn điều chỉnh</q-tooltip>
+                </q-btn>
+                <q-btn type="submit" color="teal" icon="vertical_split" dense :loading="loading"
+                  flat :disable="loading" @click.prevent="onGetXML('replace')">
+                  <q-tooltip v-if="!$q.platform.is.mobile">Tạo hóa đơn thay thế</q-tooltip>
+                </q-btn>
+              </div>
+            </div>
           </div>
           <q-separator class="q-mb-sm q-mt-sm" />
           <div class="text-subtitle2 text-indigo">Kết xuất dữ liệu</div>
-          <div
-            v-if="exportData.xmlKhachHang"
-            class="el-col el-col-6 el-xs-24 el-sm-24"
-          >
+          <q-spinner-dots v-if="loadingXML" color="primary" size="2em" />
+          <div v-if="exportData.xmlKhachHang && !loadingXML"
+            class="el-col el-col-6 el-xs-24 el-sm-24">
             <label>Khách hàng: </label>
-            <tm-export-data
-              :data="exportData.xmlKhachHang"
-              :items="[
+            <tm-export-data :data="exportData.xmlKhachHang" :items="[
                 { title: 'Export .xml', type: 'xml' },
                 { title: 'Export .zip', type: 'zip-xml' }
-              ]"
-              :filename="exportData.fileNameKhachHang"
-              :zipname="exportData.zipNameKhachHang"
-            />
+              ]" :filename="exportData.fileNameKhachHang" :zipname="exportData.zipNameKhachHang" />
           </div>
-          <div
-            v-if="exportData.xmlHoadon"
-            class="el-col el-col-6 el-xs-24 el-sm-24"
-          >
+          <div v-if="exportData.xmlHoadon && !loadingXML" class="el-col el-col-6 el-xs-24 el-sm-24">
             <label>Hóa đơn: </label>
-            <tm-export-data
-              :data="exportData.xmlHoadon"
-              :items="[
+            <tm-export-data :data="exportData.xmlHoadon" :items="[
                 { title: 'Export .xml', type: 'xml' },
                 { title: 'Export .zip', type: 'zip-xml' }
-              ]"
-              :filename="exportData.fileNameHoadon"
-              :zipname="exportData.zipNameHoadon"
-            />
+              ]" :filename="exportData.fileNameHoadon" :zipname="exportData.zipNameHoadon" />
           </div>
         </div>
       </div>
@@ -109,12 +88,15 @@ export default {
     return {
       tables: [],
       loading: false,
+      loadingXML: false,
       billTime: '',
       kindOfService: '',
       dsMaTT: '',
       table: 'BCSS_BKN.HDDT_20200101',
       province: process.env.PROVINCE, // 'BKN', // CBG
       exportData: {
+        data: [],
+        kyhoadon: {},
         xmlHoadon: '',
         xmlKhachHang: '',
         fileNameHoadon: 'hoadon',
@@ -139,120 +121,155 @@ export default {
     // })
   },
   methods: {
-    onSubmit(type) {
+    onSubmit() {
       this.$refs.form.validate().then(valid => {
         if (valid) {
           this.reset();
           this.loading = true;
-          api
-            .getData({
-              table: this.table,
-              ma_tt: this.dsMaTT ? this.dsMaTT.split('\n') : []
-            })
-            .then(async rs => {
-              this.exportData.zipNameHoadon =
-                this.exportData.zipNameHoadon + rs.khd;
-              this.exportData.zipNameKhachHang =
-                this.exportData.zipNameKhachHang + rs.khd;
-              const kyhoadon = { year: rs.khd.toString().substr(0, 4), month: rs.khd.toString().substr(4, 2), day: rs.khd.toString().substr(6, 2) };
-              if (type === 'create') {
-                this.exportData.xmlHoadon = await this.createHoaDon(rs.data, kyhoadon);
-                this.exportData.xmlKhachHang = await this.createKhachHang(rs.data, kyhoadon);
-              } else {
-                this.exportData.xmlHoadon = await this.createHuyHoaDon(rs.data, kyhoadon);
-                this.exportData.xmlKhachHang = await this.createKhachHang(rs.data, kyhoadon);
-              }
-            })
-            .finally(() => {
-              this.loading = false;
-            });
+          api.getData({ table: this.table, ma_tt: this.dsMaTT ? this.dsMaTT.split('\n') : [] }).then(async rs => {
+            this.exportData.data = rs.data
+            this.exportData.khd = rs.khd
+            this.exportData.zipNameHoadon = this.exportData.zipNameHoadon + rs.khd;
+            this.exportData.zipNameKhachHang = this.exportData.zipNameKhachHang + rs.khd;
+            this.exportData.kyhoadon = { year: rs.khd.toString().substr(0, 4), month: rs.khd.toString().substr(4, 2), day: rs.khd.toString().substr(6, 2) };
+          }).finally(() => { this.loading = false; });
         }
       });
     },
-    createHoaDon(data, kyhoadon) {
+    async onGetXML(type) {
+      this.loadingXML = true
+      if (type === 'create') {
+        this.exportData.xmlHoadon = await this.createBill(this.exportData.data, this.exportData.kyhoadon);
+        this.exportData.xmlKhachHang = await this.createCustomer(this.exportData.data, this.exportData.kyhoadon);
+      } else if (type === 'remove') {
+        this.exportData.xmlHoadon = await this.createRemove(this.exportData.data, this.exportData.kyhoadon);
+        this.exportData.xmlKhachHang = await this.createCustomer(this.exportData.data, this.exportData.kyhoadon);
+      } else if (type === 'adjust') {
+        this.exportData.xmlHoadon = await this.createAdjust(this.exportData.data, this.exportData.kyhoadon);
+        this.exportData.xmlKhachHang = await this.createCustomer(this.exportData.data, this.exportData.kyhoadon);
+      } else if (type === 'replace') {
+        this.exportData.xmlHoadon = await this.createReplace(this.exportData.data, this.exportData.kyhoadon);
+        this.exportData.xmlKhachHang = await this.createCustomer(this.exportData.data, this.exportData.kyhoadon);
+      }
+      setTimeout(() => {
+        this.loadingXML = false
+      }, 300);
+    },
+    createBill(data, kyhoadon) {
       // const KindOfService =
       return new Promise((resolve, reject) => {
-        let xmlHoadon = `<Invoices><BillTime>${kyhoadon.year + kyhoadon.month + kyhoadon.day}</BillTime>\r\n`;
+        let xml = `<Invoices><BillTime>${kyhoadon.year + kyhoadon.month + kyhoadon.day}</BillTime>\r\n`;
         for (const i of data) {
-          xmlHoadon += `<Inv>`;
-          xmlHoadon += `<key>${i.fkey}</key>`;
-          xmlHoadon += `<Invoice>`;
-          xmlHoadon += `<CusCode>${i.ma_tt}</CusCode>`;
-          xmlHoadon += `<CusName><![CDATA[${i.ten_tt}]]></CusName>`;
-          xmlHoadon += `<CusAddress><![CDATA[${i.diachi_tt || ''}]]></CusAddress>`;
-          xmlHoadon += `<CusPhone>${i.dienthoai_lh || ''}</CusPhone>`;
-          xmlHoadon += `<CusTaxCode>${i.ms_thue || ''}</CusTaxCode>`;
-          xmlHoadon += `<PaymentMethod>TM/CK</PaymentMethod>`;
-          xmlHoadon += `<KindOfService>${kyhoadon.month}/${kyhoadon.year}</KindOfService>`;
-          // xmlHoadon += `<ResourceCode>${i.manv_tc || ''}</ResourceCode>`;
-          xmlHoadon += `<Products>`;
-          xmlHoadon += `<Product>`;
-          xmlHoadon += `<ProdName><![CDATA[Cước dịch vụ viễn thông]]></ProdName>`; // : ${kyhoadon.month + '/' + kyhoadon.year}
-          xmlHoadon += `<ProdUnit></ProdUnit>`;
-          xmlHoadon += `<ProdQuantity></ProdQuantity>`;
-          xmlHoadon += `<ProdPrice></ProdPrice>`;
-          xmlHoadon += `<Amount>${i.cuoc_cthue}</Amount>`;
-          xmlHoadon += `</Product>`;
-          xmlHoadon += `<Product>`;
-          xmlHoadon += `<ProdName><![CDATA[Cước dịch vụ Viễn thông không thuế]]></ProdName>`;
-          xmlHoadon += `<ProdUnit></ProdUnit>`;
-          xmlHoadon += `<ProdQuantity></ProdQuantity>`;
-          xmlHoadon += `<ProdPrice></ProdPrice>`;
-          xmlHoadon += `<Amount>${i.cuoc_kthue}</Amount>`;
-          xmlHoadon += `</Product>`;
-          xmlHoadon += `<Product>`;
-          xmlHoadon += `<ProdName><![CDATA[Chiết khấu + đa dịch vụ]]></ProdName>`;
-          xmlHoadon += `<ProdUnit></ProdUnit>`;
-          xmlHoadon += `<ProdQuantity></ProdQuantity>`;
-          xmlHoadon += `<ProdPrice></ProdPrice>`;
-          xmlHoadon += `<Amount>0</Amount>`;
-          xmlHoadon += `</Product>`;
-          xmlHoadon += `<Product>`;
-          xmlHoadon += `<ProdName><![CDATA[Khuyến mại]]></ProdName>`;
-          xmlHoadon += `<ProdUnit></ProdUnit>`;
-          xmlHoadon += `<ProdQuantity></ProdQuantity>`;
-          xmlHoadon += `<ProdPrice></ProdPrice>`;
-          xmlHoadon += `<Amount>${i.tien_km}</Amount>`;
-          xmlHoadon += `</Product>`;
-          xmlHoadon += `<Product>`;
-          xmlHoadon += `<ProdName><![CDATA[Cước phí thu tại nhà]]></ProdName>`;
-          xmlHoadon += `<ProdUnit></ProdUnit>`;
-          xmlHoadon += `<ProdQuantity></ProdQuantity>`;
-          xmlHoadon += `<ProdPrice></ProdPrice>`;
-          xmlHoadon += `<Amount>${i.phuthu_hd}</Amount>`;
-          xmlHoadon += `</Product>`;
-          xmlHoadon += `</Products>`;
-          xmlHoadon += `<Extra><![CDATA[${i.cantru};${i.tong_pt};${i.tuyenthu || ''}]]></Extra>`;
-          xmlHoadon += `<MaThanhToan>${i.qrcode ? i.qrcode : this.getMaThanhToanHD(kyhoadon.month + kyhoadon.year, i.ma_tt, 2)}</MaThanhToan>`;
-          xmlHoadon += `<Total>${i.tien}</Total>`;
-          xmlHoadon += `<DiscountAmount></DiscountAmount>`;
-          xmlHoadon += `<VATRate>10</VATRate>`;
-          xmlHoadon += `<VATAmount>${i.vat}</VATAmount>`;
-          xmlHoadon += `<Amount>${i.tong}</Amount>`;
-          xmlHoadon += `<AmountInWords>${i.tong_chu}</AmountInWords>`;
-          xmlHoadon += `<PaymentStatus>0</PaymentStatus>`;
-          xmlHoadon += `</Invoice>`;
-          xmlHoadon += `</Inv>\r\n`;
+          xml += `<Inv>`;
+          xml += `<key>${i.fkey}</key>`;
+          xml += `<Invoice>`;
+          xml += `<CusCode>${i.ma_tt || ''}</CusCode>`;
+          xml += `<CusName><![CDATA[${i.ten_tt || ''}]]></CusName>`;
+          xml += `<CusAddress><![CDATA[${i.diachi_tt || ''}]]></CusAddress>`;
+          xml += `<CusPhone>${i.dienthoai_lh || ''}</CusPhone>`;
+          xml += `<CusTaxCode>${i.ms_thue || ''}</CusTaxCode>`;
+          xml += `<PaymentMethod>TM/CK</PaymentMethod>`;
+          xml += `<KindOfService>${kyhoadon.month}/${kyhoadon.year}</KindOfService>`;
+          // xml += `<ResourceCode>${i.manv_tc || ''}</ResourceCode>`;
+          xml += this.getProducts(i)
+          xml += `<Extra><![CDATA[${i.cantru};${i.tong_pt};${i.tuyenthu || ''}]]></Extra>`;
+          xml += `<MaThanhToan>${i.qrcode ? i.qrcode : this.getMaThanhToanHD(kyhoadon.month + kyhoadon.year, i.ma_tt, 2)}</MaThanhToan>`;
+          xml += `<Total>${i.tien}</Total>`;
+          xml += `<DiscountAmount></DiscountAmount>`;
+          xml += `<VATRate>10</VATRate>`;
+          xml += `<VATAmount>${i.vat}</VATAmount>`;
+          xml += `<Amount>${i.tong}</Amount>`;
+          xml += `<AmountInWords>${i.tong_chu || ''}</AmountInWords>`;
+          xml += `<PaymentStatus>0</PaymentStatus>`;
+          xml += `</Invoice>`;
+          xml += `</Inv>\r\n`;
         }
-        xmlHoadon += '</Invoices>';
-        resolve(xmlHoadon);
+        xml += '</Invoices>';
+        resolve(xml);
       });
     },
-    createKhachHang(data, kyhoadon) {
+    createRemove(data, kyhoadon) {
+      return new Promise((resolve, reject) => {
+        let xml = `<Inv>\r\n`;
+        for (const i of data) {
+          xml += `<key>${i.fkey}</key>\r\n`;
+        }
+        xml += '</Inv>';
+        resolve(xml);
+      });
+    },
+    createAdjust(data, kyhoadon) {
+      return new Promise((resolve, reject) => {
+        let xml = `<AdjustInvs>\r\n`;
+        for (const i of data) {
+          xml += '<AdjustInv>'
+          xml += `<oldkey>${i.fkey}</oldkey>`
+          // xml += '<key></key>' // Khóa của hóa đơn mới (nếu không có bỏ cả thẻ <key></key> đi)
+          xml += `<Type>${i.type || 2}</Type>` // Loại hóa đơn điều chỉnh (mặc định lấy là 2)  2-Điều chỉnh tăng, 3-Điều chỉnh giảm, 4- Hóa đơn điều chỉnh thông tin
+          xml += `<CusCode>${i.ma_tt || ''}</CusCode>`
+          xml += `<CusName><![CDATA[${i.ten_tt || ''}]]></CusName>`;
+          xml += `<CusAddress><![CDATA[${i.diachi_tt || ''}]]></CusAddress>`;
+          xml += `<CusPhone>${i.dienthoai_lh || ''}</CusPhone>`;
+          xml += `<CusTaxCode>${i.ms_thue || ''}</CusTaxCode>`;
+          xml += `<PaymentMethod>TM/CK</PaymentMethod>`;
+          xml += `<KindOfService>${kyhoadon.month}/${kyhoadon.year}</KindOfService>`;
+          xml += this.getProducts(i)
+          xml += `<Total>${i.tien}</Total>`;
+          xml += `<DiscountAmount></DiscountAmount>`;
+          xml += `<VATRate>10</VATRate>`;
+          xml += `<VATAmount>${i.vat}</VATAmount>`;
+          xml += `<Amount>${i.tong}</Amount>`;
+          xml += `<AmountInWords>${i.tong_chu || ''}</AmountInWords>`;
+          xml += `<Teller>admin</Teller>` // Mã giao dịch viên
+          xml += '</AdjustInv>\r\n';
+        }
+        xml += '</AdjustInvs>';
+        resolve(xml);
+      });
+    },
+    createReplace(data, kyhoadon) {
+      return new Promise((resolve, reject) => {
+        let xml = `<ReplaceInvs>\r\n`;
+        for (const i of data) {
+          xml += '<ReplaceInv>'
+          xml += `<oldkey>${i.fkey}</oldkey>`
+          // xml += '<key></key>' // Khóa của hóa đơn mới (nếu không có bỏ cả thẻ <key></key> đi)
+          xml += `<CusCode>${i.ma_tt}</CusCode>`
+          xml += `<CusName><![CDATA[${i.ten_tt}]]></CusName>`;
+          xml += `<CusAddress><![CDATA[${i.diachi_tt || ''}]]></CusAddress>`;
+          xml += `<CusPhone>${i.dienthoai_lh || ''}</CusPhone>`;
+          xml += `<CusTaxCode>${i.ms_thue || ''}</CusTaxCode>`;
+          xml += `<PaymentMethod>TM/CK</PaymentMethod>`;
+          xml += `<KindOfService>${kyhoadon.month}/${kyhoadon.year}</KindOfService>`;
+          xml += this.getProducts(i)
+          xml += `<Total>${i.tien}</Total>`;
+          xml += `<DiscountAmount></DiscountAmount>`;
+          xml += `<VATRate>10</VATRate>`;
+          xml += `<VATAmount>${i.vat}</VATAmount>`;
+          xml += `<Amount>${i.tong}</Amount>`;
+          xml += `<AmountInWords>${i.tong_chu || ''}</AmountInWords>`;
+          xml += `<Teller>admin</Teller>` // Mã giao dịch viên
+          xml += '</ReplaceInv>\r\n';
+        }
+        xml += '</ReplaceInvs>';
+        resolve(xml);
+      });
+    },
+    createCustomer(data, kyhoadon) {
       return new Promise((resolve, reject) => {
         let xml = '<Customers>\r\n';
         for (const i of data) {
           xml += `<Customer>`;
-          xml += `<Name><![CDATA[${i.ten_tt}]]></Name>`;
-          xml += `<Code>${i.ma_tt}</Code>`;
-          xml += `<TaxCode><![CDATA[${i.ms_thue}]]></TaxCode>`;
-          xml += `<Address><![CDATA[${i.diachi_tt}]]></Address>`;
+          xml += `<Name><![CDATA[${i.ten_tt || ''}]]></Name>`;
+          xml += `<Code>${i.ma_tt || ''}</Code>`;
+          xml += `<TaxCode><![CDATA[${i.ms_thue || ''}]]></TaxCode>`;
+          xml += `<Address><![CDATA[${i.diachi_tt || ''}]]></Address>`;
           xml += `<BankAccountName><![CDATA[]]></BankAccountName>`;
           xml += `<BankName><![CDATA[]]></BankName>`;
           xml += `<BankNumber><![CDATA[]]></BankNumber>`;
           xml += `<Email><![CDATA[]]></Email>`;
           xml += `<Fax><![CDATA[]]></Fax>`;
-          xml += `<Phone><![CDATA[${i.dienthoai_lh}]]></Phone>`;
+          xml += `<Phone><![CDATA[${i.dienthoai_lh || ''}]]></Phone>`;
           xml += `<ContactPerson><![CDATA[]]></ContactPerson>`;
           xml += `<RepresentPerson><![CDATA[]]></RepresentPerson>`;
           xml += `<CusType>1</CusType>`;
@@ -263,15 +280,46 @@ export default {
         resolve(xml);
       });
     },
-    createHuyHoaDon(data, kyhoadon) {
-      return new Promise((resolve, reject) => {
-        let xml = `<Inv>\r\n`;
-        for (const i of data) {
-          xml += `<key>${i.fkey}</key>\r\n`;
-        }
-        xml += '</Inv>';
-        resolve(xml);
-      });
+    getProducts(i) {
+      let xml = ''
+      xml += `<Products>`;
+      xml += `<Product>`;
+      xml += `<ProdName><![CDATA[Cước dịch vụ viễn thông]]></ProdName>`; // : ${kyhoadon.month + '/' + kyhoadon.year}
+      xml += `<ProdUnit></ProdUnit>`;
+      xml += `<ProdQuantity></ProdQuantity>`;
+      xml += `<ProdPrice></ProdPrice>`;
+      xml += `<Amount>${i.cuoc_cthue}</Amount>`;
+      xml += `</Product>`;
+      xml += `<Product>`;
+      xml += `<ProdName><![CDATA[Cước dịch vụ Viễn thông không thuế]]></ProdName>`;
+      xml += `<ProdUnit></ProdUnit>`;
+      xml += `<ProdQuantity></ProdQuantity>`;
+      xml += `<ProdPrice></ProdPrice>`;
+      xml += `<Amount>${i.cuoc_kthue}</Amount>`;
+      xml += `</Product>`;
+      xml += `<Product>`;
+      xml += `<ProdName><![CDATA[Chiết khấu + đa dịch vụ]]></ProdName>`;
+      xml += `<ProdUnit></ProdUnit>`;
+      xml += `<ProdQuantity></ProdQuantity>`;
+      xml += `<ProdPrice></ProdPrice>`;
+      xml += `<Amount>0</Amount>`;
+      xml += `</Product>`;
+      xml += `<Product>`;
+      xml += `<ProdName><![CDATA[Khuyến mại]]></ProdName>`;
+      xml += `<ProdUnit></ProdUnit>`;
+      xml += `<ProdQuantity></ProdQuantity>`;
+      xml += `<ProdPrice></ProdPrice>`;
+      xml += `<Amount>${i.tien_km}</Amount>`;
+      xml += `</Product>`;
+      xml += `<Product>`;
+      xml += `<ProdName><![CDATA[Cước phí thu tại nhà]]></ProdName>`;
+      xml += `<ProdUnit></ProdUnit>`;
+      xml += `<ProdQuantity></ProdQuantity>`;
+      xml += `<ProdPrice></ProdPrice>`;
+      xml += `<Amount>${i.phuthu_hd}</Amount>`;
+      xml += `</Product>`;
+      xml += `</Products>`;
+      return xml
     },
     getMaThanhToanHD(kyhoadon, matt, type) {
       // console.log(kyhoadon, ma_tt, type)
@@ -311,10 +359,16 @@ export default {
       // const khd = this.params.kyhoadon.split('-')
       // this.billTime = khd[0] + khd[1] + khd[2]
       // this.kindOfService = khd[1] + '/' + khd[0]
-      this.exportData.xmlHoadon = '';
-      this.exportData.xmlKhachHang = '';
-      this.exportData.zipNameHoadon = `hoadon_`;
-      this.exportData.zipNameKhachHang = `khachhang_`;
+      this.exportData = {
+        data: [],
+        kyhoadon: {},
+        xmlHoadon: '',
+        xmlKhachHang: '',
+        fileNameHoadon: 'hoadon',
+        fileNameKhachHang: 'cus',
+        zipNameHoadon: `hoadon_`,
+        zipNameKhachHang: `khachhang_`
+      }
     }
   }
 };

@@ -12,12 +12,11 @@
       </div>
       <q-space />
       <div class="col-xs-12 col-sm-5 col-md-4">
-        <q-input v-model="pagination.filter" :dense="$store.state.app.dense.input"
-          debounce="500" :placeholder="$t('global.search')">
+        <q-input v-model="pagination.filter" :dense="$store.state.app.dense.input" debounce="500"
+          :placeholder="$t('global.search')">
           <template v-slot:append>
             <q-icon v-if="pagination.filter===''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer"
-              @click="pagination.filter=''" />
+            <q-icon v-else name="clear" class="cursor-pointer" @click="pagination.filter=''" />
           </template>
         </q-input>
       </div>
@@ -48,16 +47,14 @@
     </q-tree>
     <q-separator></q-separator> -->
     <div class="row">
-      <q-btn v-if="isRoutes.add" flat round dense icon="add" color="blue"
-        @click="onAdd()">
+      <q-btn v-if="isRoutes.add" flat round dense icon="add" color="blue" @click="onAdd()">
         <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.add')}}</q-tooltip>
       </q-btn>
     </div>
     <tm-tree :nodes="items" node-key="id" label="label" icon-html
-      :no-nodes-label="$t('table.no_data')" :selected.sync="selected"
-      :ticked.sync="ticked" :expanded.sync="expanded" tick-strategy="leaf-child"
-      :draggable="true" :filter-method="onFilter" :filter="pagination.filter"
-      @on-drag-changed="onTreeDragChanged">
+      :no-nodes-label="$t('table.no_data')" :selected.sync="selected" :ticked.sync="ticked"
+      :expanded.sync="expanded" tick-strategy="leaf-child" :draggable="true"
+      :filter-method="onFilter" :filter="pagination.filter" @on-drag-changed="onTreeDragChanged">
       <template v-slot:content-after="prop">
         <div class="row items-center" @mouseover="tooltipAction=prop.node.id"
           @mouseleave="tooltipAction=''">
@@ -68,15 +65,15 @@
             {{ prop.node.label }}
           </div>
           <template v-if="prop.node.id===tooltipAction">
-            <q-icon v-if="isRoutes.add" name="add" color="blue" size="16px"
-              class="q-pl-xs q-pr-xs" @click="onAdd(prop.node)" />
+            <q-icon v-if="isRoutes.add" name="add" color="blue" size="16px" class="q-pl-xs q-pr-xs"
+              @click="onAdd(prop.node)" />
             <q-icon v-if="isRoutes.edit" name="edit" color="light-green" size="16px"
               class="q-pl-xs q-pr-xs" @click="onUpdate(prop.node)" />
             <template v-if="isRoutes.trash">
               <q-icon v-if="prop.node.flag===1" name="clear" color="negative" size="16px"
                 class="q-pl-xs q-pr-xs" @click="onTrash(prop.node)" />
-              <q-icon v-else name="restore" color="amber" size="16px"
-                class="q-pl-xs q-pr-xs" @click="onTrash(prop.node)" />
+              <q-icon v-else name="restore" color="amber" size="16px" class="q-pl-xs q-pr-xs"
+                @click="onTrash(prop.node)" />
             </template>
           </template>
         </div>

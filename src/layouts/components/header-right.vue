@@ -67,13 +67,12 @@
         <div class="text-h6 q-mb-md">{{$t('setting.title')}}</div>
         <q-list dense class="p-fix">
           <q-item>
-            <q-btn-dropdown flat no-caps :label="currentLanguage.name_l"
-              icon="g_translate" size="md" class="btn-setting"
-              :color="$store.state.app.darkMode?'':'blue-grey'">
+            <q-btn-dropdown flat no-caps :label="currentLanguage.name_l" icon="g_translate"
+              size="md" class="btn-setting" :color="$store.state.app.darkMode?'':'blue-grey'">
               <q-list dense>
                 <template v-for="(item,index) in languages">
-                  <q-item v-if="`${item.cc_iso}-${item.cc}`===language" clickable
-                    v-close-popup :key="index" :active="true">
+                  <q-item v-if="`${item.cc_iso}-${item.cc}`===language" clickable v-close-popup
+                    :key="index" :active="true">
                     <q-item-section>{{item.name_l}}</q-item-section>
                   </q-item>
                   <q-item v-else clickable v-close-popup :key="index"
@@ -85,17 +84,14 @@
             </q-btn-dropdown>
           </q-item>
           <q-item>
-            <q-btn-dropdown flat no-caps :label="$t(`size.${currentSize.key}`)"
-              icon="format_size" size="md" class="btn-setting"
-              :color="$store.state.app.darkMode?'':'blue-grey'">
+            <q-btn-dropdown flat no-caps :label="$t(`size.${currentSize.key}`)" icon="format_size"
+              size="md" class="btn-setting" :color="$store.state.app.darkMode?'':'blue-grey'">
               <q-list dense>
                 <template v-for="(item,index) in sizes">
-                  <q-item v-if="item.key==size" clickable v-close-popup :key="index"
-                    :active="true">
+                  <q-item v-if="item.key==size" clickable v-close-popup :key="index" :active="true">
                     <q-item-section>{{$t(`size.${item.key}`)}}</q-item-section>
                   </q-item>
-                  <q-item v-else clickable v-close-popup :key="index"
-                    @click="onSetSize(item,true)">
+                  <q-item v-else clickable v-close-popup :key="index" @click="onSetSize(item,true)">
                     <q-item-section>{{$t(`size.${item.key}`)}}</q-item-section>
                   </q-item>
                 </template>
@@ -106,16 +102,16 @@
             <q-btn flat no-caps size="md" class="btn-setting"
               :label="$q.fullscreen.isActive ? $t('navbar.normal_screen') : $t('navbar.full_screen')"
               :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
-              @click="$q.fullscreen.toggle()"
-              :color="$store.state.app.darkMode?'':'blue-grey'" v-close-popup>
+              @click="$q.fullscreen.toggle()" :color="$store.state.app.darkMode?'':'blue-grey'"
+              v-close-popup>
               <!-- <q-tooltip>
                   {{$q.fullscreen.isActive ? $t('navbar.normal_screen') : $t('navbar.full_screen')}}
                 </q-tooltip> -->
             </q-btn>
           </q-item>
           <q-item>
-            <q-toggle dense v-model="darkMode" label="Dark mode" size="xs"
-              color="blue-grey" style="white-space:nowrap;padding-left:18px;"
+            <q-toggle dense v-model="darkMode" label="Dark mode" size="xs" color="blue-grey"
+              style="white-space:nowrap;padding-left:18px;"
               :class="$store.state.app.darkMode?'':'q-toggle-setting'" />
           </q-item>
         </q-list>
@@ -126,15 +122,14 @@
           <img :src="avatar">
         </q-avatar>
         <!-- <router-link to="/profile"> -->
-        <div class="q-mt-md q-mb-xs cursor-pointer text-blue"
-          @click="onRouterLink('/profile')">
+        <div class="q-mt-md q-mb-xs cursor-pointer text-blue" @click="onRouterLink('/profile')">
           {{$store.state.auth.user?
             ($store.state.auth.user.ten_nd?$store.state.auth.user.ten_nd:$store.state.auth.user.ma_nd):
             $t('global.undefined')}}
         </div>
         <!-- </router-link> -->
-        <q-btn :label="$t('navbar.log_out')" @click.prevent="onLogout" color="blue-grey"
-          size="sm" style="white-space:nowrap" v-close-popup />
+        <q-btn :label="$t('navbar.log_out')" @click.prevent="onLogout" color="blue-grey" size="sm"
+          style="white-space:nowrap" v-close-popup />
       </div>
     </div>
   </q-btn-dropdown>
@@ -151,7 +146,7 @@ export default {
       currentSize: '',
       items: [],
       // avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80'
-      avatar: `${process.env.API_PUBLIC}/data/avatar.jpg` // 'http://localhost:8001/public/data/avatar.jpg'
+      avatar: this.$store.state.auth.user && this.$store.state.auth.user.avatar ? this.$store.state.auth.user.avatar : this.$store.state.app.avatar // `${process.env.API_PUBLIC}/data/avatar.jpg`
     }
   },
   created() {
@@ -175,11 +170,11 @@ export default {
     },
     darkMode: {
       // getter
-      get: function() {
+      get: function () {
         return this.$q.dark.isActive
       },
       // setter
-      set: function(val) {
+      set: function (val) {
         this.$q.dark.set(val)
         this.$store.commit('app/SET_DARK_MODE', val)
       }

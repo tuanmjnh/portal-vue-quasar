@@ -26,8 +26,8 @@
           <q-separator />
           <q-card-actions>
             <q-table :data="tuyenThus" :columns="columns" row-key="tuyenthu_id"
-              :loading="$store.state.loading.get || $store.state.loading.patch"
-              selection="multiple" :selected.sync="selected" :pagination.sync="pagination"
+              :loading="$store.state.loading.get || $store.state.loading.patch" selection="multiple"
+              :selected.sync="selected" :pagination.sync="pagination"
               :dense="$store.getters.dense.table" :virtual-scroll-sticky-size-start="48"
               virtual-scroll :virtual-scroll-item-size="48" hide-bottom
               :no-data-label="$t('table.no_data')" :dark="$store.state.app.darkMode"
@@ -38,16 +38,13 @@
                     <q-select v-model="donvi" :options="donvis" label="Đơn vị"
                       :dense="$store.getters.dense.input"
                       :options-dense="$store.getters.dense.input" input-debounce="300"
-                      :rules="[
-                        v =>
-                          (v && Object.keys(v).length > 0) ||
-                          $t('error.required')
-                      ]" @input="onGetUsers" />
+                      :rules="[v=>(v && Object.keys(v).length)||$t('error.required')]"
+                      @input="onGetUsers" />
                   </div>
                   <q-space />
                   <div class="col-4 col-sm-auto self-center text-right">
-                    <q-btn flat round dense
-                      :color="$store.state.app.darkMode ? '' : 'grey-7'" :icon="
+                    <q-btn flat round dense :color="$store.state.app.darkMode ? '' : 'grey-7'"
+                      :icon="
                         props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'
                       " @click="props.toggleFullscreen">
                       <q-tooltip v-if="!$q.platform.is.mobile">
@@ -62,14 +59,11 @@
                 </div>
                 <div class="col-12 row">
                   <div class="col-8">
-                    <q-select v-model="user" :options="users"
-                      label="Nhân viên đang quản lý" :dense="$store.getters.dense.input"
+                    <q-select v-model="user" :options="users" label="Nhân viên đang quản lý"
+                      :dense="$store.getters.dense.input"
                       :options-dense="$store.getters.dense.input" input-debounce="300"
-                      :rules="[
-                        v =>
-                          (v && Object.keys(v).length > 0) ||
-                          $t('error.required')
-                      ]" @input="onGetTuyenThu" />
+                      :rules="[v=>(v && Object.keys(v).length)||$t('error.required')]"
+                      @input="onGetTuyenThu" />
                   </div>
                   <q-space />
                   <div class="col-8 col-md-8"></div>
@@ -129,14 +123,11 @@
           <q-form ref="form">
             <q-card-actions>
               <div class="col-12">
-                <q-select v-model="nhanvien" :options="nhanviens"
-                  label="Nhân viên quản lý mới"
+                <q-select v-model="nhanvien" :options="nhanviens" label="Nhân viên quản lý mới"
                   hint="Tích chọn tuyến cần thay đổi, chọn nhân viên quản lý mới"
-                  :dense="$store.getters.dense.input"
-                  :options-dense="$store.getters.dense.input" input-debounce="300" :rules="[
-                    v =>
-                      (v && Object.keys(v).length > 0) || $t('error.required')
-                  ]" />
+                  :dense="$store.getters.dense.input" :options-dense="$store.getters.dense.input"
+                  input-debounce="300"
+                  :rules="[v=>(v && Object.keys(v).length)||$t('error.required')]" />
               </div>
             </q-card-actions>
             <q-card-actions align="right">

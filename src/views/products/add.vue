@@ -20,14 +20,12 @@
         </q-btn>
       </q-card-actions>
       <q-card-actions v-else align="right">
-        <q-btn flat type="submit" color="blue" icon="check_circle"
-          :label="$t('global.add')" :loading="loading_add" :disable="loading_drafts"
-          @click.prevent="onSubmit(1)">
+        <q-btn flat type="submit" color="blue" icon="check_circle" :label="$t('global.add')"
+          :loading="loading_add" :disable="loading_drafts" @click.prevent="onSubmit(1)">
           <!-- <q-tooltip>{{$t('global.add')}}</q-tooltip> -->
         </q-btn>
-        <q-btn flat type="submit" color="amber" icon="receipt"
-          :label="$t('global.drafts')" :loading="loading_drafts" :disable="loading_add"
-          @click.prevent="onSubmit(0)">
+        <q-btn flat type="submit" color="amber" icon="receipt" :label="$t('global.drafts')"
+          :loading="loading_drafts" :disable="loading_add" @click.prevent="onSubmit(0)">
           <!-- <q-tooltip>{{$t('global.drafts')}}</q-tooltip> -->
         </q-btn>
       </q-card-actions>
@@ -52,9 +50,9 @@
                   </div>
                 </div>
               </q-badge> -->
-              <q-input v-model.trim="categoriesSelected" v-uppercaseFirst
-                :dense="denseInput" :readonly="true" :label="$t('category.title_product')"
-                :rules="[v=>v&&v.length>0||$t('error.required')]">
+              <q-input v-model.trim="categoriesSelected" v-uppercaseFirst :dense="denseInput"
+                :readonly="true" :label="$t('category.title_product')"
+                :rules="[v=>!!v||$t('error.required')]">
                 <template v-slot:after>
                   <q-btn round dense flat icon="pageview"
                     @click="dialog_categories=!dialog_categories">
@@ -67,14 +65,13 @@
           <div class="row q-gutter-xs">
             <div class="col-12 col-md-5">
               <q-input v-model.trim="form.title" v-uppercaseFirst :dense="denseInput"
-                :label="$t('product.name')"
-                :rules="[v=>v&&v.length>0||$t('error.required')]" />
+                :label="$t('product.name')" :rules="[v=>!!v||$t('error.required')]" />
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              <q-input v-model.trim="form.code" v-uppercase debounce="500"
-                :dense="denseInput" :label="$t('product.code')"
-                :rules="[v=>v&&v.length>0||$t('error.required'),v=>!existCode||$t('error.exist')]"
+              <q-input v-model.trim="form.code" v-uppercase debounce="500" :dense="denseInput"
+                :label="$t('product.code')"
+                :rules="[v=>!!v||$t('error.required'),v=>!existCode||$t('error.exist')]"
                 :hint="$t('category.hit_code')" />
             </div>
           </div>
@@ -90,11 +87,10 @@
             </div>
             <q-space />
             <div class="col-2">
-              <q-select v-model="price_unit" :dense="denseInput"
-                :options="unitsPriceLocal" use-input hide-selected fill-input
-                input-debounce="200" @filter="onFilterUnitPrice" option-value="_id"
-                option-label="name" :hint="$t('global.price_unit')"
-                :rules="[v=>v||$t('error.required')]">
+              <q-select v-model="price_unit" :dense="denseInput" :options="unitsPriceLocal"
+                use-input hide-selected fill-input input-debounce="200" @filter="onFilterUnitPrice"
+                option-value="_id" option-label="name" :hint="$t('global.price_unit')"
+                :rules="[v=>!!v||$t('error.required')]">
                 <template v-slot:option="scope">
                   <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
                     <q-item-section>
@@ -120,10 +116,10 @@
                 :label="$t('global.quantity')" />
             </div>
             <div class="col-2">
-              <q-select v-model="unit" use-input hide-selected fill-input
-                input-debounce="200" :dense="denseInput" :options="unitsLocal"
-                :hint="$t('global.unit')" @filter="onFilterUnit" option-value="_id"
-                option-label="name" :rules="[v=>v||$t('error.required')]">
+              <q-select v-model="unit" use-input hide-selected fill-input input-debounce="200"
+                :dense="denseInput" :options="unitsLocal" :hint="$t('global.unit')"
+                @filter="onFilterUnit" option-value="_id" option-label="name"
+                :rules="[v=>!!v||$t('error.required')]">
                 <template v-slot:option="scope">
                   <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
                     <q-item-section>
@@ -144,8 +140,8 @@
             <q-space />
             <div class="col-6">
               <q-input v-model="form.orders" type="number" :dense="denseInput"
-                :label="$t('global.order')"
-                :rules="[v=>v!==null&&v!==''||$t('error.required')]" class="col-md-4" />
+                :label="$t('global.order')" :rules="[v=>!!v||$t('error.required')]"
+                class="col-md-4" />
             </div>
           </div>
         </q-tab-panel>
@@ -157,8 +153,7 @@
             </div>
             <q-space />
             <div class="col-12 col-md-6">
-              <q-input v-model.trim="form.date" :dense="denseInput"
-                :label="$t('product.date')" />
+              <q-input v-model.trim="form.date" :dense="denseInput" :label="$t('product.date')" />
             </div>
           </div>
           <div class="row q-gutter-xs">
@@ -167,10 +162,8 @@
                 :label="$t('global.start_date')">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="startAt" transition-show="scale"
-                      transition-hide="scale">
-                      <q-date v-model="form.start_at" today-btn
-                        @input="()=>$refs.startAt.hide()" />
+                    <q-popup-proxy ref="startAt" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="form.start_at" today-btn @input="()=>$refs.startAt.hide()" />
                     </q-popup-proxy>
                   </q-icon>
                 </template>
@@ -182,10 +175,8 @@
                 :label="$t('global.end_date')">
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="endAt" transition-show="scale"
-                      transition-hide="scale">
-                      <q-date v-model="form.end_at" today-btn
-                        @input="()=>$refs.endAt.hide()" />
+                    <q-popup-proxy ref="endAt" transition-show="scale" transition-hide="scale">
+                      <q-date v-model="form.end_at" today-btn @input="()=>$refs.endAt.hide()" />
                     </q-popup-proxy>
                   </q-icon>
                 </template>
@@ -222,8 +213,7 @@
           </div>
           <div class="row">
             <div class="col-12 q-gutter-sm images">
-              <q-img v-for="(e,i) in form.images" :src="e" :key="i"
-                spinner-color="primary">
+              <q-img v-for="(e,i) in form.images" :src="e" :key="i" spinner-color="primary">
                 <!-- <div class="absolute-top text-subtitle1 text-center">
               Caption
             </div> -->
@@ -256,22 +246,19 @@
             </div>
             <q-space />
             <div class="col">
-              <q-btn flat round color="blue" icon="add" size="sm"
-                @click.prevent="onAddTag" />
+              <q-btn flat round color="blue" icon="add" size="sm" @click.prevent="onAddTag" />
             </div>
           </div>
           <div class="col-12">
-            <q-chip v-for="(e,i) in form.tags" :key="i" removable clickable
-              @click="onEditTag(e)" @remove="onRemoveTag(e)" color="primary"
-              text-color="white">{{e}}</q-chip>
+            <q-chip v-for="(e,i) in form.tags" :key="i" removable clickable @click="onEditTag(e)"
+              @remove="onRemoveTag(e)" color="primary" text-color="white">{{e}}</q-chip>
           </div>
           <q-separator class="q-mb-md q-mt-md" />
           <div class="row q-gutter-md">
             <div class="col-12">{{$t('global.attributes')}}:</div>
             <div class="col-6 col-md-5">
               <auto-complete :value.sync="attr.key" :items.sync="meta.keys"
-                :label="$t('global.key')" :no-data="$t('table.no_data')"
-                @input="onFilterMetaKey" />
+                :label="$t('global.key')" :no-data="$t('table.no_data')" @input="onFilterMetaKey" />
             </div>
             <q-space />
             <div class="col-6 col-md-5">
@@ -281,13 +268,11 @@
             </div>
             <q-space />
             <div class="col">
-              <q-btn flat round color="blue" icon="add" size="sm"
-                @click.prevent="onAddMeta" />
+              <q-btn flat round color="blue" icon="add" size="sm" @click.prevent="onAddMeta" />
             </div>
           </div>
           <br />
-          <q-list v-if="form.meta" dense bordered separator padding
-            class="rounded-borders">
+          <q-list v-if="form.meta" dense bordered separator padding class="rounded-borders">
             <q-item v-for="(v,k,i) in form.meta" :key="i">
               <q-item-section>{{k}}</q-item-section>
               <q-item-section>{{v}}</q-item-section>
@@ -320,10 +305,8 @@
             :expanded-all="true" @on-selected="onSelectCategory">
             <template v-slot:content-after="prop">
               <div class="row items-center">
-                <q-icon :name="prop.node.icon" color="blue-grey" size="20px"
-                  class="q-mr-sm" />
-                <div
-                  :class="['node-label q-pr-md',prop.node.flag===1?'':'text-blue-grey-4']"
+                <q-icon :name="prop.node.icon" color="blue-grey" size="20px" class="q-mr-sm" />
+                <div :class="['node-label q-pr-md',prop.node.flag===1?'':'text-blue-grey-4']"
                   :style="{color:prop.node.color?prop.node.color:'#009688'}">
                   {{ prop.node.label }}
                 </div>

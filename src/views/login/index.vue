@@ -10,17 +10,20 @@
           <div class="q-pl-md q-pr-md q-pt-md">
             <q-input v-model.trim="form.username" :dense="denseInput" v-lowercase
               :hint="$t('login.username')" :placeholder="$t('login.username')"
-              :rules="[v=>v&&v.length>0||$t('error.required')]" />
+              :rules="[v=>!!v||$t('error.required')]" />
           </div>
           <div class="q-pl-md q-pr-md q-pt-md">
-            <q-input v-model.trim="form.password" :type="passwordType" :dense="denseInput" :hint="$t('login.password')"
-              :placeholder="$t('login.password')" @keyup.native="checkCapslock" @blur="capsTooltip=false"
-              :rules="[v=>v&&v.length>0||$t('error.required')]" class="capsTooltip">
+            <q-input v-model.trim="form.password" :type="passwordType" :dense="denseInput"
+              :hint="$t('login.password')" :placeholder="$t('login.password')"
+              @keyup.native="checkCapslock" @blur="capsTooltip=false"
+              :rules="[v=>!!v||$t('error.required')]" class="capsTooltip">
               <template v-slot:append>
-                <q-icon v-if="passwordType==='password'" name="visibility_off" @click="passwordType='text'"
+                <q-icon v-if="passwordType==='password'" name="visibility_off"
+                  @click="passwordType='text'" class="cursor-pointer" />
+                <q-icon v-else name="visibility" @click="passwordType='password'"
                   class="cursor-pointer" />
-                <q-icon v-else name="visibility" @click="passwordType='password'" class="cursor-pointer" />
-                <q-tooltip v-model="capsTooltip" :no-parent-event="true" :offset="[10, 10]" content-class="bg-indigo">
+                <q-tooltip v-model="capsTooltip" :no-parent-event="true" :offset="[10, 10]"
+                  content-class="bg-indigo">
                   Caps lock
                 </q-tooltip>
               </template>
@@ -110,7 +113,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         const query = route.query
         if (query) {
           this.redirect = query.redirect

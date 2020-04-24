@@ -10,15 +10,14 @@
     <q-card-actions>
       <div class="col-12 row">
         <div class="col-sm-12 col-md-4">
-          <q-select v-model="kycuoc" :options="kycuocs"
-            :dense="$store.state.app.dense.input"
+          <q-select v-model="kycuoc" :options="kycuocs" :dense="$store.state.app.dense.input"
             :options-dense="$store.state.app.dense.input" label="Kỳ cước" />
         </div>
         <q-space />
         <div class="col-sm-12 col-md-5">
           <q-select v-model="donvi" :options="donvis" option-label="ten_dv"
-            :dense="$store.state.app.dense.input"
-            :options-dense="$store.state.app.dense.input" label="Đơn vị" />
+            :dense="$store.state.app.dense.input" :options-dense="$store.state.app.dense.input"
+            label="Đơn vị" />
           <!-- <q-btn label="test" @click="testDonVi"></q-btn> -->
         </div>
       </div>
@@ -133,8 +132,8 @@
       </q-item>
       <q-item>
         <q-item-section avatar>
-          <q-btn color="primary" icon="touch_app" label="Thực hiện" size="sm"
-            :loading="loading.pho" @click="onUpdateDBPho" />
+          <q-btn color="primary" icon="touch_app" label="Thực hiện" size="sm" :loading="loading.pho"
+            @click="onUpdateDBPho" />
         </q-item-section>
         <q-item-section>
           <q-item-label>Cập PHO_ID</q-item-label>

@@ -5,7 +5,8 @@
       <q-spinner-gears size="100px" color="primary" />
     </q-inner-loading>
     <!-- <b>{{$q.platform}}</b> -->
-    <component v-if="$store.state.auth.user && $store.state.auth.user.roles && $store.state.auth.user.roles.length>0"
+    <component
+      v-if="$store.state.auth.user && $store.state.auth.user.roles && $store.state.auth.user.roles.length>0"
       :is="layout">
       <!-- <transition name="fade" mode="out-in"> -->
       <!-- <transition  enter-active-class="animated fadeIn"> -->

@@ -1,33 +1,37 @@
 <template>
   <div>
     <q-table :data="items" :columns="columns" row-key="_id" :visible-columns="visibleColumns"
-      :loading="$store.state.loading.get||$store.state.loading.patch" :selected.sync="selected" :dense="denseTable"
-      selection="multiple" :no-data-label="$t('table.no_data')" :rows-per-page-label="$t('table.row_per_page')"
-      :selected-rows-label="getSelectedString" :rows-per-page-options="[10, 20, 50 ,100, 200, 0]"
-      :pagination.sync="pagination" @request="onSelect" :filter="pagination.filter" binary-state-sort>
+      :loading="$store.state.loading.get||$store.state.loading.patch" :selected.sync="selected"
+      :dense="denseTable" selection="multiple" :no-data-label="$t('table.no_data')"
+      :rows-per-page-label="$t('table.row_per_page')" :selected-rows-label="getSelectedString"
+      :rows-per-page-options="[10, 20, 50 ,100, 200, 0]" :pagination.sync="pagination"
+      @request="onSelect" :filter="pagination.filter" binary-state-sort>
       <template v-slot:top="props">
         <div class="col-12 row">
           <div class="col-xs-12 col-sm-auto q-table__title text-h6">{{$t('product.title')}}</div>
           <q-space />
           <div class="col-xs-12 col-sm-auto self-center text-right">
             <div class="col-auto self-center">
-              <q-btn v-if="isRoutes.add" flat round dense icon="add" color="blue" @click="dialogAdd=true">
+              <q-btn v-if="isRoutes.add" flat round dense icon="add" color="blue"
+                @click="dialogAdd=true">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.add')}}</q-tooltip>
               </q-btn>
-              <q-btn v-if="isRoutes.trash&&selected.length>0&&pagination.enable" flat round dense color="negative"
-                icon="delete" @click="onTrash()">
+              <q-btn v-if="isRoutes.trash&&selected.length>0&&pagination.enable" flat round dense
+                color="negative" icon="delete" @click="onTrash()">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.delete')}}</q-tooltip>
               </q-btn>
-              <q-btn v-if="isRoutes.trash&&selected.length>0&&!pagination.enable" flat round dense color="warning"
-                icon="restore_page" @click="onTrash()">
+              <q-btn v-if="isRoutes.trash&&selected.length>0&&!pagination.enable" flat round dense
+                color="warning" icon="restore_page" @click="onTrash()">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.recover')}}</q-tooltip>
               </q-btn>
-              <q-btn flat round dense :color="$store.state.app.darkMode?'':'grey-7'" icon="menu_open">
+              <q-btn flat round dense :color="$store.state.app.darkMode?'':'grey-7'"
+                icon="menu_open">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('table.display_columns')}}</q-tooltip>
                 <q-menu fit>
                   <q-list dense style="min-width:100px">
                     <template v-for="(item,index) in columns">
-                      <q-item clickable :key="index" v-if="!item.required" @click="onColumns(item.name)"
+                      <q-item clickable :key="index" v-if="!item.required"
+                        @click="onColumns(item.name)"
                         :active="visibleColumns.indexOf(item.name)>-1||false">
                         <q-item-section>{{$t(item.label)}}</q-item-section>
                       </q-item>
@@ -36,20 +40,24 @@
                 </q-menu>
               </q-btn>
               <q-btn flat round dense :color="$store.state.app.darkMode?'':'grey-7'"
-                :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen">
+                :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+                @click="props.toggleFullscreen">
                 <q-tooltip v-if="!$q.platform.is.mobile">
-                  {{props.inFullscreen?$t('table.normal_screen'):$t('table.full_screen')}}</q-tooltip>
+                  {{props.inFullscreen?$t('table.normal_screen'):$t('table.full_screen')}}
+                </q-tooltip>
               </q-btn>
-              <q-btn v-if="isRoutes.trash" flat round dense :color="$store.state.app.darkMode?'':'grey-7'"
-                icon="more_vert">
+              <q-btn v-if="isRoutes.trash" flat round dense
+                :color="$store.state.app.darkMode?'':'grey-7'" icon="more_vert">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('table.action')}}</q-tooltip>
                 <q-menu auto-close>
                   <q-list dense bordered>
                     <q-item clickable>
-                      <q-item-section no-wrap @click="onChangeEnable(true)">{{$t('global.working')}}</q-item-section>
+                      <q-item-section no-wrap @click="onChangeEnable(true)">{{$t('global.working')}}
+                      </q-item-section>
                     </q-item>
                     <q-item clickable>
-                      <q-item-section no-wrap @click="onChangeEnable(false)">{{$t('global.locked')}}</q-item-section>
+                      <q-item-section no-wrap @click="onChangeEnable(false)">{{$t('global.locked')}}
+                      </q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -60,7 +68,8 @@
         <div class="col-12 row">
           <q-space />
           <div class="col-xs-12 col-sm-6">
-            <q-input v-model="pagination.filter" :dense="denseInput" debounce="500" :placeholder="$t('global.search')">
+            <q-input v-model="pagination.filter" :dense="denseInput" debounce="500"
+              :placeholder="$t('global.search')">
               <template v-slot:append>
                 <q-icon v-if="pagination.filter===''" name="search" />
                 <q-icon v-else name="clear" class="cursor-pointer" @click="pagination.filter=''" />
@@ -72,7 +81,8 @@
       <template v-slot:header="props">
         <q-tr :props="props">
           <q-th auto-width>
-            <q-checkbox v-if="props.multipleSelect" v-model="props.selected" indeterminate-value="some" />
+            <q-checkbox v-if="props.multipleSelect" v-model="props.selected"
+              indeterminate-value="some" />
           </q-th>
           <q-th v-for="col in props.cols" :key="col.name" :props="props">
             <span v-if="$store.state.app.darkMode" class="text-bold">{{ $t(col.label) }}</span>
@@ -104,7 +114,8 @@
             <q-badge v-else color="blue-grey-10">{{$t('global.undefined')}}</q-badge>
           </q-td> -->
           <q-td key="actions" :props="props" auto-width class="text-center">
-            <q-btn v-if="isRoutes.edit" flat round dense icon="edit" @click="onUpdate(props.row)" color="light-green">
+            <q-btn v-if="isRoutes.edit" flat round dense icon="edit" @click="onUpdate(props.row)"
+              color="light-green">
               <q-tooltip v-if="!$q.platform.is.mobile">
                 {{$t('global.update')}}</q-tooltip>
             </q-btn>
@@ -113,7 +124,8 @@
                 @click="onTrash(props.row)">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.lock')}}</q-tooltip>
               </q-btn>
-              <q-btn v-else flat round dense @click="onTrash(props.row)" color="amber" icon="restore">
+              <q-btn v-else flat round dense @click="onTrash(props.row)" color="amber"
+                icon="restore">
                 <q-tooltip v-if="!$q.platform.is.mobile">{{$t('global.unlock')}}</q-tooltip>
               </q-btn>
             </template>
@@ -123,8 +135,9 @@
     </q-table>
     <!-- Add dialog -->
     <q-dialog v-model="dialogAdd" persistent>
-      <template-add :dialog.sync="dialogAdd" :item.sync="selected[0]" :items.sync="items" :categories="categories"
-        :category="category" :units="units" :unitsPrice="unitsPrice" :pin="pin" />
+      <template-add :dialog.sync="dialogAdd" :item.sync="selected[0]" :items.sync="items"
+        :categories="categories" :category="category" :units="units" :unitsPrice="unitsPrice"
+        :pin="pin" />
     </q-dialog>
   </div>
 </template>
