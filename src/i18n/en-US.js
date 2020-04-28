@@ -33,7 +33,8 @@ export default {
     tuyen_thu: 'Gland revenue',
     hddt: 'HDDT',
     create_hddt: 'HDDT Create',
-    remove_hddt: 'HDDT Remove'
+    remove_hddt: 'HDDT Remove',
+    uploadExcel: 'Upload Excel'
   },
   global: {
     list: 'List data',
@@ -125,9 +126,11 @@ export default {
   message_box: {
     title: 'Message box',
     warning: 'Warning',
-    trash: 'The action will move the items to trash. Are you sure you want to continue?',
+    trash:
+      'The action will move the items to trash. Are you sure you want to continue?',
     recover: 'Are you sure you want to recover the items?',
-    delete: 'This action will delete the items forever. Are you sure you want to continue?',
+    delete:
+      'This action will delete the items forever. Are you sure you want to continue?',
     lock: 'Are you sure you want to lock these records?',
     unlock: 'Are you sure you want to unlock these records?',
     reset_password: 'Are you sure you want to reset password for {username}?'
@@ -160,7 +163,8 @@ export default {
     auth_invalid_email: 'The Username is badly formatted!',
     auth_user_not_found: 'Account does not exist!',
     auth_wrong_password: 'The password is invalid!',
-    auth_too_many_requests: 'Too many unsuccessful login attempts. Please include reCaptcha verification or try again later!',
+    auth_too_many_requests:
+      'Too many unsuccessful login attempts. Please include reCaptcha verification or try again later!',
     network_request_failed: 'A network error. Please try again!',
     login_with: 'Login with'
   },
@@ -238,8 +242,10 @@ export default {
   },
   files: {
     title: 'List file',
-    upload: 'Tải tệp',
-    open_file: 'Duyệt tệp'
+    upload: 'Upload',
+    open_file: 'Open file',
+    choose_file: 'Choose file',
+    dataFile: 'Data file'
   },
   tagsView: {
     refresh: 'Refresh',
@@ -263,4 +269,4 @@ export default {
     sm: 'Small',
     xs: 'Mini'
   }
-}
+};

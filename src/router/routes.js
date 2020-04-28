@@ -26,7 +26,7 @@ export const constant = [
   //   icon: 'vertical_split',
   //   component: 'routes')
   // }
-]
+];
 
 export const dynamic = [
   {
@@ -44,7 +44,13 @@ export const dynamic = [
           {
             path: 'list',
             name: 'contact-business-view',
-            meta: { title: 'view', icon: 'list', hidden: true, noCache: true, flag: 1 },
+            meta: {
+              title: 'view',
+              icon: 'list',
+              hidden: true,
+              noCache: true,
+              flag: 1
+            },
             component: 'contact/business/index'
           },
           {
@@ -56,13 +62,25 @@ export const dynamic = [
           {
             path: 'edit/:id?',
             name: 'contact-business-edit',
-            meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: 'news/list' },
+            meta: {
+              title: 'edit',
+              icon: 'edit',
+              hidden: true,
+              noCache: true,
+              activeMenu: 'news/list'
+            },
             component: 'contact/business/add'
           },
           {
             path: 'trash',
             name: 'contact-business-trash',
-            meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
+            meta: {
+              title: 'trash',
+              icon: 'delete_sweep',
+              hidden: true,
+              noCache: true,
+              flag: 0
+            },
             component: 'contact/business/index'
           }
         ]
@@ -76,7 +94,13 @@ export const dynamic = [
           {
             path: 'list',
             name: 'contact-personal-view',
-            meta: { title: 'view', icon: 'list', hidden: true, noCache: true, flag: 1 },
+            meta: {
+              title: 'view',
+              icon: 'list',
+              hidden: true,
+              noCache: true,
+              flag: 1
+            },
             component: 'contact/personal/index'
           },
           {
@@ -88,13 +112,25 @@ export const dynamic = [
           {
             path: 'edit/:id?',
             name: 'contact-personal-edit',
-            meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: 'news/list' },
+            meta: {
+              title: 'edit',
+              icon: 'edit',
+              hidden: true,
+              noCache: true,
+              activeMenu: 'news/list'
+            },
             component: 'contact/personal/add'
           },
           {
             path: 'trash',
             name: 'contact-personal-trash',
-            meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
+            meta: {
+              title: 'trash',
+              icon: 'delete_sweep',
+              hidden: true,
+              noCache: true,
+              flag: 0
+            },
             component: 'contact/personal/index'
           }
         ]
@@ -116,19 +152,35 @@ export const dynamic = [
       {
         path: 'add',
         name: 'diaban-add',
-        meta: { title: 'add', icon: 'playlist_add', hidden: true, noCache: true, activeMenu: '/diaban/list' },
+        meta: {
+          title: 'add',
+          icon: 'playlist_add',
+          hidden: true,
+          noCache: true,
+          activeMenu: '/diaban/list'
+        },
         component: 'diaban/add'
       },
       {
         path: 'edit',
         name: 'diaban-edit',
-        meta: { title: 'update_nv', icon: 'how_to_reg', hidden: true, noCache: true, activeMenu: '/diaban/list' },
+        meta: {
+          title: 'update_nv',
+          icon: 'how_to_reg',
+          hidden: true,
+          noCache: true,
+          activeMenu: '/diaban/list'
+        },
         component: 'diaban/index'
       },
       {
         path: 'manager',
         name: 'diaban-manager',
-        meta: { title: 'diaban_manager', icon: 'perm_data_setting', noCache: true },
+        meta: {
+          title: 'diaban_manager',
+          icon: 'perm_data_setting',
+          noCache: true
+        },
         component: 'diaban/manager'
       }
     ]
@@ -154,7 +206,13 @@ export const dynamic = [
           {
             path: 'edit',
             name: 'pttb-tuyen-thu-edit',
-            meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: '/category/list' },
+            meta: {
+              title: 'edit',
+              icon: 'edit',
+              hidden: true,
+              noCache: true,
+              activeMenu: '/category/list'
+            },
             component: 'category/add'
           }
         ]
@@ -194,13 +252,25 @@ export const dynamic = [
           {
             path: 'edit/:id?',
             name: 'data-category-edit',
-            meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: '/category/list' },
+            meta: {
+              title: 'edit',
+              icon: 'edit',
+              hidden: true,
+              noCache: true,
+              activeMenu: '/category/list'
+            },
             component: 'category/add'
           },
           {
             path: 'trash',
             name: 'data-category-trash',
-            meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
+            meta: {
+              title: 'trash',
+              icon: 'delete_sweep',
+              hidden: true,
+              noCache: true,
+              flag: 0
+            },
             component: 'category/index'
           }
         ]
@@ -226,13 +296,25 @@ export const dynamic = [
           {
             path: 'edit/:id?',
             name: 'data-news-edit',
-            meta: { title: 'edit', icon: 'edit', hidden: true, noCache: true, activeMenu: '/news/list' },
+            meta: {
+              title: 'edit',
+              icon: 'edit',
+              hidden: true,
+              noCache: true,
+              activeMenu: '/news/list'
+            },
             component: 'news/add'
           },
           {
             path: 'trash',
             name: 'data-news-trash',
-            meta: { title: 'trash', icon: 'delete_sweep', hidden: true, noCache: true, flag: 0 },
+            meta: {
+              title: 'trash',
+              icon: 'delete_sweep',
+              hidden: true,
+              noCache: true,
+              flag: 0
+            },
             component: 'news/index'
           }
         ]
@@ -399,6 +481,12 @@ export const dynamic = [
             component: 'command/index'
           }
         ]
+      },
+      {
+        path: 'upload-excel',
+        name: 'manager-upload-excel',
+        meta: { title: 'uploadExcel', icon: 'backup' },
+        component: 'upload-excel'
       }
       // {
       //   path: '/routes',
@@ -408,9 +496,9 @@ export const dynamic = [
       // }
     ]
   }
-]
+];
 
-export const exception = []
+export const exception = [];
 // Always leave this as last one
 if (process.env.MODE !== 'ssr') {
   constant.push({
@@ -418,7 +506,7 @@ if (process.env.MODE !== 'ssr') {
     name: '404',
     component: () => import('@/pages/error404'),
     meta: { title: 'error404', icon: '404', hidden: true, constant: true }
-  })
+  });
 }
 
-export default constant
+export default constant;

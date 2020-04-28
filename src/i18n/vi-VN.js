@@ -34,7 +34,8 @@ export default {
     tuyen_thu: 'Tuyến thu',
     hddt: 'HĐĐT',
     create_hddt: 'HĐĐT Tạo',
-    remove_hddt: 'HĐĐT Hủy'
+    remove_hddt: 'HĐĐT Hủy',
+    uploadExcel: 'Upload Excel'
   },
   global: {
     list: 'Danh sách dữ liệu',
@@ -125,12 +126,14 @@ export default {
   message_box: {
     title: 'Thông báo',
     warning: 'Cảnh báo',
-    trash: 'Các bản ghi này sẽ được chuyển vào thùng rác. Bạn có chắc chắn muốn tiếp tục không?',
+    trash:
+      'Các bản ghi này sẽ được chuyển vào thùng rác. Bạn có chắc chắn muốn tiếp tục không?',
     recover: 'Bạn có chắc chắn muốn khôi phục bản các bản ghi này không?',
     remove: 'Bạn có chắc chắn muốn xóa các bản ghi này mãi mãi không?',
     lock: 'Bạn có chắc chắn muốn khóa các bản ghi này không?',
     unlock: 'Bạn có chắc chắn muốn mở khóa các bản ghi này không?',
-    reset_password: 'Bạn có chắc chắn muốn đặt lại mật khẩu cho tài khoản {username} không?'
+    reset_password:
+      'Bạn có chắc chắn muốn đặt lại mật khẩu cho tài khoản {username} không?'
   },
   navbar: {
     dashboard: 'Dashboard',
@@ -160,7 +163,8 @@ export default {
     auth_invalid_email: 'Tài khoản sai định dạng!',
     auth_user_not_found: 'Tài khoản không tồn tại!',
     auth_wrong_password: 'Mật khẩu không đúng!',
-    auth_too_many_requests: 'Quá nhiều lần thử đăng nhập không thành công. Vui lòng xác minh reCaptcha hoặc thử lại sau!',
+    auth_too_many_requests:
+      'Quá nhiều lần thử đăng nhập không thành công. Vui lòng xác minh reCaptcha hoặc thử lại sau!',
     network_request_failed: 'Lỗi kết nối mạng. Vui lòng thử lại!',
     login_with: 'Đăng nhập bằng'
   },
@@ -239,7 +243,9 @@ export default {
   files: {
     title: 'Danh sách tệp',
     upload: 'Tải tệp',
-    open_file: 'Duyệt tệp'
+    open_file: 'Duyệt tệp',
+    choose_file: 'Chọn tệp',
+    dataFile: 'Dữ liệu tệp'
   },
   tagsView: {
     refresh: 'Làm mới',
@@ -263,4 +269,4 @@ export default {
     sm: 'Cỡ nhỏ',
     xs: 'Cỡ rất nhỏ'
   }
-}
+};
